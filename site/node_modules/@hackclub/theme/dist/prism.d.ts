@@ -1,0 +1,19 @@
+declare const _default: {
+    '.comment,.prolog,.doctype,.cdata,.punctuation,.operator,.entity,.url': {
+        color: string;
+    };
+    '.comment': {
+        fontStyle: string;
+    };
+    '.property, .tag, .boolean, .number, .constant, .symbol, .deleted, .function, .class-name, .regex, .important, .variable': {
+        color: string;
+    };
+    '.atrule, .attr-value, .keyword': {
+        color: string;
+    };
+    '.selector, .attr-name, .string, .char, .builtin, .inserted': {
+        color: string;
+    };
+};
+export default _default;
+//# sourceMappingURL=prism.d.ts.map

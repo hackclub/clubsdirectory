@@ -1,0 +1,31 @@
+{
+  "name": "@hackclub/theme-starter",
+  "version": "0.0.1",
+  "author": "Lachlan Campbell <lachlan@hackclub.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.8.1",
+    "@hackclub/icons": "^0.0.12",
+    "@hackclub/meta": "^1.1.32",
+    "@hackclub/theme": "^0.3.3",
+    "@mdx-js/loader": "^2.2.1",
+    "@mdx-js/react": "^2.1.1",
+    "@next/mdx": "^13.1.1",
+    "lodash": "^4.17.21",
+    "next": "^13.1.1",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-scrolllock": "^5.0.1",
+    "theme-ui": "0.15.4",
+    "underscore.string": "^3.3.6"
+  }
+}
