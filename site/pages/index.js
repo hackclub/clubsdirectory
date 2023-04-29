@@ -37,7 +37,7 @@ function NetworkPage() {
       title="Hack Clubs Directory"
       description="The Clubs Directory unlocks the power of cross-club collaboration, allowing clubs to transcend boundaries and create together."
       //Need to add an image here
-      image="https://assets.hackclub.com/log/HC-500k@1080w.png"
+      image="https://cloud-dq1e294hq-hack-club-bot.vercel.app/0screenshot_2023-04-29_at_3.17.40_pm.png"
     />
     <ForceTheme theme="light" />
     <Container>
