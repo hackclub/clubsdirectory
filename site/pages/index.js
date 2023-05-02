@@ -231,8 +231,9 @@ function NetworkPage() {
         
         .filter((club) => 
 
-          
-          club.name.toLowerCase().includes(searchContent.toLowerCase())
+          (selectedContinent == "" || selectedContinent == club.continent)
+          &&
+          (club.name.toLowerCase().includes(searchContent.toLowerCase())
           ||
           club.name.toLowerCase().split(" ").some((word) => 
             searchContent.split(" ").some((searchTerm) => 
@@ -245,6 +246,7 @@ function NetworkPage() {
           club.location.toLowerCase().includes(searchContent.toLowerCase())
           ||
           club.leaders.some((leader) => leader.name.toLowerCase().includes(searchContent.toLowerCase()))
+          )
           )
           .sort((a, b) => {
           if(filter == "Relevancy") {
@@ -369,6 +371,7 @@ const clubs = [
     "name": "Code Explorers",
     "venue": "Pioneer High School",
     "location": "San Francisco, CA, USA",
+    "continent": "North America",
     "startDate": "2022-05-01",
     "leaders": [
       {
@@ -387,6 +390,7 @@ const clubs = [
     "startDate": "2042-09-01",
     "venue": "Liberty High School",
     "location": "Seattle, WA, USA",
+    "continent": "North America",
     "leaders": [
       {
         "name": "Bob",
@@ -400,6 +404,7 @@ const clubs = [
     "startDate": "2012-09-01",
     "venue": "Lincoln High School",
     "location": "Chicago, IL, USA",
+    "continent": "North America",
     "leaders": [
       {
         "name": "Cathy",
@@ -414,6 +419,7 @@ const clubs = [
 
     "venue": "Jefferson High School",
     "location": "Austin, TX, USA",
+    "continent": "North America",
     "leaders": [
       {
         "name": "David",
@@ -427,6 +433,8 @@ const clubs = [
     "startDate": "2024-09-01",
     "venue": "Washington High School",
     "location": "Miami, FL, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Eva",
@@ -441,6 +449,8 @@ const clubs = [
 
     "venue": "Franklin High School",
     "location": "Atlanta, GA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Frank",
@@ -454,6 +464,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Roosevelt High School",
     "location": "Denver, CO, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Grace",
@@ -467,6 +479,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Hamilton High School",
     "location": "Boston, MA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Hank",
@@ -480,6 +494,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Madison High School",
     "location": "Phoenix, AZ, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Ivy",
@@ -493,6 +509,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Monroe High School",
     "location": "Los Angeles, CA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Jack",
@@ -505,6 +523,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Kennedy High School",
     "location": "Houston, TX, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Karen",
@@ -518,6 +538,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Adams High School",
     "location": "Portland, OR, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Leo",
@@ -531,6 +553,8 @@ const clubs = [
     "startDate": "2022-08-01",
     "venue": "Harrison High School",
     "location": "San Diego, CA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Mia",
@@ -544,6 +568,8 @@ const clubs = [
     "startDate": "2025-09-01",
     "venue": "Taylor High School",
     "location": "Dallas, TX, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Nate",
@@ -557,6 +583,8 @@ const clubs = [
     "startDate": "2042-09-01",
     "venue": "Grant High School",
     "location": "Philadelphia, PA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Olivia",
@@ -570,6 +598,8 @@ const clubs = [
     "startDate": "2022-04-01",
     "venue": "Jackson High School",
     "location": "Detroit, MI, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Paul",
@@ -583,6 +613,8 @@ const clubs = [
     "startDate": "2022-03-01",
     "venue": "Baker High School",
     "location": "Nashville, TN, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Quincy",
@@ -596,6 +628,8 @@ const clubs = [
     "startDate": "2022-01-01",
     "venue": "Carter High School",
     "location": "Indianapolis, IN, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Rachel",
@@ -609,6 +643,8 @@ const clubs = [
     "startDate": "2022-08-01",
     "venue": "Dixon High School",
     "location": "Columbus, OH, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Steve",
@@ -622,6 +658,8 @@ const clubs = [
     "startDate": "2042-09-01",
     "venue": "Edison High School",
     "location": "Charlotte, NC, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Tina",
@@ -635,6 +673,8 @@ const clubs = [
     "startDate": "2022-09-01",
     "venue": "Ford High School",
     "location": "San Jose, CA, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Uma",
@@ -648,6 +688,8 @@ const clubs = [
     "startDate": "2022-09-21",
     "venue": "Gibson High School",
     "location": "Memphis, TN, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Victor",
@@ -661,6 +703,8 @@ const clubs = [
     "startDate": "2024-09-01",
     "venue": "Hillcrest High School",
     "location": "Las Vegas, NV, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Wendy",
@@ -674,6 +718,8 @@ const clubs = [
     "startDate": "2022-11-01",
     "venue": "Irving High School",
     "location": "Baltimore, MD, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Xander",
@@ -687,6 +733,8 @@ const clubs = [
     "startDate": "2022-12-01",
     "venue": "Johnson High School",
     "location": "Kansas City, MO, USA",
+    "continent": "North America",
+
     "leaders": [
       {
         "name": "Yvonne",
@@ -699,6 +747,8 @@ const clubs = [
       "startDate": "2025-09-01",
       "venue": "St. Mary's School",
       "location": "London, UK",
+      "continent": "Europe",
+
       "leaders": [
         {
           "name": "Adam",
@@ -716,6 +766,7 @@ const clubs = [
       "startDate": "2032-09-01",
       "venue": "Tel Aviv High School",
       "location": "Tel Aviv, Israel",
+      "continent": "Europe",
       "leaders": [
         {
           "name": "Carmen",
@@ -729,6 +780,8 @@ const clubs = [
       "startDate": "2026-09-01",
       "venue": "High School of Tokyo",
       "location": "Tokyo, Japan",
+      "continent": "Asia",
+
       "leaders": [
         {
           "name": "Daisuke",
@@ -746,6 +799,8 @@ const clubs = [
       "startDate": "2029-09-01",
       "venue": "Schooling of Sydney",
       "location": "Sydney, Australia",
+      "continent": "Australia/Oceania",
+
       "leaders": [
         {
           "name": "Felicity",
@@ -759,6 +814,8 @@ const clubs = [
       "startDate": "2322-09-01",
       "venue": "Cape Town HS",
       "location": "Cape Town, South Africa",
+      "continent": "Africa",
+
       "leaders": [
         {
           "name": "Gideon",
@@ -771,6 +828,7 @@ const clubs = [
       ]
     }
 ]
+
 
 
  
