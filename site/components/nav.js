@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 const NavButton = ({ sx, ...props }) => (
+  
   <IconButton
     {...props}
     sx={{
@@ -73,6 +74,8 @@ export default () => {
   const router = useRouter()
   const home = router.pathname === '/'
   return (
+    <Container>
+
     <Box
       as="nav"
       sx={{
@@ -97,5 +100,7 @@ export default () => {
         <Flag/>
       </Container>
     </Box>
+    </Container>
+
   )
 }
