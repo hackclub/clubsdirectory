@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, Card, Grid, Button } from 'theme-ui'
+import { Box, Card, Label, Grid, Button, Checkbox } from 'theme-ui'
 
-export const ClubPreview = ({club, setClubOpened, setRecentlyCopied, navigator, recentlyCopied}) => (
+export const ClubPreview = ({club, setSelectedClubs, selectedClubs, setClubOpened, setRecentlyCopied, navigator, recentlyCopied}) => (
 	          <Card
 
           as={'div'}
@@ -12,11 +12,20 @@ export const ClubPreview = ({club, setClubOpened, setRecentlyCopied, navigator, 
           mb={2}
           >
             <Grid
-              columns={[null, "1.5fr 1.5fr 1.5fr 1.5fr 1fr"]} 
+              columns={[null, "0.15fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr"]} 
               gap={3}
-              sx={{pl: [1,3], pr: [1,3]}} 
+              sx={{pl: [1,3], pr: [1,3], alignItems: "center"}} 
             >
-            
+          <Label>
+          <Checkbox onClick={() => {
+          if (selectedClubs.includes(club.id)) {
+          setSelectedClubs(selectedClubs.filter((clubPicked) => clubPicked !== club.id));
+          } else {
+          setSelectedClubs([...selectedClubs, club.id]);
+          }
+          }}
+          checked={selectedClubs.includes(club.id)} defaultChecked={false} />
+          </Label>
               <p 
               // onClick={() => 
               //   setClubOpened(club)

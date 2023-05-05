@@ -1,4 +1,4 @@
-import { DetailViewModal } from './detailViewModal'
+import { DetailViewModal } from '../components/detailViewModal'
 import EmbedMapButton from '../components/EmbedMapButton'
 import ShareButton from '../components/ShareButton'
 import { ClubsTable } from '../components/ClubsTable'
@@ -123,7 +123,7 @@ function sortByRelevancy(a, b, searchContent) {
 }
 
 
-
+  const [selectedClubs, setSelectedClubs] = useState([]);
   const [selectedContinent, setSelectedContinent] = useState("");
   const [searchContent, setSearchContent] = useState("");
   const [filter, setFilter] = useState('Relevancy');
@@ -157,7 +157,7 @@ function sortByRelevancy(a, b, searchContent) {
     <DirectoryVideoSection/>
     <DirectoryHeading/>
     <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
-    <ClubsTable clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    <ClubsTable setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
     <Footer/>
 
   </>
@@ -475,7 +475,19 @@ const clubs = [
     "leaders": [
       {
         "name": "Ivy",
-        "email": "ivy@mobileapparchitects.app"
+        "email": "ivy@mobileapparchitects.app",
+        "socials": [
+          {
+            "platform": "github",
+            "handle": "@Ivy",
+            "icon": "github"
+          },
+          {
+            "platform": "scrapbook",
+            "handle": "@IvyScraps",
+            "icon": "scrapbook"
+          }
+        ]
       }
     ]
   },
