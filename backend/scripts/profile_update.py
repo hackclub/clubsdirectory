@@ -1,6 +1,6 @@
 # Description: This script is used to update the club leaders table with the latest information from slack
 
-from helpers.slack import slack_lookup_user
+from helpers.slack_minor import slack_lookup_user
 from rich import print  # ! Remove this line in production
 from helpers.air_table import club_leaders, clubs_table
 
