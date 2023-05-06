@@ -1,7 +1,8 @@
 from geopy.geocoders import Nominatim
 import pycountry_convert as pc
+import random
 
-geolocator = Nominatim(user_agent="geoapiExercises")
+geolocator = Nominatim(user_agent=f"geoapiExercise{random.randint(0, 1000)}")
 
 
 def lookup_lat_long(latitude: float, longitude: float):
