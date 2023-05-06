@@ -4,8 +4,6 @@ from dotenv import load_dotenv
 from pyairtable import Table
 from pyairtable.formulas import match
 
-from helpers.geo import lookup_lat_long, get_continent
-
 from helpers.classes import *
 
 load_dotenv()
@@ -90,8 +88,6 @@ def club_data_to_obj(club_data: dict):
     """
     A simple function to convert club data to a ClubElement object
     """
-    geo_data = lookup_lat_long(
-        club_data['fields']['Latitude'][0], club_data['fields']['Longitude'][0])
 
     club = ClubElement(
         id=club_data['fields']['ID'],
@@ -105,10 +101,10 @@ def club_data_to_obj(club_data: dict):
 
             coordinates=Coordinates(
                 latitude=club_data['fields']['Latitude'][0], longitude=club_data['fields']['Longitude'][0]),
-            country=geo_data['country'],
-            country_code=geo_data['country_code'],
-            continent=get_continent(geo_data['country_code'].upper()),
-            postcode=geo_data['postcode'] if 'postcode' in geo_data else None
+            country=club_data['fields']['Country'] if 'Country' in club_data['fields'] else None,
+            country_code=club_data['fields']['Country Code'] if 'Country Code' in club_data['fields'] else None,
+            continent=club_data['fields']['Continent'] if 'Continent' in club_data['fields'] else None,
+            postcode=club_data['fields']['Postcode'] if 'Postcode' in club_data['fields'] else None
         ),
         socials=Socials(
             github=club_data['fields']['Github'] if 'Github' in club_data[
