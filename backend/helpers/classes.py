@@ -17,6 +17,7 @@ class GeoData(BaseModel):
     coordinates: Coordinates
     country: str
     country_code: str
+    postcode: Optional[str]
     continent: str
 
 
@@ -47,6 +48,7 @@ class ClubElement(BaseModel):
     """
     A class to represent a club
     """
+    id: int
     name: str
     description: Optional[str]
     website: Optional[str]

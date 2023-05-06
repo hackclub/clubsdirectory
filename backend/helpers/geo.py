@@ -2,7 +2,7 @@ from geopy.geocoders import Nominatim
 import pycountry_convert as pc
 import random
 
-geolocator = Nominatim(user_agent=f"geoapiExercise{random.randint(0, 1000)}")
+geolocator = Nominatim(user_agent=f"geoapiExercise{random.randint(0, 1000)}") # The random integer is to prevent the user agent from being the same every time and getting blocked
 
 
 def lookup_lat_long(latitude: float, longitude: float):

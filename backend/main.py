@@ -3,7 +3,7 @@ from typing import List
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
-from helpers.air_table import get_all_clubs, get_all_leaders
+from helpers.air_table import get_all_clubs, get_all_leaders, get_club_by_name, get_club_by_id
 
 from helpers.classes import ClubElement, Leader
 
@@ -33,3 +33,11 @@ def leaders() -> List[Leader]:
 @app.get("/clubs")
 def clubs() -> List[ClubElement]:
     return get_all_clubs()
+
+@app.get("/club/name/{name}")
+def club_by_name(name: str) -> ClubElement:
+    return get_club_by_name(name)
+
+@app.get("/club/id/{id}")
+def club_by_id(id: int) -> ClubElement:
+    return get_club_by_id(id)
