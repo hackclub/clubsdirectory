@@ -203,8 +203,8 @@ function sortByRelevancy(a, b, searchContent) {
     <ForceTheme theme="light" />
     <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
       {selectedClubs.length > 0 ? (
-        <Card sx={{ display: 'flex', flexDirection: "column" }}>
-          <Text sx={{p: 0, mx: 0, my: 2}}>{selectedClubs.length} Clubs Selected</Text>
+        <Card sx={{ display: 'flex', flexDirection: "column", backgroundColor: "sunken" }}>
+          <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Clubs Selected</Text>
           
           {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
             <li>
@@ -216,10 +216,10 @@ function sortByRelevancy(a, b, searchContent) {
           )
            : (null)} */}
           
-
+          <Box>
           <Button
             variant="primary"
-            sx={{mt: 2}}
+            sx={{mt: 2, mb: 0, mr: 2}}
             onClick={() => {
               const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
               setRecentlyCopied(clubNames);
@@ -230,13 +230,14 @@ function sortByRelevancy(a, b, searchContent) {
           </Button>
           <Button
             variant="primary"
-            sx={{mt: 2}}
+            sx={{mt: 2, mb: 0}}
             onClick={() => {
               downloadCSV()
             }}
           >
             Download CSV
           </Button>
+          </Box>
         </Card>
       ) : null}
     </Container>
