@@ -53,7 +53,7 @@ export const ClubPreview = ({club, setSelectedClubs, selectedClubs, setClubOpene
                 as="a"
                 onClick={() => {
                   setRecentlyCopied(club.id)
-                  navigator.clipboard.writeText(club.leaders[0].email)
+                  navigator.clipboard.writeText(club.leaders.map((leader) => leader.email).join(", "))
                 }}
               >
                 {recentlyCopied == club.id ? ("Copied Email") : ("Contact")}

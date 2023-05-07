@@ -27,7 +27,7 @@ export const TableLabel = ({ clubs, filterResults, setSelectedClubs, selectedClu
                 setSelectedClubs(clubsInView);
               }
             }}
-            checked={arraysEqual(selectedClubs, clubsInView)}
+            checked={selectedClubs.length != 0 && arraysEqual(selectedClubs, clubsInView)}
             defaultChecked={false}
           />
         </Label>

@@ -18,6 +18,8 @@
     "@mdx-js/loader": "^2.2.1",
     "@mdx-js/react": "^2.1.1",
     "@next/mdx": "^13.1.1",
+    "csv": "^6.2.12",
+    "json2csv": "^6.0.0-alpha.2",
     "lodash": "^4.17.21",
     "next": "^13.1.1",
     "prop-types": "^15.8.1",

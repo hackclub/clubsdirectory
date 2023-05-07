@@ -7,7 +7,7 @@ import { DirectoryHeading } from '../components/DirectoryHeading'
 import { DirectoryVideoSection } from '../components/DirectoryVideoSection'
 import { ClubPreview } from '../components/ClubPreview'
 import { TableLabel } from '../components/TableLabel'
-import { Container, Image, Flex, Grid, Badge, Box, Text, Button, Heading, Paragraph } from 'theme-ui'
+import { Container, Image, Card, Flex, Grid, Badge, Box, Text, Button, Heading, Paragraph } from 'theme-ui'
 import Head from 'next/head'
 import Meta from '@hackclub/meta'
 import Nav from '../components/nav'
@@ -20,6 +20,9 @@ import Icon from '@hackclub/icons'
 import theme from '@hackclub/theme';
 import Link from "next/link";
 import { Global } from '@emotion/react';
+import { stringify } from 'csv';
+import { parse } from 'json2csv';
+
 
 
 //Considering toast for success messages
@@ -44,7 +47,46 @@ const continents = [
 ];
 
 
+
+
 function NetworkPage() {
+  const [includeName, setIncludeName] = useState(true);
+  const [includeLeaderEmails, setIncludeLeaderEmails] = useState(true);
+  const [includeSchool, setIncludeSchool] = useState(true);
+  const [includeLocation, setIncludeLocation] = useState(true);
+  const [includeLeaderNames, setIncludeLeaderNames] = useState(true);
+  function downloadCSV() {
+    const fields = ['Name', 'Leader Names', 'Venue', 'Location', 'Leader Emails'];
+    const data = selectedClubs.map((id) => {
+      const club = clubs.find((c) => c.id === id);
+      return {
+        Name: club.name,
+        'Leader Names': club.leaders.map((leader) => leader.name).join(', '),
+        Venue: club.venue,
+        Location: club.location,
+        'Leader Emails': club.leaders.map((leader) => leader.email).join(', ')
+      };
+    });
+  
+    const csv = parse(data, { fields });
+  
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'selected-clubs.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
+  
+  function getClubById(id) {
+    const club = clubs.find((c) => c.id === id);
+    return club
+  }
+  
+
   const [clubOpened, setClubOpened] = useState(null)
   const urlFriendlyName = clubOpened?.name ? clubOpened.name.replace(/\s+/g, '_').toLowerCase() : '';
 
@@ -82,6 +124,14 @@ function sortByAlphabetic(a, b) {
     return 0;
   }
 }
+
+function getClubEmailById(id) {
+  const club = clubs.find((c) => c.id === id);
+  return club ? club.leaders.map((leader) => leader.email).join(", ") : '';
+};
+
+
+
 function sortByRelevancy(a, b, searchContent) {
   const aWords = a.name.toLowerCase().split(" ").filter((word) => word != " ")
   const bWords = b.name.toLowerCase().split(" ").filter((word) => word != " ")
@@ -151,8 +201,53 @@ function sortByRelevancy(a, b, searchContent) {
   }}
       />
     <ForceTheme theme="light" />
+    <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
+      {selectedClubs.length > 0 ? (
+        <Card sx={{ display: 'flex', flexDirection: "column" }}>
+          <Text sx={{p: 0, mx: 0, my: 2}}>{selectedClubs.length} Clubs Selected</Text>
+          
+          {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
+            <li>
+              {club}
+            </li>)
+            }
+          {selectedClubs.length > 3 ? (
+            <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
+          )
+           : (null)} */}
+          
 
+          <Button
+            variant="primary"
+            sx={{mt: 2}}
+            onClick={() => {
+              const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
+              setRecentlyCopied(clubNames);
+              navigator.clipboard.writeText(clubNames);
+            }}
+          >
+            {recentlyCopied === selectedClubs.map((id) => getClubEmailById(id)).join(', ') ? "Copied!" : "Copy Emails"}
+          </Button>
+          <Button
+            variant="primary"
+            sx={{mt: 2}}
+            onClick={() => {
+              downloadCSV()
+            }}
+          >
+            Download CSV
+          </Button>
+        </Card>
+      ) : null}
+    </Container>
+
+
+
+    <Box>
+
+    </Box>
     {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
+
     <Nav/>
     <DirectoryVideoSection/>
     <DirectoryHeading/>
@@ -162,6 +257,8 @@ function sortByRelevancy(a, b, searchContent) {
 
   </>
 )
+
+
 
 function sortResults(a, b) {
   if(filter == "Relevancy") {
@@ -368,6 +465,10 @@ const clubs = [
     "location": "Seattle, WA, USA",
     "continent": "North America",
     "leaders": [
+      {
+        "name": "Bob",
+        "email": "bob@roboticsinnovators.app"
+      },
       {
         "name": "Bob",
         "email": "bob@roboticsinnovators.app"
