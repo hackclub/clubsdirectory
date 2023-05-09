@@ -1,4 +1,4 @@
-[!pic](https://cloud-bbvpdj0sm-hack-club-bot.vercel.app/0untitled.png)
+![header](https://cloud-bbvpdj0sm-hack-club-bot.vercel.app/0untitled.png)
 
 # Clubs Directory
 
@@ -43,7 +43,7 @@ Please ensure your contributions are well-documented and accompanied by appropri
 
 The Club Directory project has a roadmap for future enhancements, which includes:
 
-1. Enhanced Collaboration Tools: Implement features that allow clubs to directly communicate and plan collaborations within the platform.
+1. Enhanced Collaboration Tools: Implement features that allow clubs to directly communicate and plan collaborations within the platforms like Slack.
 2. User Profiles: Enable club leaders to create and manage their profiles, providing additional information about themselves and their clubs.
 3. Event Management: Introduce event management functionality to organize and promote club events within the directory.
 4. Integration with External Platforms: Explore integrations with other Hack Club tools and external platforms to enhance the overall user experience.
@@ -56,4 +56,4 @@ The Club Directory project is open-source and released under the [MIT License](L
 
 If you have any questions, suggestions, or feedback regarding the Club Directory project, please feel free to reach out to the project maintainers & contributors at the Slack channel [#clubsdirectory](https://hackclub.slack.com/archives/C056T9WPTDX). We appreciate your interest and involvement in making this project successful!
 
-Happy hacking and collaboration!
+Happy hacking and collaborating!
