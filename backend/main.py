@@ -2,6 +2,7 @@ from typing import List
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from helpers.air_table import get_all_clubs, get_all_leaders, get_club_by_name, get_club_by_id
 
@@ -23,6 +24,14 @@ app = FastAPI(
         "name": "MIT License",
         "url": "https://opensource.org/licenses/MIT"
     }
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # ! Change this to the URL of the frontend in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
