@@ -3,6 +3,7 @@ import EmbedMapButton from '../components/EmbedMapButton'
 import ShareButton from '../components/ShareButton'
 import { ClubsTable } from '../components/ClubsTable'
 import Map from '../components/Map'
+import MapFrame from '../components/MapFrame'
 
 import { SearchControls } from '../components/SearchControls'
 import { DirectoryHeading } from '../components/DirectoryHeading'
@@ -275,7 +276,8 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <p>We have not developed this yet... (but we're working on it)</p>
-    <Map clubs={clubs}></Map>
+    {/* <Map clubs={clubs}></Map> */}
+    <MapFrame></MapFrame>
     </Container>
     
     ): null}
