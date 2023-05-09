@@ -41,7 +41,7 @@ const MapComponent = ({ clubs }) => {
     const iconStyle = new Style({
       image: new Icon({
         src: "https://assets.hackclub.com/icon-rounded.svg",
-        scale: 0.2,
+        scale: 0.1,
       }),
     });
 
