@@ -1,5 +1,0 @@
-{
-  "main": "dist/theme-ui-jsx-dev-runtime.cjs.js",
-  "module": "dist/theme-ui-jsx-dev-runtime.esm.js",
-  "types": "dist/theme-ui-jsx-dev-runtime.cjs.d.ts"
-}
