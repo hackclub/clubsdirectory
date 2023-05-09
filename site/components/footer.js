@@ -20,6 +20,9 @@ export default () => (
       <p variant={"caption"}>Maintained by Hack Club, a nonprofit network of 20k+ high school hackers & coding clubs around the world.
           Want to create your own Hack Club? <a p style={{color: "red"}} href="https://apply.hackclub.com">Get started here.</a><br/>
       </p>
+
+  <p variant={"caption"}> This page is 100% opensource. Want to make this page better? <a p style={{color: "blue"}} href="https://github.com/hackclub/clubsdirectory">Edit this on GitHub!</a><br/>
+      </p>
     </Container>
   </Box>
 )
