@@ -22,6 +22,8 @@ import Link from "next/link";
 import { Global } from '@emotion/react';
 import { stringify } from 'csv';
 import { parse } from 'json2csv';
+import { useThemeUI } from 'theme-ui';
+import { useBreakpointIndex } from '@theme-ui/match-media';
 
 
 
@@ -50,6 +52,10 @@ const continents = [
 
 
 function NetworkPage() {
+  const { theme } = useThemeUI();
+  const breakpointIndex = useBreakpointIndex();
+  const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
+
   const [isLoading, setIsLoading] = useState(true);
 
   function downloadCSV() {
@@ -262,13 +268,15 @@ function sortByRelevancy(a, b, searchContent) {
     <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
     {view == "List" ? (
     
-    <ClubsTable isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    <ClubsTable isMobile={isMobile} isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
     ): null}
     {view == "Map" ? (
     <Container>
     <p>We have not developed this yet... (but we're working on it)</p>
     </Container>
     ): null}
+
+
     <Footer/>
 
   </>

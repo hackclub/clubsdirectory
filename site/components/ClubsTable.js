@@ -3,9 +3,9 @@ import { ClubPreview } from './ClubPreview'
 import { TableLabel } from './TableLabel'
 import { Container } from 'theme-ui'
 
-export const ClubsTable = ({clubs, isLoading, setSelectedClubs, selectedClubs, filterResults, sortResults, setClubOpened, setRecentlyCopied, navigator, recentlyCopied}) => (
+export const ClubsTable = ({clubs, isMobile, isLoading, setSelectedClubs, selectedClubs, filterResults, sortResults, setClubOpened, setRecentlyCopied, navigator, recentlyCopied}) => (
 	    <Container>
-    <TableLabel filterResults={filterResults} clubs={clubs} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs}/>
+    {!isMobile ? (<TableLabel filterResults={filterResults} clubs={clubs} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs}/>) : null}
     <Container>
     {isLoading && selectedClubs.length == 0 ? (
         <p>Loading...</p>
@@ -23,7 +23,8 @@ export const ClubsTable = ({clubs, isLoading, setSelectedClubs, selectedClubs, f
         }
           )
         .map((club) => (
-        <ClubPreview setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} club={club} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}
+          
+        <ClubPreview isMobile={isMobile} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} club={club} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}
         />
         
         ))}

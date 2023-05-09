@@ -30,7 +30,7 @@ export default () => (
         <br />
 Want to make this page better?{' '}
         <Link href="https://github.com/hackclub/clubsdirectory" sx={{ color: 'accent' }}>
-          Edit this on GitHub!
+          Edit it on GitHub!
         </Link>
         <br />
       </Text>
