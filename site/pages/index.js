@@ -96,7 +96,7 @@ function NetworkPage() {
     .then(data =>  {
       setClubs(data) 
       setIsLoading(false)
-      console.log(data)})
+      })
     .catch(error => console.error(error));
   
     toggleBodyScroll(clubOpened != null);
