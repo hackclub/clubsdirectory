@@ -13,7 +13,6 @@ The Clubs Directory offers the following features:
 3. **Map View:** Visualize the global distribution of Hack Clubs on an interactive map.
 4. **Collaboration Opportunities:** Discover potential collaboration opportunities with other clubs for mini-hackathons, workshops, or joint projects.
 5. **Friendship Building:** Connect with Hack Club members while traveling and exploring clubs in different cities.
-6. **Contribution:** As an open-source project, you can contribute by improving functionality, work on the UI/UX, work on the site, the Slack bot or the frontend.
 
 ## Contributing
 
