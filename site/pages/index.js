@@ -212,7 +212,7 @@ function sortByRelevancy(a, b, searchContent) {
     <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
       {selectedClubs.length > 0 ? (
         <Card sx={{ display: 'flex', flexDirection: "column", backgroundColor: "sunken" }}>
-          <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Clubs Selected</Text>
+          <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Club{selectedClubs.length > 1 ? ("s") : (null)} Selected</Text>
           
           {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
             <li>
