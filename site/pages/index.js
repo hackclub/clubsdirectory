@@ -50,11 +50,8 @@ const continents = [
 
 
 function NetworkPage() {
-  const [includeName, setIncludeName] = useState(true);
-  const [includeLeaderEmails, setIncludeLeaderEmails] = useState(true);
-  const [includeSchool, setIncludeSchool] = useState(true);
-  const [includeLocation, setIncludeLocation] = useState(true);
-  const [includeLeaderNames, setIncludeLeaderNames] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
   function downloadCSV() {
     const fields = ['Name', 'Leader Names', 'Venue', 'Location', 'Leader Emails'];
     const data = selectedClubs.map((id) => {
@@ -98,6 +95,7 @@ function NetworkPage() {
     .then(response => response.json())
     .then(data =>  {
       setClubs(data) 
+      setIsLoading(false)
       console.log(data)})
     .catch(error => console.error(error));
   
@@ -210,6 +208,7 @@ function sortByRelevancy(a, b, searchContent) {
       />
     <ForceTheme theme="light" />
     <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
+
       {selectedClubs.length > 0 ? (
         <Card sx={{ display: 'flex', flexDirection: "column", backgroundColor: "sunken" }}>
           <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Club{selectedClubs.length > 1 ? ("s") : (null)} Selected</Text>
@@ -261,7 +260,9 @@ function sortByRelevancy(a, b, searchContent) {
     <DirectoryVideoSection/>
     <DirectoryHeading/>
     <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
-    <ClubsTable setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+
+    <ClubsTable isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    
     <Footer/>
 
   </>
