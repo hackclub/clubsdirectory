@@ -260,9 +260,15 @@ function sortByRelevancy(a, b, searchContent) {
     <DirectoryVideoSection/>
     <DirectoryHeading/>
     <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
-
-    <ClubsTable isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    {view == "List" ? (
     
+    <ClubsTable isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    ): null}
+    {view == "Map" ? (
+    <Container>
+    <p>We have not developed this yet... (but we're working on it)</p>
+    </Container>
+    ): null}
     <Footer/>
 
   </>
