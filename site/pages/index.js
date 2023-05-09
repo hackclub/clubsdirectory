@@ -94,7 +94,7 @@ function NetworkPage() {
   const navigator = typeof window !== 'undefined' ? window.navigator : null;
 
   useEffect(() => {
-    fetch("http://clubsdirectory-hc.up.railway.app/clubs")
+    fetch("https://clubsdirectory-hc.up.railway.app/clubs")
     .then(response => response.json())
     .then(data =>  {
       setClubs(data) 
