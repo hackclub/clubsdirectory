@@ -94,9 +94,11 @@ function NetworkPage() {
   const navigator = typeof window !== 'undefined' ? window.navigator : null;
 
   useEffect(() => {
-    fetch("https://clubsdirectory-hc.up.railway.app/clubs")
+    fetch("http://clubsdirectory-hc.up.railway.app/clubs")
     .then(response => response.json())
-    .then(data =>  setClubs(data))
+    .then(data =>  {
+      setClubs(data) 
+      console.log(data)})
     .catch(error => console.error(error));
   
     toggleBodyScroll(clubOpened != null);
@@ -288,7 +290,7 @@ function sortResults(a, b) {
 }
 
 function filterResults(club) {
-  return (selectedContinent == "" || selectedContinent == club.continent)
+  return (selectedContinent == "" || selectedContinent == club?.geo_data?.continent)
     &&
     (club.name.toLowerCase().includes(searchContent.toLowerCase())
       ||
