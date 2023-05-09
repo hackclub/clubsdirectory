@@ -20,18 +20,23 @@
     "@next/mdx": "^13.1.1",
     "@theme-ui/match-media": "^0.15.7",
     "csv": "^6.2.12",
+    "d3": "^7.8.4",
     "install": "^0.13.0",
     "json2csv": "^6.0.0-alpha.2",
     "lodash": "^4.17.21",
     "next": "^13.1.1",
     "npm": "^9.6.6",
+    "ol": "^7.3.0",
+    "ol-mapbox-style": "^10.5.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-leaflet": "^4.2.1",
     "react-modal": "^3.16.1",
     "react-scrolllock": "^5.0.1",
     "theme-ui": "0.15.4",
+    "topojson-client": "^3.1.0",
     "underscore.string": "^3.3.6"
   }
 }

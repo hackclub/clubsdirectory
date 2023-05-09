@@ -3,7 +3,7 @@ import { Box, Card, Label, Link, Text, Grid, Button, Checkbox } from 'theme-ui'
 
 export const ClubPreview = ({club, isMobile, setSelectedClubs, selectedClubs, setClubOpened, setRecentlyCopied, navigator, recentlyCopied}) => (
 	          <Card
-
+          onClick={() => console.log(club)}
           as={'div'}
           variant="primary"
           sx={{p: [3, 4, 2] 
@@ -33,7 +33,7 @@ export const ClubPreview = ({club, isMobile, setSelectedClubs, selectedClubs, se
               //   } 
                 style={{textDecoration: "underline"}}>{club.name}</p>
             <Link
-      sx={{color: "accent", textDecoration: "underline"}}
+      sx={{color: "accent", cursor: "pointer", textDecoration: "underline"}}
       onClick={() => {
         const venue = encodeURIComponent(club.venue);
         const location = encodeURIComponent(club.location);
@@ -78,7 +78,7 @@ export const ClubPreview = ({club, isMobile, setSelectedClubs, selectedClubs, se
             </Text>
             <Text sx={{color: "slate"}}>Led by {club.leaders[0].name}<Text sx={{color: "darkless"}}></Text></Text>
             <Link
-      sx={{color: "accent", textDecoration: "underline"}}
+      sx={{color: "accent", cursor: "pointer", textDecoration: "underline"}}
       onClick={() => {
         const venue = encodeURIComponent(club.venue);
         const location = encodeURIComponent(club.location);

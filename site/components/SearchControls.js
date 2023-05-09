@@ -20,7 +20,7 @@ export const SearchControls = ({searchContent, event, setSearchContent, console,
               <Input value={searchContent} onChange={(event) => {
                 setSearchContent(event.target.value)
                 console.log(levenshtein(event.target.value, 'sitting'))
-              }} placeholder="Leader, School, City, State, or Country" />
+              }} placeholder="Leader, School, City, State, Zip Code, or Country" />
             </Box>
           </Box>
           <Box gridColumn={[null, 'span 1']}> 

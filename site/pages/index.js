@@ -2,6 +2,8 @@ import { DetailViewModal } from '../components/detailViewModal'
 import EmbedMapButton from '../components/EmbedMapButton'
 import ShareButton from '../components/ShareButton'
 import { ClubsTable } from '../components/ClubsTable'
+import Map from '../components/Map'
+
 import { SearchControls } from '../components/SearchControls'
 import { DirectoryHeading } from '../components/DirectoryHeading'
 import { DirectoryVideoSection } from '../components/DirectoryVideoSection'
@@ -273,7 +275,9 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <p>We have not developed this yet... (but we're working on it)</p>
+    <Map clubs={clubs}></Map>
     </Container>
+    
     ): null}
 
 
@@ -316,6 +320,9 @@ function filterResults(club) {
       club.venue.toLowerCase().includes(searchContent.toLowerCase())
       ||
       club.location.toLowerCase().includes(searchContent.toLowerCase())
+      ||
+      club.geo_data.postcode.toLowerCase().includes(searchContent.toLowerCase())
+
       ||
       club.leaders.some((leader) => leader.name.toLowerCase().includes(searchContent.toLowerCase()))
     )

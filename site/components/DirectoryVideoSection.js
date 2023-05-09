@@ -59,9 +59,9 @@ export const DirectoryVideoSection = ({undefined}) => (
             }
           }}
         >
-          The Clubs Directory
+          Clubs Directory
         </Heading>
-        <Text variant="lead" >Hack Together, Club Together  because We're Better Together</Text>
+        <Text variant="lead" >Hack Together, Club Together because We're Better Together</Text>
       
       </Container>
     </Box>
