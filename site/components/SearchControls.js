@@ -28,7 +28,7 @@ export const SearchControls = ({searchContent, event, setSearchContent, console,
           <Label>
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center"}}>
               <Icon glyph="filter" size={24}/>
-              Filter
+              Sort
             </Box>
             </Label>
 
