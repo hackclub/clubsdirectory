@@ -1,4 +1,4 @@
-import { Container, Box } from 'theme-ui'
+import { Container, Box, Text, Link } from 'theme-ui'
 
 export default () => (
   <Box
@@ -17,12 +17,19 @@ export default () => (
         a: { variant: 'styles.a', color: 'primary' }
       }}
     >
-      <p variant={"caption"}>Maintained by Hack Club, a nonprofit network of 20k+ high school hackers & coding clubs around the world.
-          Want to create your own Hack Club? <a p style={{color: "red"}} href="https://apply.hackclub.com">Get started here.</a><br/>
-      </p>
-
-  <p variant={"caption"}> This page is 100% opensource. Want to make this page better? <a p style={{color: "blue"}} href="https://github.com/hackclub/clubsdirectory">Edit this on GitHub!</a><br/>
-      </p>
+      <Text variant="caption">
+        Maintained by Hack Club, a nonprofit network of 20k+ high school hackers & coding clubs around the world.
+        Want to create your own Hack Club?{' '}
+        <Link href="https://apply.hackclub.com" sx={{ color: 'red' }}>
+          Get started here.
+        </Link>
+        <br />
+        This page is 100% open source. Want to make this page better?{' '}
+        <Link href="https://github.com/hackclub/clubsdirectory" sx={{ color: 'accent' }}>
+          Edit this on GitHub!
+        </Link>
+        <br />
+      </Text>
     </Container>
   </Box>
 )
