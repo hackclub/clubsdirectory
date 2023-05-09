@@ -1,4 +1,4 @@
-### ⚡ Project under heavy development
+[!pic](https://cloud-bbvpdj0sm-hack-club-bot.vercel.app/0untitled.png)
 
 # Clubs Directory
 
