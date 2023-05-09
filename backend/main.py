@@ -1,14 +1,13 @@
 from typing import List
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 
 from helpers.air_table import get_all_clubs, get_all_leaders, get_club_by_name, get_club_by_id
 
 from helpers.classes import ClubElement, Leader
 
 load_dotenv()
-
 
 app = FastAPI(
     title="Clubs Directory API for Hack Club",
@@ -25,6 +24,14 @@ app = FastAPI(
     }
 )
 
+# Define middleware function to add CORS headers
+@app.middleware("http")
+async def add_cors_header(request, call_next):
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
 @app.get("/leaders")
 def leaders() -> List[Leader]:
