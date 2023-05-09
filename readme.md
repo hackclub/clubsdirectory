@@ -14,14 +14,6 @@ The Clubs Directory offers the following features:
 4. **Collaboration Opportunities:** Discover potential collaboration opportunities with other clubs for mini-hackathons, workshops, or joint projects.
 5. **Friendship Building:** Connect with Hack Club members while traveling and exploring clubs in different cities.
 6. **Contribution:** As an open-source project, you can contribute by improving functionality, work on the UI/UX, work on the site, the Slack bot or the frontend.
-## Getting Started
-
-To get started with the Clubs Directory, follow these steps:
-
-1. Clone the repository: `git clone https://github.com/hackclub/clubsdirectory.git`
-2. Install the necessary dependencies: `npm install`
-3. Build and run the project: Use the provided build scripts to compile the code and start the server.
-4. Access the Club Directory: Open your web browser and navigate to `http://localhost:3000` to explore the directory.
 
 ## Contributing
 
@@ -40,10 +32,10 @@ Please ensure your contributions are well-documented and accompanied by appropri
 
 The Club Directory project has a roadmap for future enhancements, which includes:
 
-1. Enhanced Collaboration Tools: Implement features that allow clubs to directly communicate and plan collaborations within the platforms like Slack.
-2. User Profiles: Enable club leaders to create and manage their profiles, providing additional information about themselves and their clubs.
-3. Event Management: Introduce event management functionality to organize and promote club events within the directory.
-4. Integration with External Platforms: Explore integrations with other Hack Club tools and external platforms to enhance the overall user experience.
+**1. Enhanced Collaboration Tools:** Implement features that allow clubs to directly communicate and plan collaborations within the platforms like Slack.
+**2. User Profiles:** Enable club leaders to create and manage their profiles, providing additional information about themselves and their clubs.
+**3. Event Management:** Introduce event management functionality to organize and promote club events within the directory.
+**4. Integration with External Platforms:** Explore integrations with other Hack Club tools and external platforms to enhance the overall user experience.
 
 ## License
 
