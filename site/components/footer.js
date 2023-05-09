@@ -3,7 +3,7 @@ import { Container, Box, Text, Link } from 'theme-ui'
 export default () => (
   <Box
     as="footer"
-    sx={{ bg: 'sunken', textAlign: 'center', px: 2, py: [3, 4], mt: [4, 5] }}
+    sx={{ bg: 'sunken', textAlign: 'center', py: [3, 4], mt: [4, 5] }}
   >
     <Container
       variant="narrow"
@@ -24,7 +24,11 @@ export default () => (
           Get started here.
         </Link>
         <br />
-        This page is 100% open source. Want to make this page better?{' '}
+        <br />
+
+        The Club Directory is 100% open source. 
+        <br />
+Want to make this page better?{' '}
         <Link href="https://github.com/hackclub/clubsdirectory" sx={{ color: 'accent' }}>
           Edit this on GitHub!
         </Link>
