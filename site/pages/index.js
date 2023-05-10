@@ -2,9 +2,7 @@ import { DetailViewModal } from '../components/detailViewModal'
 import EmbedMapButton from '../components/EmbedMapButton'
 import ShareButton from '../components/ShareButton'
 import { ClubsTable } from '../components/ClubsTable'
-import Map from '../components/Map'
-import MapFrame from '../components/MapFrame'
-
+import Map from '../components/Map';
 import { SearchControls } from '../components/SearchControls'
 import { DirectoryHeading } from '../components/DirectoryHeading'
 import { DirectoryVideoSection } from '../components/DirectoryVideoSection'
@@ -28,6 +26,7 @@ import { parse } from 'json2csv';
 import { useThemeUI } from 'theme-ui';
 import { useBreakpointIndex } from '@theme-ui/match-media';
 
+import dynamic from "next/dynamic";
 
 
 //Considering toast for success messages
@@ -277,7 +276,7 @@ function sortByRelevancy(a, b, searchContent) {
     <Container>
     <p>We have not developed this yet... (but we're working on it)</p>
     {/* <Map clubs={clubs}></Map> */}
-    <MapFrame></MapFrame>
+    <Map />
     </Container>
     
     ): null}

@@ -1890,6 +1890,11 @@ kleur@^4.0.3:
   resolved "https://registry.npmjs.org/kleur/-/kleur-4.1.5.tgz"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
+leaflet@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.3.tgz"
+  integrity sha512-iB2cR9vAkDOu5l3HAay2obcUHZ7xwUBBjph8+PGtmW/2lYhbLizWtG7nTeYht36WfOslixQF9D/uSIzhZgGMfQ==
+
 lerc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/lerc/-/lerc-3.0.0.tgz"
