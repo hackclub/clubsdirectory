@@ -1,12 +1,13 @@
 import ZephyrPath from './ZephyrPath'
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { MapContainer, Tooltip, Polyline, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import { Text, Link, Button, Box } from 'theme-ui'
 
-function Map({ clubs, setSelectedClubs, selectedClubs, recentlyCopied, setRecentlyCopied }) {
-  
+function Map({ clubs, search, setSelectedClubs, selectedClubs, recentlyCopied, setRecentlyCopied }) {
+  const mapRef = useRef(null);
+
   const pos = [
     [44, -73],  // Burlington, VT (44.4765° N, 73.2123° W)
     [40, -74],  // New York City, NY (40.7128° N, 74.0060° W)
@@ -20,8 +21,15 @@ function Map({ clubs, setSelectedClubs, selectedClubs, recentlyCopied, setRecent
     import('leaflet/dist/leaflet.css');
   }, []);
 
+  useEffect(() => {
+    const map = mapRef.current;
+    if (map && clubs.length > 0 && search != "") {
+      const { latitude, longitude } = clubs[0].geo_data.coordinates;
+      map.flyTo([latitude, longitude], 13);
+    }
+  }, [clubs]);
   return (
-    <MapContainer style={{width: "100%", height: "600px"}} center={[37.0902, -95.7129]} zoom={5}>
+    <MapContainer  ref={mapRef} style={{width: "100%", height: "600px"}} center={[37.0902, -95.7129]} zoom={5}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"

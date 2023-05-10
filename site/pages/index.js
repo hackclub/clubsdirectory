@@ -235,7 +235,7 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
-    <Map clubs={
+    <Map search={searchContent} clubs={
       clubs.filter((club) => 
       filterResults(club)
     )
