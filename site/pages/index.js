@@ -234,7 +234,6 @@ function sortByRelevancy(a, b, searchContent) {
     ): null}
     {view == "Map" ? (
     <Container>
-    <p>We have not developed this yet... (but we're working on it)</p>
     <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
     <Map clubs={clubs} recentlyCopied={recentlyCopied} setRecentlyCopied={setRecentlyCopied} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} />
     </Box>
