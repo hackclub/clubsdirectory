@@ -25,7 +25,7 @@ function Map({ clubs, search, setSelectedClubs, selectedClubs, recentlyCopied, s
     const map = mapRef.current;
     if (map && clubs.length > 0 && search != "") {
       const { latitude, longitude } = clubs[0].geo_data.coordinates;
-      map.flyTo([latitude, longitude], 13);
+      map.flyTo([latitude, longitude], 10);
     }
   }, [clubs]);
   return (
