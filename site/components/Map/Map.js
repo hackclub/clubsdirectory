@@ -19,7 +19,6 @@ function Map({ clubs, setSelectedClubs, selectedClubs, recentlyCopied, setRecent
 {Array.isArray(clubs) && clubs.map((club) => (
   <Marker
     key={club.id}
-    
     position={[club?.geo_data?.coordinates?.latitude, club?.geo_data?.coordinates?.longitude]}
     icon={leaflet.icon({
       iconUrl: 'https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg',
@@ -84,8 +83,8 @@ function Map({ clubs, setSelectedClubs, selectedClubs, recentlyCopied, setRecent
     
     position={[28.504169, 77.090221]}
     icon={leaflet.icon({
-      iconUrl: 'https://cloud-457fjhk0h-hack-club-bot.vercel.app/0epochicon.svg',
-      iconSize: [32, 32], // set the size of the icon based on whether the club is selected
+      iconUrl: 'https://cloud-hx1v4exha-hack-club-bot.vercel.app/0epochhorizontal.svg',
+      iconSize: [48, 32], // set the size of the icon based on whether the club is selected
     })}
 
 
