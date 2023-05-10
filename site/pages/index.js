@@ -235,7 +235,15 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
-    <Map clubs={clubs} recentlyCopied={recentlyCopied} setRecentlyCopied={setRecentlyCopied} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} />
+    <Map clubs={
+      clubs.filter((club) => 
+      filterResults(club)
+    )
+    .sort((a, b) => {
+      return sortResults(a,b)
+    })
+    
+    } recentlyCopied={recentlyCopied} setRecentlyCopied={setRecentlyCopied} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} />
     </Box>
     </Container>
     
