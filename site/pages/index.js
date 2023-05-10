@@ -326,6 +326,10 @@ function filterResults(club) {
       )
       )
       ||
+      club.geo_data.country.toLowerCase().includes(searchContent.toLowerCase())
+      ||
+      club.geo_data.country_code.toLowerCase().includes(searchContent.toLowerCase())
+      ||
       club.venue.toLowerCase().includes(searchContent.toLowerCase())
       ||
       club.location.toLowerCase().includes(searchContent.toLowerCase())
