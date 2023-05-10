@@ -1,3 +1,4 @@
+import ZephyrPath from './ZephyrPath'
 import { useEffect } from 'react';
 import { MapContainer, Tooltip, Polyline, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -37,7 +38,7 @@ function Map({ clubs, setSelectedClubs, selectedClubs, recentlyCopied, setRecent
           <Tooltip direction="bottom">{club.name}</Tooltip>
 
     <Popup maxWidth={250} closeButton={false} style={{display: "flex", flexDirection: "column"}}>
-      <Text style={{display: "flex", fontSize: 18, fontWeight: 600}} onClick={() => console.log(clubs)}>{club.name}</Text>
+      <Text onClick={() => console.log(club)} style={{display: "flex", fontSize: 18, fontWeight: 600}} onClick={() => console.log(clubs)}>{club.name}</Text>
 
       <Link
         sx={{color: "accent",  fontSize: 12, cursor: "pointer", textDecoration: "underline"}}
@@ -290,8 +291,7 @@ Zephyr was a train that traveled across America from Burlington, VT to LA, CA, a
 
 
 </Marker>
-<Polyline smoothFactor={1} positions={pos} color="#B6555150" dashArray="10,10" />
-
+<ZephyrPath pos={pos}/>
     </MapContainer>
   );
 }
