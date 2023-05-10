@@ -215,47 +215,7 @@ function sortByRelevancy(a, b, searchContent) {
   }}
       />
     <ForceTheme theme="light" />
-    <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
 
-      {selectedClubs.length > 0 ? (
-        <Card sx={{ display: 'flex', flexDirection: "column", backgroundColor: "sunken" }}>
-          <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Club{selectedClubs.length > 1 ? ("s") : (null)} Selected</Text>
-          
-          {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
-            <li>
-              {club}
-            </li>)
-            }
-          {selectedClubs.length > 3 ? (
-            <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
-          )
-           : (null)} */}
-          
-          <Box>
-          <Button
-            variant="primary"
-            sx={{mt: 2, mb: 0, mr: 2}}
-            onClick={() => {
-              const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
-              setRecentlyCopied(clubNames);
-              navigator.clipboard.writeText(clubNames);
-            }}
-          >
-            {recentlyCopied === selectedClubs.map((id) => getClubEmailById(id)).join(', ') ? "Copied!" : "Copy Emails"}
-          </Button>
-          <Button
-            variant="primary"
-            sx={{mt: 2, mb: 0}}
-            onClick={() => {
-              downloadCSV()
-            }}
-          >
-            Download CSV
-          </Button>
-          </Box>
-        </Card>
-      ) : null}
-    </Container>
 
 
 
@@ -275,13 +235,54 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <p>We have not developed this yet... (but we're working on it)</p>
-    {/* <Map clubs={clubs}></Map> */}
-    <Map />
+    <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
+    <Map clubs={clubs} recentlyCopied={recentlyCopied} setRecentlyCopied={setRecentlyCopied} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} />
+    </Box>
     </Container>
     
     ): null}
 
+<Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
 
+{selectedClubs.length > 0 ? (
+  <Card sx={{ display: 'flex', position: 'relative', zIndex: 1000, flexDirection: "column", backgroundColor: "sunken" }}>
+    <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Club{selectedClubs.length > 1 ? ("s") : (null)} Selected</Text>
+    
+    {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
+      <li>
+        {club}
+      </li>)
+      }
+    {selectedClubs.length > 3 ? (
+      <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
+    )
+     : (null)} */}
+    
+    <Box>
+    <Button
+      variant="primary"
+      sx={{mt: 2, mb: 0, mr: 2}}
+      onClick={() => {
+        const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
+        setRecentlyCopied(clubNames);
+        navigator.clipboard.writeText(clubNames);
+      }}
+    >
+      {recentlyCopied === selectedClubs.map((id) => getClubEmailById(id)).join(', ') ? "Copied!" : "Copy Emails"}
+    </Button>
+    <Button
+      variant="primary"
+      sx={{mt: 2, mb: 0}}
+      onClick={() => {
+        downloadCSV()
+      }}
+    >
+      Download CSV
+    </Button>
+    </Box>
+  </Card>
+) : null}
+</Container>
     <Footer/>
 
   </>
