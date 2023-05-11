@@ -2,6 +2,7 @@ import { DetailViewModal } from '../components/detailViewModal'
 import EmbedMapButton from '../components/EmbedMapButton'
 import ShareButton from '../components/ShareButton'
 import { ClubsTable } from '../components/ClubsTable'
+import Map from '../components/Map';
 import { SearchControls } from '../components/SearchControls'
 import { DirectoryHeading } from '../components/DirectoryHeading'
 import { DirectoryVideoSection } from '../components/DirectoryVideoSection'
@@ -22,7 +23,10 @@ import Link from "next/link";
 import { Global } from '@emotion/react';
 import { stringify } from 'csv';
 import { parse } from 'json2csv';
+import { useThemeUI } from 'theme-ui';
+import { useBreakpointIndex } from '@theme-ui/match-media';
 
+import dynamic from "next/dynamic";
 
 
 //Considering toast for success messages
@@ -50,11 +54,12 @@ const continents = [
 
 
 function NetworkPage() {
-  const [includeName, setIncludeName] = useState(true);
-  const [includeLeaderEmails, setIncludeLeaderEmails] = useState(true);
-  const [includeSchool, setIncludeSchool] = useState(true);
-  const [includeLocation, setIncludeLocation] = useState(true);
-  const [includeLeaderNames, setIncludeLeaderNames] = useState(true);
+  const { theme } = useThemeUI();
+  const breakpointIndex = useBreakpointIndex();
+  const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
+
+  const [isLoading, setIsLoading] = useState(true);
+
   function downloadCSV() {
     const fields = ['Name', 'Leader Names', 'Venue', 'Location', 'Leader Emails'];
     const data = selectedClubs.map((id) => {
@@ -96,7 +101,10 @@ function NetworkPage() {
   useEffect(() => {
     fetch("https://clubsdirectory-hc.up.railway.app/clubs")
     .then(response => response.json())
-    .then(data =>  setClubs(data))
+    .then(data =>  {
+      setClubs(data) 
+      setIsLoading(false)
+      })
     .catch(error => console.error(error));
   
     toggleBodyScroll(clubOpened != null);
@@ -207,46 +215,7 @@ function sortByRelevancy(a, b, searchContent) {
   }}
       />
     <ForceTheme theme="light" />
-    <Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
-      {selectedClubs.length > 0 ? (
-        <Card sx={{ display: 'flex', flexDirection: "column", backgroundColor: "sunken" }}>
-          <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Clubs Selected</Text>
-          
-          {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
-            <li>
-              {club}
-            </li>)
-            }
-          {selectedClubs.length > 3 ? (
-            <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
-          )
-           : (null)} */}
-          
-          <Box>
-          <Button
-            variant="primary"
-            sx={{mt: 2, mb: 0, mr: 2}}
-            onClick={() => {
-              const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
-              setRecentlyCopied(clubNames);
-              navigator.clipboard.writeText(clubNames);
-            }}
-          >
-            {recentlyCopied === selectedClubs.map((id) => getClubEmailById(id)).join(', ') ? "Copied!" : "Copy Emails"}
-          </Button>
-          <Button
-            variant="primary"
-            sx={{mt: 2, mb: 0}}
-            onClick={() => {
-              downloadCSV()
-            }}
-          >
-            Download CSV
-          </Button>
-          </Box>
-        </Card>
-      ) : null}
-    </Container>
+
 
 
 
@@ -259,7 +228,68 @@ function sortByRelevancy(a, b, searchContent) {
     <DirectoryVideoSection/>
     <DirectoryHeading/>
     <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
-    <ClubsTable setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    {view == "List" ? (
+    
+    <ClubsTable isMobile={isMobile} isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
+    ): null}
+    {view == "Map" ? (
+    <Container>
+    <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
+    <Map search={searchContent} clubs={
+      clubs.filter((club) => 
+      filterResults(club)
+    )
+    .sort((a, b) => {
+      return sortResults(a,b)
+    })
+    
+    } recentlyCopied={recentlyCopied} setRecentlyCopied={setRecentlyCopied} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} />
+    </Box>
+    </Container>
+    
+    ): null}
+
+<Container sx={{ position: 'fixed', bottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', maxWidth: 'container' }}>
+
+{selectedClubs.length > 0 ? (
+  <Card sx={{ display: 'flex', position: 'relative', zIndex: 1000, flexDirection: "column", backgroundColor: "sunken" }}>
+    <Text sx={{p: 0, mx: 0, my: 0}}>{selectedClubs.length} Club{selectedClubs.length > 1 ? ("s") : (null)} Selected</Text>
+    
+    {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
+      <li>
+        {club}
+      </li>)
+      }
+    {selectedClubs.length > 3 ? (
+      <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
+    )
+     : (null)} */}
+    
+    <Box>
+    <Button
+      variant="primary"
+      sx={{mt: 2, mb: 0, mr: 2}}
+      onClick={() => {
+        const clubNames = selectedClubs.map((id) => getClubEmailById(id)).join(', ');
+        setRecentlyCopied(clubNames);
+        navigator.clipboard.writeText(clubNames);
+      }}
+    >
+      {recentlyCopied === selectedClubs.map((id) => getClubEmailById(id)).join(', ') ? "Copied!" : "Copy Emails"}
+    </Button>
+    <Button
+      variant="primary"
+      sx={{mt: 2, mb: 0}}
+      onClick={() => {
+        downloadCSV()
+      }}
+    >
+      Download CSV
+    </Button>
+    </Box>
+  </Card>
+) : null}
+</Container>
     <Footer/>
 
   </>
@@ -288,7 +318,7 @@ function sortResults(a, b) {
 }
 
 function filterResults(club) {
-  return (selectedContinent == "" || selectedContinent == club.continent)
+  return (selectedContinent == "" || selectedContinent == club?.geo_data?.continent)
     &&
     (club.name.toLowerCase().includes(searchContent.toLowerCase())
       ||
@@ -296,9 +326,16 @@ function filterResults(club) {
       )
       )
       ||
+      club.geo_data.country.toLowerCase().includes(searchContent.toLowerCase())
+      ||
+      club.geo_data.country_code.toLowerCase().includes(searchContent.toLowerCase())
+      ||
       club.venue.toLowerCase().includes(searchContent.toLowerCase())
       ||
       club.location.toLowerCase().includes(searchContent.toLowerCase())
+      ||
+      club.geo_data.postcode.toLowerCase().includes(searchContent.toLowerCase())
+
       ||
       club.leaders.some((leader) => leader.name.toLowerCase().includes(searchContent.toLowerCase()))
     )
