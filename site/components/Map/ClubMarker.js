@@ -1,19 +1,55 @@
-import React from 'react'
-import { Tooltip, Marker, Popup } from 'react-leaflet'
-import { Text, Link, Button, Box } from 'theme-ui'
+import React, { useState } from 'react';
+import { Tooltip, Marker, Popup, useMapEvents } from 'react-leaflet';
+import { Text, Link, Button, Box } from 'theme-ui';
 
-export const ClubMarker = ({club, leaflet, console, clubs, venue, encodeURIComponent, location, navigator, window, setRecentlyCopied, leader, recentlyCopied, selectedClubs, setSelectedClubs, clubPicked}) => (
-	  <Marker
+export const ClubMarker = ({
+  club, leaflet, console, clubs, venue, encodeURIComponent, location, navigator, window, setRecentlyCopied, leader, recentlyCopied, selectedClubs, setSelectedClubs, clubPicked,
+}) => {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const markerRef = React.useRef(null);
+
+  useMapEvents({
+    click: () => {
+      if (popupOpen) {
+        setPopupOpen(false);
+      }
+    },
+  });
+
+  const handleClick = () => {
+    setTooltipOpen(false);
+    setPopupOpen(true);
+  };
+
+  return (
+<Marker
+    ref={markerRef}
     key={club.id}
     position={[club?.geo_data?.coordinates?.latitude, club?.geo_data?.coordinates?.longitude]}
     icon={leaflet.icon({
-      iconUrl: 'https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg',
-      iconSize: [32, 32], // set the size of the icon based on whether the club is selected
+      iconUrl: !popupOpen ? 'https://cloud-km1a71qag-hack-club-bot.vercel.app/0clubselected.svg' : 'https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg',
+      iconSize: [32, 32],
+      iconAnchor: [16, 16],  // Add this line
     })}
-  >
-          <Tooltip direction="bottom">{club.name}</Tooltip>
+    eventHandlers={{ 
+      click: () => {
+        setPopupOpen(true);
 
-    <Popup maxWidth={250} closeButton={false} style={{display: "flex", flexDirection: "column"}}>
+      },
+    }}
+>
+
+      <Tooltip direction="bottom">{club.name}</Tooltip>
+
+      <Popup
+        maxWidth={250}
+        closeButton={false}
+        style={{ display: 'flex', flexDirection: 'column' }}
+        onClose={() => {
+          setPopupOpen(false);
+        }}
+      >
+
       <Text onClick={() => console.log(club)} style={{display: "flex", fontSize: 18, fontWeight: 600}} onClick={() => console.log(clubs)}>{club.name}</Text>
 
       <Link
@@ -65,3 +101,4 @@ export const ClubMarker = ({club, leaflet, console, clubs, venue, encodeURICompo
     </Popup>
   </Marker>
 )
+        }
