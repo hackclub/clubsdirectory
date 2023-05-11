@@ -12,6 +12,7 @@ for leader in club_leaders.all():
     This loop checks if the leader's profile is up to date and updates it if it isn't
     """
 
+    print(leader)
     if leader['fields']['Slack ID'] != None:
         slack_data = slack_lookup_user(leader['fields']['Slack ID'])
 
@@ -36,6 +37,8 @@ for club in clubs_table.all():
     This loop checks if the club's profile (geo_data) is up to date and updates it if it isn't
     """
 
+    print(club['fields'])
+
     look_up = lookup_lat_long(club['fields']['Latitude'][0], club['fields']['Longitude'][0])
 
     if 'Country' not in club['fields']:
@@ -44,7 +47,14 @@ for club in clubs_table.all():
     if 'Postcode' not in club['fields'] and 'postcode' in look_up:
         clubs_table.update(club['id'], {'Postcode': look_up['postcode']})
 
+    if 'State' not in club['fields'] and 'state' in look_up:
+        clubs_table.update(club['id'], {'State': look_up['state']})
+
+    if 'State ISO Code' not in club['fields'] and 'ISO3166-2-lvl4' in look_up:
+        clubs_table.update(club['id'], {'State ISO Code': look_up['ISO3166-2-lvl4'] })
+
     if 'Continent' not in club['fields']:
         clubs_table.update(club['id'], {'Continent': get_continent(look_up['country_code'].upper())})
 
+    print(look_up)
     print(f"Updated {club['fields']['Club Name']}'s profile")

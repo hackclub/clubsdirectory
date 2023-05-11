@@ -15,6 +15,8 @@ class GeoData(BaseModel):
     A class to represent the geographical data of a location
     """
     coordinates: Coordinates
+    state: Optional[str]
+    state_iso_code: Optional[str]
     country: str
     country_code: str
     postcode: Optional[str]
