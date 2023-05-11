@@ -270,7 +270,7 @@ function sortByRelevancy(a, b, searchContent) {
     {view == "Map" ? (
     <Container>
     <Box style={{zIndex: 0, position: "relative", borderRadius: 16, overflow: "hidden"}}>
-    <Map search={searchContent} clubs={
+    <Map userLatitude={userLatitude} userLongitude={userLongitude} search={searchContent} clubs={
       clubs.filter((club) => 
       filterResults(club)
     )
@@ -348,6 +348,7 @@ function sortResults(a, b) {
 }
 
 function filterResults(club) {
+  console.log(club)
   return (selectedContinent == "" || selectedContinent == club?.geo_data?.continent)
     &&
     (club.name.toLowerCase().includes(searchContent.toLowerCase())
@@ -359,6 +360,8 @@ function filterResults(club) {
       club.geo_data.country.toLowerCase().includes(searchContent.toLowerCase())
       ||
       club.geo_data.country_code.toLowerCase().includes(searchContent.toLowerCase())
+      ||
+      club.geo_data?.state?.toLowerCase().includes(searchContent.toLowerCase())
       ||
       club.venue.toLowerCase().includes(searchContent.toLowerCase())
       ||

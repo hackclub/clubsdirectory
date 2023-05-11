@@ -1,11 +1,11 @@
 import ZephyrPath from './ZephyrPath'
 import { useEffect, useRef } from 'react';
-import { MapContainer, Tooltip, Polyline, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Tooltip, CircleMarker, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import { Text, Link, Button, Box } from 'theme-ui'
 
-function Map({ clubs, search, setSelectedClubs, selectedClubs, recentlyCopied, setRecentlyCopied }) {
+function Map({ clubs, userLongitude, userLatitude, search, setSelectedClubs, selectedClubs, recentlyCopied, setRecentlyCopied }) {
   const mapRef = useRef(null);
 
   const pos = [
@@ -300,6 +300,20 @@ Zephyr was a train that traveled across America from Burlington, VT to LA, CA, a
 
 </Marker>
 <ZephyrPath pos={pos}/>
+{userLongitude !== null && userLatitude !== null && (
+  <CircleMarker
+    center={[userLatitude, userLongitude]}
+    radius={8}
+    pathOptions={{
+      fillColor: '#3478F6',
+      color: 'white',
+      weight: 2,
+      fillOpacity: 1,
+    }}
+  />
+)}
+
+
     </MapContainer>
   );
 }
