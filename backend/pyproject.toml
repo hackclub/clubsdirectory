@@ -14,6 +14,7 @@ python-dotenv = "^1.0.0"
 slack-sdk = "^3.21.3"
 geopy = "^2.3.0"
 pycountry-convert = "^0.7.2"
+slack-bolt = "^1.18.0"
 
 [tool.poetry.dev-dependencies]
 rich = "^13.3.5"

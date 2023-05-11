@@ -102,6 +102,8 @@ def club_data_to_obj(club_data: dict):
             coordinates=Coordinates(
                 latitude=club_data['fields']['Latitude'][0], longitude=club_data['fields']['Longitude'][0]),
             country=club_data['fields']['Country'] if 'Country' in club_data['fields'] else None,
+            state=club_data['fields']['State'] if 'State' in club_data['fields'] else None,
+            state_iso_code=club_data['fields']['State ISO Code'] if 'State ISO Code' in club_data['fields'] else None,
             country_code=club_data['fields']['Country Code'] if 'Country Code' in club_data['fields'] else None,
             continent=club_data['fields']['Continent'] if 'Continent' in club_data['fields'] else None,
             postcode=club_data['fields']['Postcode'] if 'Postcode' in club_data['fields'] else None
