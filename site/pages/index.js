@@ -90,7 +90,9 @@ function NetworkPage() {
     const club = clubs.find((c) => c.id === id);
     return club
   }
-  
+  const [userLatitude, setUserLatitude] = useState(null)
+  const [userLongitude, setUserLongitude] = useState(null)
+
   const [clubs, setClubs] = useState([])
 
   const [clubOpened, setClubOpened] = useState(null)
@@ -110,24 +112,57 @@ function NetworkPage() {
     toggleBodyScroll(clubOpened != null);
   }, [clubOpened]);
 
-function sortByYouth(a, b) {
-  if (a.startDate > b.startDate) {
-    return -1;
+  function sortByProximity(a, b) {
+    if (userLatitude === null || userLongitude === null) {
+      return 0; // No sorting if user's latitude or longitude is null
+    }
+  
+    const distanceA = calculateDistance(a.geo_data.coordinates);
+    const distanceB = calculateDistance(b.geo_data.coordinates);
+  
+    return distanceA - distanceB;
   }
-  if (a.startDate < b.startDate) {
-    return 1;
+  
+  function calculateDistance(coordinates) {
+    const latA = userLatitude;
+    const lonA = userLongitude;
+    let latB, lonB;
+  
+    if (Array.isArray(coordinates)) {
+      [latB, lonB] = coordinates;
+    } else if (coordinates && typeof coordinates === 'object') {
+      latB = coordinates.latitude;
+      lonB = coordinates.longitude;
+    } else {
+      return 0; // Invalid coordinates, return 0 distance
+    }
+  
+    const earthRadius = 6371; // Radius of the Earth in kilometers
+    const dLat = degToRad(latB - latA); // Difference in latitude, converted to radians
+    const dLon = degToRad(lonB - lonA); // Difference in longitude, converted to radians
+  
+    // Haversine formula to calculate the great-circle distance between two points
+    const haversine =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(degToRad(latA)) * Math.cos(degToRad(latB)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    // Central angle between the two points
+    const centralAngle = 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+  
+    // Distance between the two points on the surface of a sphere using the central angle and Earth's radius
+    const distance = earthRadius * centralAngle;
+  
+    return distance;
   }
-  return 0;
-}
-function sortByAge(a, b) {
-  if (a.startDate < b.startDate) {
-    return -1;
+  
+  function degToRad(degrees) {
+    return degrees * (Math.PI / 180); // Conversion from degrees to radians
   }
-  if (a.startDate > b.startDate) {
-    return 1;
-  }
-  return 0;
-}
+  
+  
+  
+
 
 function sortByAlphabetic(a, b) {
   if (a.name < b.name) {
@@ -227,7 +262,7 @@ function sortByRelevancy(a, b, searchContent) {
     <Nav/>
     <DirectoryVideoSection/>
     <DirectoryHeading/>
-    <SearchControls searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
+    <SearchControls setUserLatitude={setUserLatitude} setUserLongitude={setUserLongitude} searchContent={searchContent} setSearchContent={setSearchContent} console={console} levenshtein={levenshtein} filter={filter} setFilter={setFilter} view={view} setView={setView} selectedContinent={selectedContinent} setSelectedContinent={setSelectedContinent} continents={continents} Badge={Badge}/>
     {view == "List" ? (
     
     <ClubsTable isMobile={isMobile} isLoading={isLoading} setSelectedClubs={setSelectedClubs} selectedClubs={selectedClubs} clubs={clubs} filterResults={filterResults} sortResults={sortResults} setClubOpened={setClubOpened} setRecentlyCopied={setRecentlyCopied} navigator={navigator} recentlyCopied={recentlyCopied}/>
@@ -307,13 +342,8 @@ function sortResults(a, b) {
       return sortByAlphabetic(a, b)
     
     }
-    else if (filter == "Latest") {
-      return sortByYouth(a, b)
-    }
-    else if (filter == "Oldest") {
-
-      return sortByAge(a, b)
-      
+    else if (filter == "Proximity") {
+      return sortByProximity(a, b)
     }
 }
 

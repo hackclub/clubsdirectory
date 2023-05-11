@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Container, Badge, Grid, Label, Input, Select } from 'theme-ui'
 import Icon from '@hackclub/icons'
 
-export const SearchControls = ({searchContent, event, setSearchContent, console, levenshtein, filter, setFilter, view, setView, selectedContinent, setSelectedContinent, continents, continent, Badge, key}) => (
+export const SearchControls = ({searchContent, setUserLatitude, setUserLongitude, event, setSearchContent, console, levenshtein, filter, setFilter, view, setView, selectedContinent, setSelectedContinent, continents, continent, Badge, key}) => (
 	   <Container mb={4}>
       <Container as="form" variant="cards.sunken">
           <Grid
@@ -32,11 +32,25 @@ export const SearchControls = ({searchContent, event, setSearchContent, console,
             </Box>
             </Label>
 
-            <Select value={filter} onChange={(event) => setFilter(event.target.value)}>
+            <Select value={filter}   
+            onChange={(event) => {
+                  setFilter(event.target.value);
+                  if (event.target.value === "Proximity") {
+                      navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                          const { latitude, longitude } = position.coords;
+                          setUserLatitude(latitude);
+                          setUserLongitude(longitude);
+                        },
+                        (error) => {
+                          console.error('Error getting location:', error.message);
+                        }
+                      );
+                  }
+                }}>
               <option value="Relevancy">Relevancy</option>
               <option value="Alphabetic">Alphabetic</option>
-              <option value="Latest">Latest</option>
-              <option value="Oldest">Oldest</option>
+              <option value="Proximity">Proximity</option>
 
             </Select>
           </Box>
@@ -84,3 +98,6 @@ export const SearchControls = ({searchContent, event, setSearchContent, console,
         </Container>
     </Container>
 )
+
+
+
