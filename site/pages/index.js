@@ -54,7 +54,6 @@ const continents = [
 
 
 function NetworkPage() {
-  const { theme } = useThemeUI();
   const breakpointIndex = useBreakpointIndex();
   const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
 
@@ -101,6 +100,7 @@ function NetworkPage() {
   const navigator = typeof window !== 'undefined' ? window.navigator : null;
 
   useEffect(() => {
+    //Gets the clubs from the ArpanAPI™
     fetch("https://clubsdirectory-hc.up.railway.app/clubs")
     .then(response => response.json())
     .then(data =>  {
@@ -111,7 +111,7 @@ function NetworkPage() {
   
     toggleBodyScroll(clubOpened != null);
   }, [clubOpened]);
-
+  //Sorting function that uses user location
   function sortByProximity(a, b) {
     if (userLatitude === null || userLongitude === null) {
       return 0; // No sorting if user's latitude or longitude is null
@@ -122,6 +122,7 @@ function NetworkPage() {
   
     return distanceA - distanceB;
   }
+  
   
   function calculateDistance(coordinates) {
     const latA = userLatitude;
