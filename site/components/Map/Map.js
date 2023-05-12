@@ -6,17 +6,10 @@ import { ZephyrStart } from "./ZephyrStart";
 import { UserLocationDot } from "./UserLocationDot";
 import ZephyrPath from "./ZephyrPath";
 import { useEffect, useRef } from "react";
-import {
-  MapContainer,
-  Tooltip,
-  CircleMarker,
-  TileLayer,
-  Marker,
-  Popup,
-} from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
-import { Text, Link, Button, Box, Badge } from "theme-ui";
+import { Badge } from "theme-ui";
 
 function Map({
   clubs,
@@ -66,7 +59,6 @@ function Map({
             <ClubMarker
               club={club}
               leaflet={leaflet}
-              console={console}
               clubs={clubs}
               encodeURIComponent={encodeURIComponent}
               location={location}

@@ -1,26 +1,9 @@
-import { DetailViewModal } from "../components/detailViewModal";
-import EmbedMapButton from "../components/EmbedMapButton";
-import ShareButton from "../components/ShareButton";
 import { ClubsTable } from "../components/ClubsTable";
 import Map from "../components/Map";
 import { SearchControls } from "../components/SearchControls";
 import { DirectoryHeading } from "../components/DirectoryHeading";
 import { DirectoryVideoSection } from "../components/DirectoryVideoSection";
-import { ClubPreview } from "../components/ClubPreview";
-import { TableLabel } from "../components/TableLabel";
-import {
-  Container,
-  Image,
-  Card,
-  Flex,
-  Grid,
-  Badge,
-  Box,
-  Text,
-  Button,
-  Heading,
-  Paragraph,
-} from "theme-ui";
+import { Container, Card, Badge, Box, Text, Button } from "theme-ui";
 import Head from "next/head";
 import Meta from "@hackclub/meta";
 import Nav from "../components/nav";
@@ -28,17 +11,9 @@ import ForceTheme from "../components/force-theme";
 import Footer from "../components/footer";
 import { useState, useEffect } from "react";
 import { levenshtein } from "underscore.string";
-import Modal from "react-modal";
-import Icon from "@hackclub/icons";
-import theme from "@hackclub/theme";
-import Link from "next/link";
 import { Global } from "@emotion/react";
-import { stringify } from "csv";
 import { parse } from "json2csv";
-import { useThemeUI } from "theme-ui";
 import { useBreakpointIndex } from "@theme-ui/match-media";
-
-import dynamic from "next/dynamic";
 
 //Considering toast for success messages
 function toggleBodyScroll(disable) {
