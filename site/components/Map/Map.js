@@ -44,12 +44,19 @@ function Map({
   }, [clubs]);
   return (
     <div style={{ position: "relative" }}>
-      <MapContainer
-        ref={mapRef}
-        style={{ width: "100%", height: "600px" }}
-        center={[37.0902, -95.7129]}
-        zoom={5}
-      >
+    <MapContainer
+      ref={mapRef}
+      style={{ width: "100%", height: "600px" }}
+      center={[0, 0]}
+      zoom={2}
+      boundsOptions={{ padding: [50, 50] }}
+      whenCreated={(map) => {
+        map.fitBounds([
+          [90, -180], // Top-left corner
+          [-90, 180], // Bottom-right corner
+        ]);
+      }}
+    >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
@@ -95,6 +102,7 @@ function Map({
           left: 2,
           zIndex: 701,
           fontSize: "1.25rem",
+          cursor: "pointer"
         }}
         color={!eventsShown ? "muted" : null}
         onClick={() => setEventsShown(!eventsShown)}

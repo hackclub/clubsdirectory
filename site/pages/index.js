@@ -219,7 +219,7 @@ function NetworkPage() {
 
   const [selectedClubs, setSelectedClubs] = useState([]);
   const [selectedContinent, setSelectedContinent] = useState("");
-  const [eventsShown, setEventsShown] = useState(false);
+  const [eventsShown, setEventsShown] = useState(true);
   const [searchContent, setSearchContent] = useState("");
   const [filter, setFilter] = useState("Relevancy");
   const [view, setView] = useState("List");
