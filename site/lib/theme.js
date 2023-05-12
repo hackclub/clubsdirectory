@@ -1,5 +1,4 @@
 import base from "@hackclub/theme";
-import { merge } from "lodash";
 
 const theme = base;
 

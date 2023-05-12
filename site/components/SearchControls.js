@@ -1,12 +1,11 @@
 import React from "react";
-import { Box, Container, Badge, Grid, Label, Input, Select } from "theme-ui";
+import { Box, Container, Grid, Label, Input, Select } from "theme-ui";
 import Icon from "@hackclub/icons";
 
 export const SearchControls = ({
   searchContent,
   setUserLatitude,
   setUserLongitude,
-  event,
   setSearchContent,
   console,
   levenshtein,
@@ -17,9 +16,7 @@ export const SearchControls = ({
   selectedContinent,
   setSelectedContinent,
   continents,
-  continent,
   Badge,
-  key,
 }) => (
   <Container mb={4}>
     <Container as="form" variant="cards.sunken">

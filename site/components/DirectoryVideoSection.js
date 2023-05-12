@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Container, Heading, Text } from "theme-ui";
 
-export const DirectoryVideoSection = ({ undefined }) => (
+export const DirectoryVideoSection = () => (
   <Box
     as="section"
     id="network"

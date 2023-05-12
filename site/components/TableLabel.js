@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Grid, Label, Checkbox } from "theme-ui";
-import { useState } from "react";
 
 export const TableLabel = ({
   clubs,

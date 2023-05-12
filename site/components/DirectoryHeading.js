@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Heading } from "theme-ui";
 
-export const DirectoryHeading = ({ undefined }) => (
+export const DirectoryHeading = () => (
   <Container>
     <Heading
       as="h2"

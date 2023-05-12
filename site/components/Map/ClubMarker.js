@@ -5,19 +5,15 @@ import { Text, Link, Button, Box } from "theme-ui";
 export const ClubMarker = ({
   club,
   leaflet,
-  console,
   clubs,
-  venue,
   encodeURIComponent,
   location,
   navigator,
   window,
   setRecentlyCopied,
-  leader,
   recentlyCopied,
   selectedClubs,
   setSelectedClubs,
-  clubPicked,
 }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const markerRef = React.useRef(null);
@@ -66,11 +62,7 @@ export const ClubMarker = ({
           setPopupOpen(false);
         }}
       >
-        <Text
-          onClick={() => console.log(club)}
-          style={{ display: "flex", fontSize: 18, fontWeight: 600 }}
-          onClick={() => console.log(clubs)}
-        >
+        <Text style={{ display: "flex", fontSize: 18, fontWeight: 600 }}>
           {club.name}
         </Text>
 

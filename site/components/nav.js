@@ -2,9 +2,7 @@ import {
   Box,
   Container,
   IconButton,
-  Button,
   Image,
-  Text,
   Link as A,
   useColorMode,
 } from "theme-ui";
