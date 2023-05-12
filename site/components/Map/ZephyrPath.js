@@ -1,8 +1,8 @@
-import React from 'react';
-import { Polyline } from 'react-leaflet';
+import React from "react";
+import { Polyline } from "react-leaflet";
 
 const ZephyrPath = ({ pos }) => {
-  const dashArray = '10, 10';
+  const dashArray = "10, 10";
 
   return (
     <Polyline

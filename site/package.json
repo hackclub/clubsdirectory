@@ -44,5 +44,8 @@
     "theme-ui": "0.15.4",
     "topojson-client": "^3.1.0",
     "underscore.string": "^3.3.6"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
   }
 }

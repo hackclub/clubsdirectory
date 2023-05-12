@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button } from 'theme-ui';
-import Icon from '@hackclub/icons';
+import React, { useState } from "react";
+import { Button } from "theme-ui";
+import Icon from "@hackclub/icons";
 
 function EmbedMapButton({ navigator, urlFriendlyName }) {
   const [isEmbedCopied, setIsEmbedCopied] = useState(false);
@@ -10,7 +10,6 @@ function EmbedMapButton({ navigator, urlFriendlyName }) {
       const embedCode = `<iframe src="https://directory.hackclub.com/map/${urlFriendlyName}" width="100%" height="500px" frameborder="0"></iframe>`;
       await navigator.clipboard.writeText(embedCode);
       setIsEmbedCopied(true);
-
     } catch (error) {
       console.log(error.message);
     }
