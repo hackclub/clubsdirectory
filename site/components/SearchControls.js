@@ -27,7 +27,7 @@ export const SearchControls = ({
         columns={[null, "3fr 1fr 1fr"]} // 5 column grid
         gap={3} // gap between columns
       >
-        <Box gridColumn={[null, "span 3"]}>
+        <Box gridcolumn={[null, "span 3"]}>
           <Label>Search Clubs</Label>
 
           <Box
@@ -51,7 +51,7 @@ export const SearchControls = ({
             />
           </Box>
         </Box>
-        <Box gridColumn={[null, "span 1"]}>
+        <Box gridcolumn={[null, "span 1"]}>
           <Label>
             <Box
               sx={{
@@ -88,7 +88,7 @@ export const SearchControls = ({
             <option value="Proximity">Proximity</option>
           </Select>
         </Box>
-        <Box gridColumn={[null, "span 1"]}>
+        <Box gridcolumn={[null, "span 1"]}>
           <Label>View</Label>
 
           <Select
