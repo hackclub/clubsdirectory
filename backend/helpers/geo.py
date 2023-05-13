@@ -10,7 +10,7 @@ def lookup_lat_long(latitude: float, longitude: float):
     This function takes a latitude and longitude and returns the location
     """
     
-    location = geolocator.reverse(f"{latitude}, {longitude}")
+    location = geolocator.reverse(f"{latitude}, {longitude}", language='en-US')
     return location.raw['address']
 
 def get_continent(country_code: str) -> str:
