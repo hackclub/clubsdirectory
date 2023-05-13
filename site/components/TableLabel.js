@@ -1,8 +1,12 @@
-import React from 'react';
-import { Card, Grid, Label, Checkbox } from 'theme-ui';
-import { useState } from 'react';
+import React from "react";
+import { Card, Grid, Label, Checkbox } from "theme-ui";
 
-export const TableLabel = ({ clubs, filterResults, setSelectedClubs, selectedClubs }) => {
+export const TableLabel = ({
+  clubs,
+  filterResults,
+  setSelectedClubs,
+  selectedClubs,
+}) => {
   const clubsInView = clubs
     .filter((clubFilter) => filterResults(clubFilter))
     .map((club) => club.id);
@@ -16,8 +20,13 @@ export const TableLabel = ({ clubs, filterResults, setSelectedClubs, selectedClu
   };
 
   return (
-    <Card as={'div'} variant="sunken" sx={{ p: [1, 2] }} mb={2}>
-      <Grid columns={[null, '0.15fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr']} gap={3} sx={{ pl: [1, 3], pr: [1, 3], alignItems: 'center' }} onClick={() => console.log(clubsInView, selectedClubs)}>
+    <Card as={"div"} variant="sunken" sx={{ p: [1, 2] }} mb={2}>
+      <Grid
+        columns={[null, "0.15fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr"]}
+        gap={3}
+        sx={{ pl: [1, 3], pr: [1, 3], alignItems: "center" }}
+        onClick={() => console.log(clubsInView, selectedClubs)}
+      >
         <Label>
           <Checkbox
             onClick={() => {
@@ -27,7 +36,10 @@ export const TableLabel = ({ clubs, filterResults, setSelectedClubs, selectedClu
                 setSelectedClubs(clubsInView);
               }
             }}
-            checked={selectedClubs.length != 0 && arraysEqual(selectedClubs, clubsInView)}
+            checked={
+              selectedClubs.length != 0 &&
+              arraysEqual(selectedClubs, clubsInView)
+            }
             defaultChecked={false}
           />
         </Label>

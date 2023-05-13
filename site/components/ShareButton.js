@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button } from 'theme-ui';
-import Icon from '@hackclub/icons';
+import React, { useState } from "react";
+import { Button } from "theme-ui";
+import Icon from "@hackclub/icons";
 
 function ShareButton({ navigator, urlFriendlyName }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
@@ -9,8 +9,8 @@ function ShareButton({ navigator, urlFriendlyName }) {
     try {
       if (/Mobi|Android/i.test(navigator.userAgent)) {
         await navigator.share({
-          title: 'Check out this link!',
-          url: "https://directory.hackclub.com/" + urlFriendlyName
+          title: "Check out this link!",
+          url: "https://directory.hackclub.com/" + urlFriendlyName,
         });
         setIsLinkCopied(true);
       } else {
