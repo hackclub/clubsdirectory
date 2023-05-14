@@ -12,7 +12,7 @@ export const DirectoryHeading = () => (
         pb: [3, 4],
         span: {
           WebkitTextStroke: "currentColor",
-          WebkitTextStrokeWidth: ["2px", "3px"],
+          WebkitTextStrokeWidth: ["1.5px", "2.5px"],
           WebkitTextFillColor: "transparent",
         },
       }}
