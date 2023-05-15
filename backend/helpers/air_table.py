@@ -167,3 +167,16 @@ def get_old_clubs():
         clubs.append(club_class)
 
     return clubs
+
+# Lookup if a user is a club leader
+def check_if_leader(user_id: str) -> bool:
+    """
+    This function takes a user id and returns whether or not they are a club leader
+    """
+    formula = match({'Slack ID': user_id})
+    leader_data = club_leaders.first(formula=formula)
+
+    if leader_data == None:
+        return False
+
+    return True
