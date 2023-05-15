@@ -229,3 +229,18 @@ def get_airtable_rec_id_from_slack_id(slack_id: str) -> str:
         return None
 
     return leader_data['id']
+
+def get_all_leaders_for_club(club_air_id: str):
+    """
+    This function takes a club airtable record id and returns a list of all the leaders
+    """
+    leaders = []
+
+    for leader in club_leaders.all():
+        if 'Club Link' not in leader['fields']:
+            continue
+
+        if leader['fields']['Club Link'][0] == club_air_id:
+            leaders.append(leader)
+
+    return leaders

@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from helpers.air_table import check_if_leader, get_club_by_leader, get_airtable_rec_id_from_slack_id
+from helpers.air_table import check_if_leader, get_club_by_leader, get_airtable_rec_id_from_slack_id, get_all_leaders_for_club
 from helpers.classes import Leader, ClubElement
 from helpers.slack_minor import slack_lookup_full_user, slack_lookup_user_display
 
@@ -393,11 +393,15 @@ def handle_edit_secondary_leaders_select(ack, body, logger):
             slack_user = slack_lookup_user_display(user)
             if slack_user == -1:
                 continue
-            club_leaders.create({'Name': slack_user['name'], 'Slack ID': user, 'Email': None, 'Pronouns': slack_user['pronouns'], 'Is Primary': False, 'To Display': ['Email', 'Twitter'], 'Website': slack_user['website'], 'Scrapbook': slack_user['scrapbook'], 'Github': slack_user['github'], 'LinkedIn': None, 'Twitter': None, 'Avatar': slack_user['avatar'], 'Club Link': [club['id']]})
+            club_leaders.create({'Name': slack_user['name'], 'Slack ID': user, 'Email': 'hello@example.com', 'Pronouns': slack_user['pronouns'], 'Is Primary': False, 'To Display': ['Email', 'Twitter'], 'Website': slack_user['website'], 'Scrapbook': slack_user['scrapbook'], 'Github': slack_user['github'], 'LinkedIn': None, 'Twitter': None, 'Avatar': slack_user['avatar'], 'Club Link': [club['id']]})
 
         else:
             club_leaders.update(get_airtable_rec_id_from_slack_id(user), {'Club Link': [club['id']]})
 
+    # Remove all leaders from club
+    for leader in get_all_leaders_for_club(club['id']):
+        if leader['fields']['Slack ID'] not in user_list:
+            club_leaders.delete(leader['id'])
     
 
 # Start your app
