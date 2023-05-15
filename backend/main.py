@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
                                get_club_by_name, get_old_clubs)
-from helpers.classes import ClubElement, Leader
+from helpers.classes import ClubElement, Leader, OldClub
 
 load_dotenv()
 
@@ -57,5 +57,5 @@ def club_by_id(id: int) -> ClubElement:
 
 
 @app.get('/clubs/old')
-def old_clubs():
+def old_clubs() -> OldClub:
     return get_old_clubs()
