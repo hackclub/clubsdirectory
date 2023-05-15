@@ -61,3 +61,7 @@ class ClubElement(BaseModel):
     geo_data: GeoData
     socials: Socials
     leaders: List[Leader]
+
+class OldClub(BaseModel):
+    name: str
+    coordinates: Coordinates

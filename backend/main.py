@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
-                               get_club_by_name)
+                               get_club_by_name, get_old_clubs)
 from helpers.classes import ClubElement, Leader
 
 load_dotenv()
@@ -54,3 +54,8 @@ def club_by_name(name: str) -> ClubElement:
 @app.get("/club/id/{id}")
 def club_by_id(id: int) -> ClubElement:
     return get_club_by_id(id)
+
+
+@app.get('/clubs/old')
+def old_clubs():
+    return get_old_clubs()

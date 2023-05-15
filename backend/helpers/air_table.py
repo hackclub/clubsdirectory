@@ -141,3 +141,29 @@ def club_data_to_obj(club_data: dict):
     club.leaders.append(leader_data)
 
     return club
+
+
+# Add old clubs to the map
+
+old_clubs = Table(personal_token, base_id, 'Clubs Dashboard')
+
+
+def get_old_clubs():
+    """
+    This function returns a list of all the old clubs
+    """
+    clubs = []
+
+    for club in old_clubs.all(formula=match({'Status': 'active'})):
+        if 'Latitude' not in club['fields'] or 'Longitude' not in club['fields'] or 'Venue' not in club['fields']:
+            continue
+
+        club_class = OldClub(
+            name=club['fields']['Venue'],
+            coordinates=Coordinates(
+                latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude']),
+        )
+
+        clubs.append(club_class)
+
+    return clubs
