@@ -1,17 +1,20 @@
-from geopy.geocoders import Nominatim
-import pycountry_convert as pc
 import random
 
-geolocator = Nominatim(user_agent=f"geoapiExercise{random.randint(0, 1000)}") # The random integer is to prevent the user agent from being the same every time and getting blocked
+import pycountry_convert as pc
+from geopy.geocoders import Nominatim
+
+# The random integer is to prevent the user agent from being the same every time and getting blocked
+geolocator = Nominatim(user_agent=f"geoapiExercise{random.randint(0, 1000)}")
 
 
 def lookup_lat_long(latitude: float, longitude: float):
     """
     This function takes a latitude and longitude and returns the location
     """
-    
+
     location = geolocator.reverse(f"{latitude}, {longitude}", language='en-US')
     return location.raw['address']
+
 
 def get_continent(country_code: str) -> str:
     """
@@ -26,6 +29,6 @@ def get_continent(country_code: str) -> str:
         "AF": "Africa",
         "OC": "Oceania",
         "EU": "Europe",
-        "AQ" : "Antarctica"
+        "AQ": "Antarctica"
     }
     return continent_dict[continent_code]

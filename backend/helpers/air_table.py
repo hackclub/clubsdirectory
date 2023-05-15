@@ -71,6 +71,7 @@ def get_club_by_name(name: str):
 
     return club_data_to_obj(club_data)
 
+
 def get_club_by_id(id: int):
     """
     This function takes a club id and returns the club data
