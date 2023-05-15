@@ -6,7 +6,7 @@ from pyairtable.formulas import match
 
 from helpers.classes import *
 
-from rich import print  # ! Remove this line in production
+
 
 load_dotenv()
 

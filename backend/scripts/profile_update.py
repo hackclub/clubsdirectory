@@ -1,6 +1,6 @@
 # Description: This script is used to update the club leaders table with the latest information from slack
 
-from rich import print  # ! Remove this line in production
+
 
 from helpers.air_table import club_leaders, clubs_table
 from helpers.geo import get_continent, lookup_lat_long

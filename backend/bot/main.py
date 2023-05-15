@@ -11,7 +11,7 @@ from helpers.slack_minor import slack_lookup_full_user, slack_lookup_user_displa
 
 from helpers.air_table import club_leaders, clubs_table
 
-from rich import print  # ! Remove this line in production
+
 
 load_dotenv()
 
@@ -34,6 +34,7 @@ def initial_home_tab(client, event, logger):
     try:
 
         if check_if_leader(event["user"]):
+
             # Call views.publish with the built-in client
             client.views_publish(
                 # Use the user ID associated with the event
