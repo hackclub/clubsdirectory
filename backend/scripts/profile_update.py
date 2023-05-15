@@ -4,7 +4,7 @@ from rich import print  # ! Remove this line in production
 
 from helpers.air_table import club_leaders, clubs_table
 from helpers.geo import get_continent, lookup_lat_long
-from helpers.slack_minor import slack_lookup_user
+from helpers.slack_minor import slack_lookup_user_display
 
 for leader in club_leaders.all():
 
@@ -14,7 +14,7 @@ for leader in club_leaders.all():
 
     print(leader)
     if leader['fields']['Slack ID'] != None:
-        slack_data = slack_lookup_user(leader['fields']['Slack ID'])
+        slack_data = slack_lookup_user_display(leader['fields']['Slack ID'])
 
         if slack_data != -1:
             if 'Pronouns' not in leader['fields'] and slack_data['pronouns']:

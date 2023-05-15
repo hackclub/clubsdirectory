@@ -13,7 +13,7 @@ SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 client = WebClient(token=SLACK_BOT_TOKEN)
 
 
-def slack_lookup_user(user_id):
+def slack_lookup_user_display(user_id):
     """
     This function takes a slack user id and returns a dictionary of the user's profile information
     """
@@ -53,3 +53,10 @@ def slack_lookup_user(user_id):
 
     except slack_sdk.errors.SlackApiError:
         return -1
+
+def slack_lookup_full_user(user_id: str):
+    """
+    This function takes a slack user id and returns the user's full profile
+    """
+    user = client.users_info(user=user_id)
+    return user['user']

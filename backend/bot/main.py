@@ -5,7 +5,13 @@ from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-from helpers.air_table import check_if_leader
+from helpers.air_table import check_if_leader, get_club_by_leader, get_airtable_rec_id_from_slack_id
+from helpers.classes import Leader, ClubElement
+from helpers.slack_minor import slack_lookup_full_user, slack_lookup_user_display
+
+from helpers.air_table import club_leaders, clubs_table
+
+from rich import print  # ! Remove this line in production
 
 load_dotenv()
 
@@ -124,16 +130,6 @@ def initial_home_tab(client, event, logger):
             "text": {
                 "type": "mrkdwn",
                 "text": "*Primary Leader:* <@U0409FSKU82>"
-            },
-            "accessory": {
-                "type": "button",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Edit",
-                    "emoji": true
-                },
-                "value": "edit_primary_leader",
-                "action_id": "edit_primary_leader"
             }
         },
         {
@@ -241,6 +237,7 @@ def edit_club_name(ack, body, client, logger):
         trigger_id=body["trigger_id"],
         view=json.loads("""{
             "type": "modal",
+            "callback_id": "edit_club_name",
             "title": {
                 "type": "plain_text",
                 "text": "Clubs Directory",
@@ -284,8 +281,124 @@ def edit_club_name(ack, body, client, logger):
 
 @app.action("edit_description")
 def edit_description(ack, body, client, logger):
-    pass
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view=json.loads("""{
+	"type": "modal",
+    "callback_id": "edit_description",
+	"title": {
+		"type": "plain_text",
+		"text": "Clubs Directory",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Submit",
+		"emoji": true
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "input",
+			"element": {
+				"type": "plain_text_input",
+				"multiline": true,
+				"action_id": "plain_text_input-action"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "New Description",
+				"emoji": true
+			}
+		}
+	]
+}""")
+    )
 
+@app.action("edit_secondary_leaders")
+def edit_secondary_leaders(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view=json.loads("""{
+	"type": "modal",
+    "callback_id": "edit_secondary_leaders",
+	"title": {
+		"type": "plain_text",
+		"text": "Clubs Directory",
+		"emoji": true
+	},
+	"submit": {
+		"type": "plain_text",
+		"text": "Done",
+		"emoji": true
+	},
+	"close": {
+		"type": "plain_text",
+		"text": "Cancel",
+		"emoji": true
+	},
+	"blocks": [
+		{
+			"type": "header",
+			"text": {
+				"type": "plain_text",
+				"text": "Edit Secondary Leaders",
+				"emoji": true
+			}
+		},
+		{
+			"type": "input",
+            "block_id": "secondary_leaders_select",
+			"element": {
+				"type": "multi_users_select",
+				"placeholder": {
+					"type": "plain_text",
+					"text": "Select secondary leaders",
+					"emoji": true
+				},
+				"action_id": "secondary_leaders_select"
+			},
+			"label": {
+				"type": "plain_text",
+				"text": "Pick the leaders",
+				"emoji": true
+			}
+		}
+	]
+}""")
+    )
+
+@app.view("edit_secondary_leaders")
+def handle_edit_secondary_leaders_select(ack, body, logger):
+    ack()
+    req_user = body['user']['id']
+
+    if not check_if_leader(req_user):
+        return
+    
+    club = get_club_by_leader(req_user)
+
+    user_list = body['view']['state']['values']['secondary_leaders_select']['secondary_leaders_select']['selected_users']
+
+    # Check if every user is a leader and if not, add Airtable record
+    for user in user_list:
+        if not check_if_leader(user):
+            # fetch airtable user
+            slack_user = slack_lookup_user_display(user)
+            if slack_user == -1:
+                continue
+            club_leaders.create({'Name': slack_user['name'], 'Slack ID': user, 'Email': None, 'Pronouns': slack_user['pronouns'], 'Is Primary': False, 'To Display': ['Email', 'Twitter'], 'Website': slack_user['website'], 'Scrapbook': slack_user['scrapbook'], 'Github': slack_user['github'], 'LinkedIn': None, 'Twitter': None, 'Avatar': slack_user['avatar'], 'Club Link': [club['id']]})
+
+        else:
+            club_leaders.update(get_airtable_rec_id_from_slack_id(user), {'Club Link': [club['id']]})
+
+    
 
 # Start your app
 if __name__ == '__main__':
