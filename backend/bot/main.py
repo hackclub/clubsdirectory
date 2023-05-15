@@ -34,141 +34,148 @@ def initial_home_tab(client, event, logger):
                 user_id=event["user"],
                 # Home tabs must be enabled in your app configuration
                 view=json.loads("""{
-                "type": "home",
-                "blocks": [
-                    {
-                        "type": "header",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Directory Operations"
-                        }
+    "type": "home",
+    "blocks": [
+        {
+            "type": "header",
+            "text": {
+                "type": "plain_text",
+                "text": "Directory Operations"
+            }
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Club Lookup",
+                        "emoji": true
                     },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "Club Lookup",
-                                    "emoji": true
-                                },
-                                "style": "primary",
-                                "value": "club_lookup"
-                            },
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "Help",
-                                    "emoji": true
-                                },
-                                "value": "help"
-                            }
-                        ]
+                    "style": "primary",
+                    "value": "club_lookup",
+                    "action_id": "club_lookup"
+                },
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Help",
+                        "emoji": true
                     },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Your Club*"
-                        }
+                    "value": "help",
+                    "action_id": "help"
+                }
+            ]
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Your Club*"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Club Name:* "
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit",
+                    "emoji": true
+                },
+                "value": "edit_club_name",
+                "action_id": "edit_club_name"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Description:* "
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit",
+                    "emoji": true
+                },
+                "value": "edit_description",
+                "action_id": "edit_description"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Primary Leader:* <@U0409FSKU82>"
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit",
+                    "emoji": true
+                },
+                "value": "edit_primary_leader",
+                "action_id": "edit_primary_leader"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*Other Leaders:* <@U0409FSKU82>, <@U0409FSKU82>"
+            },
+            "accessory": {
+                "type": "button",
+                "text": {
+                    "type": "plain_text",
+                    "text": "Edit",
+                    "emoji": true
+                },
+                "value": "edit_secondary_leaders",
+                "action_id": "edit_secondary_leaders"
+            }
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Hide My Club",
+                        "emoji": true
                     },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Club Name:* "
-                        },
-                        "accessory": {
-                            "type": "button",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Edit",
-                                "emoji": true
-                            },
-                            "value": "edit_club_name"
-                        }
-                    },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Description:* "
-                        },
-                        "accessory": {
-                            "type": "button",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Edit",
-                                "emoji": true
-                            },
-                            "value": "edit_description"
-                        }
-                    },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Primary Leader:* <@U0409FSKU82>"
-                        },
-                        "accessory": {
-                            "type": "button",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Edit",
-                                "emoji": true
-                            },
-                            "value": "edit_primary_leader"
-                        }
-                    },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*Other Leaders:* <@U0409FSKU82>, <@U0409FSKU82>"
-                        },
-                        "accessory": {
-                            "type": "button",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Edit",
-                                "emoji": true
-                            },
-                            "value": "edit_secondary_leaders"
-                        }
-                    },
-                    {
-                        "type": "divider"
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "Hide My Club",
-                                    "emoji": true
-                                },
-                                "value": "hide_club"
-                            }
-                        ]
-                    }
-                ]
-            }"""))
+                    "value": "hide_club",
+                    "action_id": "hide_club"
+                }
+            ]
+        }
+    ]
+}"""))
         else:
             # Call views.publish with the built-in client
             client.views_publish(
@@ -196,7 +203,8 @@ def initial_home_tab(client, event, logger):
                                     "emoji": true
                                 },
                                 "style": "primary",
-                                "value": "add_club"
+                                "value": "add_club",
+                                "action_id": "add_club"
                             },
                             {
                                 "type": "button",
@@ -205,7 +213,8 @@ def initial_home_tab(client, event, logger):
                                     "text": "Club Lookup",
                                     "emoji": true
                                 },
-                                "value": "club_lookup"
+                                "value": "club_lookup",
+                                "action_id": "club_lookup"
                             },
                             {
                                 "type": "button",
@@ -214,7 +223,8 @@ def initial_home_tab(client, event, logger):
                                     "text": "Help",
                                     "emoji": true
                                 },
-                                "value": "help"
+                                "value": "help",
+                                "action_id": "help"
                             }
                         ]
                     }
@@ -275,6 +285,7 @@ def edit_club_name(ack, body, client, logger):
 @app.action("edit_description")
 def edit_description(ack, body, client, logger):
     pass
+
 
 # Start your app
 if __name__ == '__main__':
