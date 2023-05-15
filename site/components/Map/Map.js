@@ -1,5 +1,8 @@
 import { ClubMarker } from "./ClubMarker";
 import { Assemble } from "./Assemble";
+import { HQ } from "./HQ";
+import { Steve } from "./Steve";
+
 import { Epoch } from "./Epoch";
 import { ZephyrStop } from "./ZephyrStop";
 import { ZephyrStart } from "./ZephyrStart";
@@ -80,6 +83,9 @@ function Map({
         {eventsShown ? (
           <>
             <Assemble leaflet={leaflet} />
+            <Steve leaflet={leaflet} />
+            <HQ leaflet={leaflet} />
+
             <Epoch leaflet={leaflet} />
             <ZephyrStart pos={ZephyrPos} leaflet={leaflet} />
 
