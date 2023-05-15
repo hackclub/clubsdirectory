@@ -1,4 +1,5 @@
-from typing import Optional, List
+from typing import List, Optional
+
 from pydantic import BaseModel
 
 
@@ -60,3 +61,7 @@ class ClubElement(BaseModel):
     geo_data: GeoData
     socials: Socials
     leaders: List[Leader]
+
+class OldClub(BaseModel):
+    name: str
+    coordinates: Coordinates

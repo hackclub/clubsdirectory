@@ -6,14 +6,16 @@ from pyairtable.formulas import match
 
 from helpers.classes import *
 
+
+
 load_dotenv()
 
 personal_token = os.environ.get("AIRTABLE_PAT")
 base_id = os.environ.get("AIRTABLE_BASE_ID")
 
-clubs_table = Table(personal_token, base_id, 'Club Directory Link')
+clubs_table: Table = Table(personal_token, base_id, 'Club Directory Link')
 
-club_leaders = Table(personal_token, base_id, 'Leaders Directory Link')
+club_leaders: Table = Table(personal_token, base_id, 'Leaders Directory Link')
 
 
 def get_all_leaders():
@@ -70,6 +72,7 @@ def get_club_by_name(name: str):
         return None
 
     return club_data_to_obj(club_data)
+
 
 def get_club_by_id(id: int):
     """
@@ -140,3 +143,104 @@ def club_data_to_obj(club_data: dict):
     club.leaders.append(leader_data)
 
     return club
+
+
+# Add old clubs to the map
+
+old_clubs = Table(personal_token, base_id, 'Clubs Dashboard')
+
+
+def get_old_clubs():
+    """
+    This function returns a list of all the old clubs
+    """
+    clubs = []
+
+    for club in old_clubs.all(formula=match({'Status': 'active'})):
+        if 'Latitude' not in club['fields'] or 'Longitude' not in club['fields'] or 'Venue' not in club['fields']:
+            continue
+
+        club_class = OldClub(
+            name=club['fields']['Venue'],
+            coordinates=Coordinates(
+                latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude']),
+        )
+
+        clubs.append(club_class)
+
+    return clubs
+
+# Lookup if a user is a club leader
+def check_if_leader(user_id: str) -> bool:
+    """
+    This function takes a user id and returns whether or not they are a club leader
+    """
+    formula = match({'Slack ID': user_id})
+    leader_data = club_leaders.first(formula=formula)
+
+    if leader_data == None:
+        return False
+
+    return True
+
+def add_leader(leader: Leader):
+    """
+    This function takes a Leader object and adds it to the leaders table
+    """
+    leader_data = {
+        'Name': leader.name,
+        'Pronouns': leader.pronouns,
+        'Is Primary': leader.is_primary,
+        'Email': leader.email,
+        'Slack ID': leader.slack_id,
+        'Website': leader.website,
+        'Scrapbook': leader.scrapbook,
+        'Github': leader.socials.github,
+        'LinkedIn': leader.socials.linkedin,
+        'Twitter': leader.socials.twitter,
+    }
+
+    club_leaders.create(leader_data)
+
+def get_club_by_leader(user_id: str) -> dict:
+    """
+    This function takes a user id and returns the club they lead
+    """
+    formula = match({'Slack ID': user_id})
+    leader_data = club_leaders.first(formula=formula)
+
+    if leader_data == None:
+        return None
+
+    club_id = leader_data['fields']['Club Link'][0]
+
+    club_data = clubs_table.get(club_id)
+
+    return club_data
+
+def get_airtable_rec_id_from_slack_id(slack_id: str) -> str:
+    """
+    This function takes a slack user id and returns the airtable record id
+    """
+    formula = match({'Slack ID': slack_id})
+    leader_data = club_leaders.first(formula=formula)
+
+    if leader_data == None:
+        return None
+
+    return leader_data['id']
+
+def get_all_leaders_for_club(club_air_id: str):
+    """
+    This function takes a club airtable record id and returns a list of all the leaders
+    """
+    leaders = []
+
+    for leader in club_leaders.all():
+        if 'Club Link' not in leader['fields']:
+            continue
+
+        if leader['fields']['Club Link'][0] == club_air_id:
+            leaders.append(leader)
+
+    return leaders
