@@ -249,8 +249,8 @@ function NetworkPage() {
       <Box></Box>
       {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
 
-      <Nav />
-      <DirectoryVideoSection />
+      <Nav/>
+      <DirectoryVideoSection/>
       <DirectoryHeading />
       <SearchControls
         setUserLatitude={setUserLatitude}

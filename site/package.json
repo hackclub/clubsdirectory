@@ -40,6 +40,7 @@
     "react-leaflet": "^4.2.1",
     "react-leaflet-curve": "^2.0.1",
     "react-modal": "^3.16.1",
+    "react-responsive-carousel": "^3.2.10",
     "react-scrolllock": "^5.0.1",
     "theme-ui": "0.15.4",
     "topojson-client": "^3.1.0",
