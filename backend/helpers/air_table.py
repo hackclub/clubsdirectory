@@ -124,6 +124,12 @@ def club_data_to_obj(club_data: dict):
 
     for leader_id in club_data['fields']['Leaders Directory Link']:
         leader = club_leaders.get(leader_id)
+
+        try:
+            leader['fields']['To Display']
+        except KeyError:
+            leader['fields']['To Display'] = []
+
         leader_data = Leader(
             name=leader['fields']['Name'],
             pronouns=leader['fields']['Pronouns'] if 'Pronouns' in leader['fields'] else None,
