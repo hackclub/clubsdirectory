@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tooltip, Marker, Popup, useMapEvents } from "react-leaflet";
 import { Text, Link, Button, Box } from "theme-ui";
+import { useRouter } from 'next/router';
 
 export const ClubMarker = ({
   club,
@@ -29,6 +30,24 @@ export const ClubMarker = ({
   const handleClick = () => {
     setTooltipOpen(false);
     setPopupOpen(true);
+  };
+  const router = useRouter();
+
+  const handleLinkClick = (e) => {
+    e.preventDefault();
+
+    const venue = encodeURIComponent(club?.venue || '');
+    const location = encodeURIComponent(club?.location || '');
+
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      router.push(`https://maps.apple.com/?q=${venue},${location}`);
+    } else {
+      router.push(`https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`);
+    }
   };
 
   return (
@@ -73,22 +92,8 @@ export const ClubMarker = ({
             cursor: "pointer",
             textDecoration: "underline",
           }}
-          onClick={() => {
-            const venue = encodeURIComponent(club.venue);
-            const location = encodeURIComponent(club.location);
+          onClick={handleLinkClick}
 
-            if (
-              /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-                navigator.userAgent
-              )
-            ) {
-              window.location.href = `https://maps.apple.com/?q=${venue},${location}`;
-            } else {
-              window.open(
-                `https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`
-              );
-            }
-          }}
         >
           {club.venue}, {club.location}
         </Link>
