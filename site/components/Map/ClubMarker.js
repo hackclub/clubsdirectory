@@ -95,7 +95,7 @@ export const ClubMarker = ({
           onClick={handleLinkClick}
 
         >
-          {club.venue}, {club.location}
+          {club.venue}, {club.location.slice(0,128)}{club.location.length > 128 ? ("...") : ("")}
         </Link>
         <Text
           sx={{ color: "slate", display: "flex", fontSize: 12, paddingY: 1 }}
