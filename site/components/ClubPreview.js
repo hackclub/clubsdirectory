@@ -46,7 +46,7 @@ export const ClubPreview = ({
           // onClick={() =>
           //   setClubOpened(club)
           //   }
-          style={{ textDecoration: "underline" }}
+       
         >
           {club.name}
         </p>
