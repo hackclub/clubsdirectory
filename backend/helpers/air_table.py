@@ -2,11 +2,9 @@ import os
 
 from dotenv import load_dotenv
 from pyairtable import Table
-from pyairtable.formulas import match
+from pyairtable.formulas import match, AND
 
 from helpers.classes import *
-
-import time
 
 
 
@@ -164,18 +162,10 @@ def get_old_clubs():
     This function returns a list of all the old clubs
     """
     clubs = []
-
-    for club in old_clubs.all(formula=match({'Status': 'active'})):
-        if 'Latitude' not in club['fields'] or 'Longitude' not in club['fields'] or 'Venue' not in club['fields']:
-            continue
-
-        club_class = OldClub(
-            name=club['fields']['Venue'],
-            coordinates=Coordinates(
-                latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude']),
-        )
-
-        clubs.append(club_class)
+    formula = AND(match({'Status': 'active'}), 'NOT({Latitude} = BLANK())')
+    
+    for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs.all(formula=formula)):
+         clubs.append(club)
 
     return clubs
 
