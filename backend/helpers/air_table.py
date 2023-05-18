@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from pyairtable import Table
-from pyairtable.formulas import match
+from pyairtable.formulas import match, AND
 
 from helpers.classes import *
 
@@ -52,11 +52,11 @@ def get_all_clubs():
     """
     clubs = []
 
-    for club in clubs_table.all():
-        if 'To Display' not in club['fields']:
+    for club in map(club_data_to_obj, clubs_table.all()):
+        if not club.to_display:
             continue
 
-        clubs.append(club_data_to_obj(club))
+        clubs.append(club)
 
     return clubs
 
@@ -95,6 +95,7 @@ def club_data_to_obj(club_data: dict):
     club = ClubElement(
         id=club_data['fields']['ID'],
         name=club_data['fields']['Club Name'],
+        to_display=club_data['fields']['To Display'] if 'To Display' in club_data['fields'] else False,
         description=club_data['fields']['Description'] if 'Description' in club_data['fields'] else None,
         website=club_data['fields']['Website'] if 'Website' in club_data['fields'] else None,
         scrapbook=club_data['fields']['Scrapbook'] if 'Scrapbook' in club_data['fields'] else None,
@@ -161,18 +162,10 @@ def get_old_clubs():
     This function returns a list of all the old clubs
     """
     clubs = []
-
-    for club in old_clubs.all(formula=match({'Status': 'active'})):
-        if 'Latitude' not in club['fields'] or 'Longitude' not in club['fields'] or 'Venue' not in club['fields']:
-            continue
-
-        club_class = OldClub(
-            name=club['fields']['Venue'],
-            coordinates=Coordinates(
-                latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude']),
-        )
-
-        clubs.append(club_class)
+    formula = AND(match({'Status': 'active'}), 'NOT({Latitude} = BLANK())')
+    
+    for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs.all(formula=formula)):
+         clubs.append(club)
 
     return clubs
 

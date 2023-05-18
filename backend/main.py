@@ -57,5 +57,5 @@ def club_by_id(id: int) -> ClubElement:
 
 
 @app.get('/clubs/old')
-def old_clubs() -> OldClub:
+def old_clubs() -> List[OldClub]:
     return get_old_clubs()
