@@ -62,8 +62,8 @@ export const ClubMarker = ({
         iconUrl: !popupOpen
           ? "https://cloud-km1a71qag-hack-club-bot.vercel.app/0clubselected.svg"
           : "https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg",
-        iconSize: [32, 32],
-        iconAnchor: [16, 16], // Add this line
+        iconSize: [24, 24],
+        iconAnchor: [12, 12], // Add this line
       })}
       eventHandlers={{
         click: () => {
