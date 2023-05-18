@@ -6,6 +6,8 @@ from pyairtable.formulas import match
 
 from helpers.classes import *
 
+import time
+
 
 
 load_dotenv()
@@ -52,11 +54,11 @@ def get_all_clubs():
     """
     clubs = []
 
-    for club in clubs_table.all():
-        if 'To Display' not in club['fields']:
+    for club in map(club_data_to_obj, clubs_table.all()):
+        if not club.to_display:
             continue
 
-        clubs.append(club_data_to_obj(club))
+        clubs.append(club)
 
     return clubs
 
@@ -95,6 +97,7 @@ def club_data_to_obj(club_data: dict):
     club = ClubElement(
         id=club_data['fields']['ID'],
         name=club_data['fields']['Club Name'],
+        to_display=club_data['fields']['To Display'] if 'To Display' in club_data['fields'] else False,
         description=club_data['fields']['Description'] if 'Description' in club_data['fields'] else None,
         website=club_data['fields']['Website'] if 'Website' in club_data['fields'] else None,
         scrapbook=club_data['fields']['Scrapbook'] if 'Scrapbook' in club_data['fields'] else None,

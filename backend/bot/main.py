@@ -399,10 +399,12 @@ def handle_edit_secondary_leaders_select(ack, body, logger):
         else:
             club_leaders.update(get_airtable_rec_id_from_slack_id(user), {'Club Link': [club['id']]})
 
-    # Remove all leaders from club
+    # Remove all other secondary leaders from club
     for leader in get_all_leaders_for_club(club['id']):
-        if leader['fields']['Slack ID'] not in user_list:
+        if leader['fields']['Slack ID'] not in user_list and leader['fields']['Is Primary'] == False:
             club_leaders.delete(leader['id'])
+
+
     
 
 # Start your app
