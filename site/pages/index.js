@@ -294,6 +294,8 @@ function NetworkPage() {
             }}
           >
             <Map
+              fullScreen={false}
+
               userLatitude={userLatitude}
               userLongitude={userLongitude}
               search={searchContent}

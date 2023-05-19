@@ -46,7 +46,7 @@ export const ClubPreview = ({
           // onClick={() =>
           //   setClubOpened(club)
           //   }
-          style={{ textDecoration: "underline" }}
+       
         >
           {club.name}
         </p>
@@ -80,7 +80,7 @@ export const ClubPreview = ({
         //   // setClubOpened(club)
         //   }
         >
-          {club.location}
+          {club.location.slice(0,128)}{club.location.length > 128 ? ("...") : ("")}
         </p>
 
         <p
@@ -142,7 +142,7 @@ export const ClubPreview = ({
             }
           }}
         >
-          {club.venue}, {club.location}
+          {club.venue}, {club.location.slice(0,128)}{club.location.length > 128 ? ("...") : ("")}
         </Link>
         <Box>
           <Button

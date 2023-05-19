@@ -62,8 +62,8 @@ export const ClubMarker = ({
         iconUrl: !popupOpen
           ? "https://cloud-km1a71qag-hack-club-bot.vercel.app/0clubselected.svg"
           : "https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg",
-        iconSize: [32, 32],
-        iconAnchor: [16, 16], // Add this line
+        iconSize: [24, 24],
+        iconAnchor: [12, 12], // Add this line
       })}
       eventHandlers={{
         click: () => {
@@ -95,7 +95,7 @@ export const ClubMarker = ({
           onClick={handleLinkClick}
 
         >
-          {club.venue}, {club.location}
+          {club.venue}, {club.location.slice(0,128)}{club.location.length > 128 ? ("...") : ("")}
         </Link>
         <Text
           sx={{ color: "slate", display: "flex", fontSize: 12, paddingY: 1 }}
@@ -120,6 +120,7 @@ export const ClubMarker = ({
               {recentlyCopied == club.id ? "Copied Email" : "Contact"}
             </Text>
           </Button>
+          {setSelectedClubs != null ? (
           <Button
             variant="primary"
             as="a"
@@ -144,7 +145,7 @@ export const ClubMarker = ({
             <Text sx={{ color: "primary" }}>
               {!selectedClubs.includes(club.id) ? "Select" : "Selected"}
             </Text>
-          </Button>
+          </Button>) : (null)}
         </Box>
       </Popup>
     </Marker>

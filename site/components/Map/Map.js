@@ -1,4 +1,6 @@
 import { ClubMarker } from "./ClubMarker";
+import { OldClubMarker } from "./OldClubMarker";
+
 import { Assemble } from "./Assemble";
 import { HQ } from "./HQ";
 import { Steve } from "./Steve";
@@ -8,7 +10,7 @@ import { ZephyrStop } from "./ZephyrStop";
 import { ZephyrStart } from "./ZephyrStart";
 import { UserLocationDot } from "./UserLocationDot";
 import ZephyrPath from "./ZephyrPath";
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
@@ -19,6 +21,7 @@ function Map({
   userLongitude,
   userLatitude,
   search,
+  fullScreen,
   setSelectedClubs,
   selectedClubs,
   recentlyCopied,
@@ -36,20 +39,46 @@ function Map({
     [37, -122], // San Francisco, CA (37.7749° N, 122.4194° W)
     [34, -118], // Los Angeles, CA (34.0522° N, 118.2437° W)
   ];
+  const [legacyClubsVisible, setLegacyClubsVisible] = useState(fullScreen ? (true) : (false))
+
+  const [oldClubs, setOldClubs] = useState([])
   useEffect(() => {
     // Ensuring Leaflet's CSS is applied only on the client side.
     import("leaflet/dist/leaflet.css");
-  }, []);
+    //Gets the clubs from the ArpanAPI™
+    fetch("https://clubsdirectory-hc.up.railway.app/clubs/old")
+      .then((response) => response.json())
+      .then((data) => {
+        const dataFormatted = data.filter(
+          (anOldClub) =>
+            anOldClub?.coordinates?.latitude !== undefined &&
+            anOldClub?.coordinates?.longitude !== undefined &&
+            anOldClub?.name !== null &&
+            !clubs.some(
+              (newClub) =>
+                newClub?.geo_data?.coordinates?.latitude ==
+                  anOldClub?.coordinates?.latitude &&
+                newClub?.geo_data?.coordinates?.longitude ==
+                  anOldClub?.coordinates?.longitude
+            )            
+            ) 
+        
+        setOldClubs(dataFormatted);
+      })
+      .catch((error) => console.error(error));
+
+  }, [clubs]);
 
   useEffect(() => {
     const map = mapRef.current;
     flyToSearchOnChange(map);
   }, [clubs]);
+
   return (
     <div style={{ position: "relative" }}>
     <MapContainer
       ref={mapRef}
-      style={{ width: "100%", height: "600px" }}
+      style={{ width: "100%", height: fullScreen ? ("100vh") : ("600px") }}
       center={[0, 0]}
       zoom={2}
       boundsOptions={{ padding: [50, 50] }}
@@ -64,6 +93,10 @@ function Map({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         />
+
+        
+      
+
         {Array.isArray(clubs) &&
           clubs.map((club) => (
             <ClubMarker
@@ -79,7 +112,22 @@ function Map({
               setSelectedClubs={setSelectedClubs}
             />
           ))}
-
+        {Array.isArray(oldClubs) && legacyClubsVisible &&
+          oldClubs.map((oldClub) => ( 
+            <OldClubMarker
+              oldClub={oldClub}
+              leaflet={leaflet}
+              clubs={clubs}
+              encodeURIComponent={encodeURIComponent}
+              location={location}
+              navigator={navigator}
+              setRecentlyCopied={setRecentlyCopied}
+              recentlyCopied={recentlyCopied}
+              selectedClubs={selectedClubs}
+              setSelectedClubs={setSelectedClubs}
+            />
+          ))
+          }
         {eventsShown ? (
           <>
             <Assemble leaflet={leaflet} />
@@ -104,7 +152,7 @@ function Map({
         variant={eventsShown ? "pill" : "outline"}
         sx={{
           position: "absolute",
-          bottom: 2,
+          bottom: 56,
           left: 2,
           zIndex: 701,
           fontSize: "1.25rem",
@@ -114,6 +162,21 @@ function Map({
         onClick={() => setEventsShown(!eventsShown)}
       >
         {eventsShown ? "Hide" : "Show"} Events
+      </Badge>
+      <Badge
+        variant={legacyClubsVisible ? "pill" : "outline"}
+        sx={{
+          position: "absolute",
+          bottom: 2,
+          left: 2,
+          zIndex: 701,
+          fontSize: "1.25rem",
+          cursor: "pointer"
+        }}
+        color={!legacyClubsVisible ? "muted" : null}
+        onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
+      >
+        {legacyClubsVisible ? "Hide" : "Show"} Legacy Clubs
       </Badge>
     </div>
   );
