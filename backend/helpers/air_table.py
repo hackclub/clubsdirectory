@@ -163,7 +163,7 @@ def get_old_clubs():
     """
     clubs = []
     formula = AND(match({'Status': 'active'}), 'NOT({Latitude} = BLANK())')
-    
+
     for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs.all(formula=formula)):
          clubs.append(club)
 
@@ -243,3 +243,29 @@ def get_all_leaders_for_club(club_air_id: str):
             leaders.append(leader)
 
     return leaders
+
+def get_primary_leader(club_air_id: str):
+    """
+    This function takes a club airtable record id and returns the primary leader
+    """
+    leaders = get_all_leaders_for_club(club_air_id)
+
+    for leader in leaders:
+        if 'Is Primary' in leader['fields']:
+            return leader
+
+    return None
+
+def get_secondary_leaders(club_air_id: str):
+    """
+    This function takes a club airtable record id and returns a list of secondary leaders
+    """
+    leaders = get_all_leaders_for_club(club_air_id)
+
+    secondary_leaders = []
+
+    for leader in leaders:
+        if 'Is Primary' not  in leader['fields']:
+            secondary_leaders.append(leader)
+
+    return secondary_leaders
