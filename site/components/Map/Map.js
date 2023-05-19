@@ -21,6 +21,7 @@ function Map({
   userLongitude,
   userLatitude,
   search,
+  fullScreen,
   setSelectedClubs,
   selectedClubs,
   recentlyCopied,
@@ -38,7 +39,7 @@ function Map({
     [37, -122], // San Francisco, CA (37.7749° N, 122.4194° W)
     [34, -118], // Los Angeles, CA (34.0522° N, 118.2437° W)
   ];
-  const [legacyClubsVisible, setLegacyClubsVisible] = useState(false)
+  const [legacyClubsVisible, setLegacyClubsVisible] = useState(fullScreen ? (true) : (false))
 
   const [oldClubs, setOldClubs] = useState([])
   useEffect(() => {
@@ -72,11 +73,12 @@ function Map({
     const map = mapRef.current;
     flyToSearchOnChange(map);
   }, [clubs]);
+
   return (
     <div style={{ position: "relative" }}>
     <MapContainer
       ref={mapRef}
-      style={{ width: "100%", height: "600px" }}
+      style={{ width: "100%", height: fullScreen ? ("100vh") : ("600px") }}
       center={[0, 0]}
       zoom={2}
       boundsOptions={{ padding: [50, 50] }}
@@ -150,7 +152,7 @@ function Map({
         variant={eventsShown ? "pill" : "outline"}
         sx={{
           position: "absolute",
-          bottom: 48,
+          bottom: 56,
           left: 2,
           zIndex: 701,
           fontSize: "1.25rem",

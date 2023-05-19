@@ -120,6 +120,7 @@ export const ClubMarker = ({
               {recentlyCopied == club.id ? "Copied Email" : "Contact"}
             </Text>
           </Button>
+          {setSelectedClubs != null ? (
           <Button
             variant="primary"
             as="a"
@@ -144,7 +145,7 @@ export const ClubMarker = ({
             <Text sx={{ color: "primary" }}>
               {!selectedClubs.includes(club.id) ? "Select" : "Selected"}
             </Text>
-          </Button>
+          </Button>) : (null)}
         </Box>
       </Popup>
     </Marker>
