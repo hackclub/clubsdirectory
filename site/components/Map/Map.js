@@ -48,7 +48,6 @@ function Map({
     fetch("https://clubsdirectory-hc.up.railway.app/clubs/old")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
         const dataFormatted = data.filter(
           (anOldClub) =>
             anOldClub?.coordinates?.latitude !== undefined &&
@@ -63,12 +62,10 @@ function Map({
             )            
             ) 
         
-        console.log(dataFormatted)
         setOldClubs(dataFormatted);
       })
       .catch((error) => console.error(error));
 
-    console.log("aye once")
   }, [clubs]);
 
   useEffect(() => {
@@ -177,7 +174,7 @@ function Map({
         color={!legacyClubsVisible ? "muted" : null}
         onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
       >
-        {legacyClubsVisible ? "Hide" : "Show"} Legacy Name-only Clubs
+        {legacyClubsVisible ? "Hide" : "Show"} Legacy Clubs
       </Badge>
     </div>
   );
