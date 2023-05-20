@@ -63,6 +63,7 @@ class ClubElement(BaseModel):
     socials: Socials
     leaders: List[Leader]
 
+
 class OldClub(BaseModel):
     name: str
     coordinates: Optional[Coordinates]

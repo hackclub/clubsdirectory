@@ -7,7 +7,6 @@ from pyairtable.formulas import match, AND
 from helpers.classes import *
 
 
-
 load_dotenv()
 
 personal_token = os.environ.get("AIRTABLE_PAT")
@@ -165,11 +164,13 @@ def get_old_clubs():
     formula = AND(match({'Status': 'active'}), 'NOT({Latitude} = BLANK())')
 
     for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs.all(formula=formula)):
-         clubs.append(club)
+        clubs.append(club)
 
     return clubs
 
 # Lookup if a user is a club leader
+
+
 def check_if_leader(user_id: str) -> bool:
     """
     This function takes a user id and returns whether or not they are a club leader
@@ -181,6 +182,7 @@ def check_if_leader(user_id: str) -> bool:
         return False
 
     return True
+
 
 def add_leader(leader: Leader):
     """
@@ -201,6 +203,7 @@ def add_leader(leader: Leader):
 
     club_leaders.create(leader_data)
 
+
 def get_club_by_leader(user_id: str) -> dict:
     """
     This function takes a user id and returns the club they lead
@@ -217,6 +220,7 @@ def get_club_by_leader(user_id: str) -> dict:
 
     return club_data
 
+
 def get_airtable_rec_id_from_slack_id(slack_id: str) -> str:
     """
     This function takes a slack user id and returns the airtable record id
@@ -228,6 +232,7 @@ def get_airtable_rec_id_from_slack_id(slack_id: str) -> str:
         return None
 
     return leader_data['id']
+
 
 def get_all_leaders_for_club(club_air_id: str):
     """
@@ -244,6 +249,7 @@ def get_all_leaders_for_club(club_air_id: str):
 
     return leaders
 
+
 def get_primary_leader(club_air_id: str):
     """
     This function takes a club airtable record id and returns the primary leader
@@ -256,6 +262,7 @@ def get_primary_leader(club_air_id: str):
 
     return None
 
+
 def get_secondary_leaders(club_air_id: str):
     """
     This function takes a club airtable record id and returns a list of secondary leaders
@@ -265,7 +272,7 @@ def get_secondary_leaders(club_air_id: str):
     secondary_leaders = []
 
     for leader in leaders:
-        if 'Is Primary' not  in leader['fields']:
+        if 'Is Primary' not in leader['fields']:
             secondary_leaders.append(leader)
 
     return secondary_leaders

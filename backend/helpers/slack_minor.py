@@ -54,6 +54,7 @@ def slack_lookup_user_display(user_id):
     except slack_sdk.errors.SlackApiError:
         return -1
 
+
 def slack_lookup_full_user(user_id: str):
     """
     This function takes a slack user id and returns the user's full profile

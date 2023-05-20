@@ -15,7 +15,8 @@ def lookup_lat_long(latitude: float, longitude: float):
     while True:
         try:
             geolocator.user_agent = f"geoapiExercise{random.randint(0, 1000)}"
-            location = geolocator.reverse(f"{latitude}, {longitude}", language='en-US')
+            location = geolocator.reverse(
+                f"{latitude}, {longitude}", language='en-US')
             break
         except (GeocoderTimedOut, GeocoderUnavailable):
             print("Geocoder timed out, retrying...")
