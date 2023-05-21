@@ -10,7 +10,6 @@ export const ClubMarker = ({
   encodeURIComponent,
   location,
   navigator,
-  window,
   setRecentlyCopied,
   recentlyCopied,
   selectedClubs,
@@ -53,7 +52,7 @@ export const ClubMarker = ({
 
     const mapLink = handleMapLink(club);
 
-    window.open(mapLink, "_blank");
+    router.push(mapLink);
   };
 
   return (
@@ -69,7 +68,7 @@ export const ClubMarker = ({
           ? "https://cloud-km1a71qag-hack-club-bot.vercel.app/0clubselected.svg"
           : "https://cloud-je5xcyfo4-hack-club-bot.vercel.app/0clubmarker.svg",
         iconSize: [24, 24],
-        iconAnchor: [12, 12], // Add this line
+        iconAnchor: [12, 12],
       })}
       eventHandlers={{
         click: () => {
@@ -91,11 +90,8 @@ export const ClubMarker = ({
           {club.name}
         </Text>
 
-        <a
-          href={handleMapLink(club)}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
+        <Link
+          sx={{
             color: "accent",
             fontSize: 12,
             cursor: "pointer",
@@ -105,7 +101,7 @@ export const ClubMarker = ({
         >
           {club.venue}, {club.location.slice(0, 128)}
           {club.location.length > 128 ? "..." : ""}
-        </a>
+        </Link>
         <Text
           sx={{ color: "slate", display: "flex", fontSize: 12, paddingY: 1 }}
         >
