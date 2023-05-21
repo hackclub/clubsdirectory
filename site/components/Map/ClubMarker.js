@@ -44,9 +44,9 @@ export const ClubMarker = ({
         navigator.userAgent
       )
     ) {
-      router.push(`https://maps.apple.com/?q=${venue},${location}`);
+      window.open(`https://maps.apple.com/?q=${venue},${location}`, "_blank");
     } else {
-      router.push(`https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`);
+     window.open(`https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`, "_blank");
     }
   };
 
