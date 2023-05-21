@@ -52,7 +52,7 @@ export const ClubMarker = ({
 
     const mapLink = handleMapLink(club);
 
-    router.push(mapLink);
+    window.open(mapLink, "_blank");
   };
 
   return (
