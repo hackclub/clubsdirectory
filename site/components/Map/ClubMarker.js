@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tooltip, Marker, Popup, useMapEvents } from "react-leaflet";
 import { Text, Link, Button, Box } from "theme-ui";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 export const ClubMarker = ({
   club,
@@ -18,6 +18,7 @@ export const ClubMarker = ({
 }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const markerRef = React.useRef(null);
+  const router = useRouter();
 
   useMapEvents({
     click: () => {
@@ -31,23 +32,28 @@ export const ClubMarker = ({
     setTooltipOpen(false);
     setPopupOpen(true);
   };
-  const router = useRouter();
 
-  const handleLinkClick = (e) => {
-    e.preventDefault();
-
-    const venue = encodeURIComponent(club?.venue || '');
-    const location = encodeURIComponent(club?.location || '');
+  const handleMapLink = (club) => {
+    const venue = encodeURIComponent(club?.venue || "");
+    const location = encodeURIComponent(club?.location || "");
 
     if (
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
         navigator.userAgent
       )
     ) {
-      window.open(`https://maps.apple.com/?q=${venue},${location}`, "_blank");
+      return `https://maps.apple.com/?q=${venue},${location}`;
     } else {
-     window.open(`https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`, "_blank");
+      return `https://www.google.com/maps/dir/?api=1&destination=${venue},${location}`;
     }
+  };
+
+  const handleLinkClick = (e) => {
+    e.preventDefault();
+
+    const mapLink = handleMapLink(club);
+
+    window.open(mapLink, "_blank");
   };
 
   return (
@@ -85,18 +91,21 @@ export const ClubMarker = ({
           {club.name}
         </Text>
 
-        <Link
-          sx={{
+        <a
+          href={handleMapLink(club)}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
             color: "accent",
             fontSize: 12,
             cursor: "pointer",
             textDecoration: "underline",
           }}
           onClick={handleLinkClick}
-
         >
-          {club.venue}, {club.location.slice(0,128)}{club.location.length > 128 ? ("...") : ("")}
-        </Link>
+          {club.venue}, {club.location.slice(0, 128)}
+          {club.location.length > 128 ? "..." : ""}
+        </a>
         <Text
           sx={{ color: "slate", display: "flex", fontSize: 12, paddingY: 1 }}
         >
@@ -121,31 +130,32 @@ export const ClubMarker = ({
             </Text>
           </Button>
           {setSelectedClubs != null ? (
-          <Button
-            variant="primary"
-            as="a"
-            sx={{
-              width: "fit-content",
-              mt: 1,
-              ml: 2,
-              backgroundColor: "#EC375010",
-              color: "primary",
-              fontWeight: 400,
-            }}
-            onClick={() => {
-              if (selectedClubs.includes(club.id)) {
-                setSelectedClubs(
-                  selectedClubs.filter((clubPicked) => clubPicked !== club.id)
-                );
-              } else {
-                setSelectedClubs([...selectedClubs, club.id]);
-              }
-            }}
-          >
-            <Text sx={{ color: "primary" }}>
-              {!selectedClubs.includes(club.id) ? "Select" : "Selected"}
-            </Text>
-          </Button>) : (null)}
+            <Button
+              variant="primary"
+              as="a"
+              sx={{
+                width: "fit-content",
+                mt: 1,
+                ml: 2,
+                backgroundColor: "#EC375010",
+                color: "primary",
+                fontWeight: 400,
+              }}
+              onClick={() => {
+                if (selectedClubs.includes(club.id)) {
+                  setSelectedClubs(
+                    selectedClubs.filter((clubPicked) => clubPicked !== club.id)
+                  );
+                } else {
+                  setSelectedClubs([...selectedClubs, club.id]);
+                }
+              }}
+            >
+              <Text sx={{ color: "primary" }}>
+                {!selectedClubs.includes(club.id) ? "Select" : "Selected"}
+              </Text>
+            </Button>
+          ) : null}
         </Box>
       </Popup>
     </Marker>
