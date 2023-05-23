@@ -10,8 +10,6 @@ from helpers.slack_minor import slack_lookup_user_display
 
 from helpers.air_table import club_leaders, clubs_table
 
-from rich import print
-
 
 load_dotenv()
 

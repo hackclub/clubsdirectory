@@ -16,6 +16,7 @@ geopy = "^2.3.0"
 pycountry-convert = "^0.7.2"
 slack-bolt = "^1.18.0"
 gunicorn = "^20.1.0"
+fastapi-cache2 = {extras = ["redis"], version = "^0.2.1"}
 
 [tool.poetry.dev-dependencies]
 rich = "^13.3.5"

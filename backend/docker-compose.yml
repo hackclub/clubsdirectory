@@ -1,0 +1,22 @@
+# Create a docker-compose.yml file
+
+version: '3'
+services:
+  api:
+    build: 
+      dockerfile: Dockerfile.api
+      context: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  bot:
+    build: 
+      dockerfile: Dockerfile.slack
+      context: .
+    env_file:
+      - .env
+
+  redis:
+    image: "redis:alpine"

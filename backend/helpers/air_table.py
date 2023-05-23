@@ -51,8 +51,10 @@ def get_all_clubs():
     """
     clubs = []
 
-    for club in map(club_data_to_obj, clubs_table.all()):
-        if not club.to_display:
+    clubs_data = clubs_table.all()
+
+    for club in map(club_data_to_obj, clubs_data):
+        if not club.to_display or not club.approved:
             continue
 
         clubs.append(club)
@@ -95,6 +97,7 @@ def club_data_to_obj(club_data: dict):
         id=club_data['fields']['ID'],
         name=club_data['fields']['Club Name'],
         to_display=club_data['fields']['To Display'] if 'To Display' in club_data['fields'] else False,
+        approved=club_data['fields']['Approved'] if 'Approved' in club_data['fields'] else False,
         description=club_data['fields']['Description'] if 'Description' in club_data['fields'] else None,
         website=club_data['fields']['Website'] if 'Website' in club_data['fields'] else None,
         scrapbook=club_data['fields']['Scrapbook'] if 'Scrapbook' in club_data['fields'] else None,

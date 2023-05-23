@@ -54,6 +54,7 @@ class ClubElement(BaseModel):
     id: int
     name: str
     to_display: bool
+    approved: bool
     description: Optional[str]
     website: Optional[str]
     scrapbook: Optional[str]
