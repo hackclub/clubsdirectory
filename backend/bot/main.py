@@ -274,6 +274,7 @@ def edit_secondary_leaders(ack, body, client, logger):
                 {
                     'type': 'input',
                     'block_id': 'secondary_leaders_select',
+                    'optional': True,
                     'element': {
                         'type': 'multi_users_select',
                         'placeholder': {'type': 'plain_text', 'text': 'Select secondary leaders', 'emoji': True},
