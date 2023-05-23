@@ -280,6 +280,7 @@ function NetworkPage() {
           setClubOpened={setClubOpened}
           setRecentlyCopied={setRecentlyCopied}
           navigator={navigator}
+          selectedContinent={selectedContinent}
           recentlyCopied={recentlyCopied}
         />
       ) : null}
