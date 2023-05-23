@@ -91,7 +91,7 @@ function NetworkPage() {
 
   useEffect(() => {
     //Gets the clubs from the ArpanAPI™
-    fetch("https://clubsdirectory-hc.up.railway.app/clubs")
+    fetch("https://directory.hackersreboot.tech/clubs")
       .then((response) => response.json())
       .then((data) => {
         setClubs(data);
