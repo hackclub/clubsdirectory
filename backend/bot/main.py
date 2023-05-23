@@ -3,24 +3,20 @@ import os
 from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
+from pyairtable.formulas import match, AND
 
 from helpers.air_table import check_if_leader, get_club_by_leader, get_airtable_rec_id_from_slack_id, get_all_leaders_for_club, get_primary_leader, get_secondary_leaders
 from helpers.slack_minor import slack_lookup_user_display
 
 from helpers.air_table import club_leaders, clubs_table
 
+from rich import print
+
 
 load_dotenv()
 
 # Initializes your app with your bot token and socket mode handler
 app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
-
-
-@app.command("/echo")
-def repeat_text(ack, respond, command):
-    # Acknowledge command request
-    ack()
-    respond(f"{command['text']}")
 
 
 def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
@@ -120,8 +116,8 @@ def home_tab_view_non_signed():
                         'value': 'club_lookup',
                         'action_id': 'club_lookup'
                     },
-                    {'type': 'button', 'text': {'type': 'plain_text', 'text': 'Help',
-                                                'emoji': True}, 'value': 'help', 'action_id': 'help'}
+                    {'type': 'button', 'text': {'type': 'plain_text',
+                                                'text': 'Help', 'emoji': True}, 'value': 'help'}
                 ]
             }
         ]

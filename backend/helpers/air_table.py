@@ -153,7 +153,7 @@ def club_data_to_obj(club_data: dict):
 
 # Add old clubs to the map
 
-old_clubs = Table(personal_token, base_id, 'Clubs Dashboard')
+old_clubs_table = Table(personal_token, base_id, 'Clubs Dashboard')
 
 
 def get_old_clubs():
@@ -163,7 +163,7 @@ def get_old_clubs():
     clubs = []
     formula = AND(match({'Status': 'active'}), 'NOT({Latitude} = BLANK())')
 
-    for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs.all(formula=formula)):
+    for club in map(lambda club: OldClub(name=club['fields']['Venue'], coordinates=Coordinates(latitude=club['fields']['Latitude'], longitude=club['fields']['Longitude'])), old_clubs_table.all(formula=formula)):
         clubs.append(club)
 
     return clubs
