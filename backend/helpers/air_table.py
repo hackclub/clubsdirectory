@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from pyairtable import Table
-from pyairtable.formulas import match, AND
+from pyairtable.formulas import match, AND, FIND, STR_VALUE, FIELD
 
 from helpers.classes import *
 
@@ -279,3 +279,16 @@ def get_secondary_leaders(club_air_id: str):
             secondary_leaders.append(leader)
 
     return secondary_leaders
+
+
+def get_old_club_from_leader(leaders_slack):
+    """
+    This function takes a slack user id and returns the old club they lead
+    """
+    formula = FIND(STR_VALUE(leaders_slack), FIELD("Slack ID"))
+    old_club = old_clubs_table.first(formula=formula)
+
+    if old_club == None:
+        return None
+    
+    return old_club
