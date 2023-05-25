@@ -37,28 +37,28 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
                 "type": "header",
                 "text": {"type": "plain_text", "text": "Directory Operations"},
             },
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Club Lookup",
-                            "emoji": True,
-                        },
-                        "style": "primary",
-                        "value": "club_lookup",
-                        "action_id": "club_lookup",
-                    },
-                    {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Help", "emoji": True},
-                        "value": "help",
-                        "action_id": "help",
-                    },
-                ],
-            },
+            # {
+            #     "type": "actions",
+            #     "elements": [
+            #         {
+            #             "type": "button",
+            #             "text": {
+            #                 "type": "plain_text",
+            #                 "text": "Club Lookup",
+            #                 "emoji": True,
+            #             },
+            #             "style": "primary",
+            #             "value": "club_lookup",
+            #             "action_id": "club_lookup",
+            #         },
+            #         {
+            #             "type": "button",
+            #             "text": {"type": "plain_text", "text": "Help", "emoji": True},
+            #             "value": "help",
+            #             "action_id": "help",
+            #         },
+            #     ],
+            # },
             {"type": "section", "text": {"type": "mrkdwn", "text": "*Your Club*"}},
             {"type": "divider"},
             {
@@ -163,21 +163,21 @@ def home_tab_view_non_signed():
                         "value": "add_club",
                         "action_id": "add_club",
                     },
-                    {
-                        "type": "button",
-                        "text": {
-                            "type": "plain_text",
-                            "text": "Club Lookup",
-                            "emoji": True,
-                        },
-                        "value": "club_lookup",
-                        "action_id": "club_lookup",
-                    },
-                    {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Help", "emoji": True},
-                        "value": "help",
-                    },
+                    # {
+                    #     "type": "button",
+                    #     "text": {
+                    #         "type": "plain_text",
+                    #         "text": "Club Lookup",
+                    #         "emoji": True,
+                    #     },
+                    #     "value": "club_lookup",
+                    #     "action_id": "club_lookup",
+                    # },
+                    # {
+                    #     "type": "button",
+                    #     "text": {"type": "plain_text", "text": "Help", "emoji": True},
+                    #     "value": "help",
+                    # },
                 ],
             },
         ],
