@@ -835,7 +835,7 @@ def handle_view_submission_events(ack, body, client, logger):
             "Club Venue": [old_club_record["id"]],
             "To Display": True,
             "Country": geo_data["country"],
-            "Country Code": geo_data["country_code"],
+            "Country Code": geo_data["country_code"].upper(),
             "State ISO Code": geo_data["ISO3166-2-lvl4"]
             if "ISO3166-2-lvl4" in geo_data
             else None,
