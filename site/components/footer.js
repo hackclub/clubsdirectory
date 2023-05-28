@@ -25,7 +25,7 @@ export default () => (
         </Link>
         <br />
         <br />
-        The Club Directory is 100% open source.
+        The Clubs Directory is 100% open source.
         <br />
         Want to make this page better?{" "}
         <Link
