@@ -1,17 +1,18 @@
+import os
 from typing import List
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+from redis import asyncio as aioredis
 
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
                                get_club_by_name, get_old_clubs)
 from helpers.classes import ClubElement, Leader, OldClub
 
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
-
-from redis import asyncio as aioredis
+load_dotenv()
 
 app = FastAPI()
 
@@ -79,7 +80,8 @@ def club_by_id(id: int) -> ClubElement:
 def old_clubs() -> List[OldClub]:
     return get_old_clubs()
 
+
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url("redis://localhost")
+    redis = aioredis.from_url(f"redis://{os.environ.get('REDIS_IP')}/0")
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")

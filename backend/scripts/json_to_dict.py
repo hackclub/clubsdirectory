@@ -5,7 +5,6 @@ from rich import print
 
 di = json.loads("""{
 	"type": "modal",
-	"callback_id": "add_club",
 	"title": {
 		"type": "plain_text",
 		"text": "Clubs Directory",
@@ -13,7 +12,7 @@ di = json.loads("""{
 	},
 	"submit": {
 		"type": "plain_text",
-		"text": "Submit",
+		"text": "Ok",
 		"emoji": true
 	},
 	"close": {
@@ -26,13 +25,19 @@ di = json.loads("""{
 			"type": "header",
 			"text": {
 				"type": "plain_text",
-				"text": "Add your Club",
+				"text": "Add your Club!",
 				"emoji": true
 			}
 		},
 		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "Records Indicate that your club's data is as follows."
+			}
+		},
+		{
 			"type": "input",
-			"block_id": "club_name_input",
 			"element": {
 				"type": "plain_text_input",
 				"action_id": "club_name_input"
@@ -45,62 +50,33 @@ di = json.loads("""{
 		},
 		{
 			"type": "input",
-			"block_id": "description_input",
+			"optional": true,
 			"element": {
 				"type": "plain_text_input",
 				"multiline": true,
-				"action_id": "description_input"
+				"action_id": "club_description_action"
 			},
 			"label": {
 				"type": "plain_text",
-				"text": "Description",
-				"emoji": true
-			}
-		},
-        {
-			"type": "input",
-            "block_id": "venue_select",
-			"element": {
-				"type": "static_select",
-				"placeholder": {
-					"type": "plain_text",
-					"text": "Select your venue",
-					"emoji": true
-				},
-				"options": [
-					{
-						"text": {
-							"type": "plain_text",
-							"text": "*Hello*",
-							"emoji": true
-						},
-						"value": "value-0"
-					}
-				],
-				"action_id": "venue_static_select-action"
-			},
-			"label": {
-				"type": "plain_text",
-				"text": "Select the Venue (contact Holly if you don't see yours)",
+				"text": "Club Description",
 				"emoji": true
 			}
 		},
 		{
 			"type": "input",
-			"block_id": "socials_select",
 			"optional": true,
 			"element": {
 				"type": "multi_static_select",
 				"placeholder": {
 					"type": "plain_text",
-					"text": "Select",
+					"text": "Select socials",
 					"emoji": true
 				},
 				"options": [
 					{
 						"text": {
 							"type": "plain_text",
-							"text": ":github:  Github",
+							"text": ":github: Github",
 							"emoji": true
 						},
 						"value": "Github"
@@ -116,10 +92,10 @@ di = json.loads("""{
 					{
 						"text": {
 							"type": "plain_text",
-							"text": ":link: Club Website",
+							"text": ":twitter: Twitter",
 							"emoji": true
 						},
-						"value": "Website"
+						"value": "Twitter"
 					},
 					{
 						"text": {
@@ -132,23 +108,22 @@ di = json.loads("""{
 					{
 						"text": {
 							"type": "plain_text",
-							"text": ":twitter: Twitter",
+							"text": ":link: Website",
 							"emoji": true
 						},
-						"value": "Twitter"
+						"value": "Website"
 					}
 				],
-				"action_id": "multi_static_select-action"
+				"action_id": "socials_to_display_action"
 			},
 			"label": {
 				"type": "plain_text",
-				"text": "Which socials do you want to enable for your club?",
+				"text": "Socials to Display",
 				"emoji": true
 			}
 		},
 		{
 			"type": "input",
-			"block_id": "secondary_leaders_select",
 			"optional": true,
 			"element": {
 				"type": "multi_users_select",
@@ -161,16 +136,15 @@ di = json.loads("""{
 			},
 			"label": {
 				"type": "plain_text",
-				"text": "Pick the leaders",
+				"text": "Select Secondary Leaders",
 				"emoji": true
 			}
 		},
 		{
 			"type": "input",
-			"block_id": "email_input",
 			"element": {
 				"type": "email_text_input",
-				"action_id": "email_input"
+				"action_id": "primary_email"
 			},
 			"label": {
 				"type": "plain_text",
