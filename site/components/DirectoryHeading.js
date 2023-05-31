@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Heading } from "theme-ui";
+import { Container, Heading, Text } from "theme-ui";
 
 export const DirectoryHeading = () => (
   <Container>
