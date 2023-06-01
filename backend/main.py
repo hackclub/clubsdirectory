@@ -38,6 +38,11 @@ app = FastAPI(
     }
 )
 
+@app.on_event("startup")
+async def startup():
+    redis = aioredis.from_url(f"redis://{os.environ.get('REDIS_IP')}/0")
+    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
 # Define middleware function to add CORS headers
 
 
@@ -79,9 +84,3 @@ def club_by_id(id: int) -> ClubElement:
 @cache(expire=1800)
 def old_clubs() -> List[OldClub]:
     return get_old_clubs()
-
-
-@app.on_event("startup")
-async def startup():
-    redis = aioredis.from_url(f"redis://{os.environ.get('REDIS_IP')}/0")
-    FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
