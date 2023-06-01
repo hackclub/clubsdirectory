@@ -3,7 +3,7 @@ import Map from "../components/Map";
 import { SearchControls } from "../components/SearchControls";
 import { DirectoryHeading } from "../components/DirectoryHeading";
 import { DirectoryVideoSection } from "../components/DirectoryVideoSection";
-import { Container, Card, Badge, Box, Text, Button } from "theme-ui";
+import { Container, Card, Badge, Link, Box, Text, Button } from "theme-ui";
 import Head from "next/head";
 import Meta from "@hackclub/meta";
 import Nav from "../components/nav";
@@ -252,6 +252,9 @@ function NetworkPage() {
       <Nav/>
       <DirectoryVideoSection/>
       <DirectoryHeading />
+      <Container sx={{mb: [3,4]}}>
+        <Text>Clubs Directory is opt-in only. To add your club to the Directory, please contact <Link href="https://hackclub.slack.com/team/U056C33BSNP">@Jolly</Link> (a Holly-like Slack Bot) on the Hack Club Slack. If you need assistance or are unsure about the process, you can follow <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">this video tutorial</Link> for guidance.</Text>
+      </Container>
       <SearchControls
         setUserLatitude={setUserLatitude}
         setUserLongitude={setUserLongitude}
