@@ -12,6 +12,8 @@ from helpers.air_table import (
     get_all_leaders_for_club,
     get_primary_leader,
     get_secondary_leaders,
+    fetch_waiting_clubs,
+    approve_club_airtable,
 )
 from helpers.slack_minor import slack_lookup_user_display
 
@@ -615,7 +617,7 @@ def hide_club(ack, body, client, logger):
 
 
 @app.action("add_club")
-def handle_some_action(ack, body, client, logger):
+def add_a_club_handler(ack, body, client, logger):
     ack()
     req_user = body["user"]["id"]
 
@@ -802,7 +804,7 @@ def handle_some_action(ack, body, client, logger):
 
 
 @app.view("add_club_modal")
-def handle_view_submission_events(ack, body, client, logger):
+def handle_add_club_submission(ack, body, client, logger):
     ack()
 
     club_name = body["view"]["state"]["values"]["club_name"]["club_name_input"]["value"]
@@ -885,6 +887,96 @@ def handle_view_submission_events(ack, body, client, logger):
         text=f"Your club has been created! You can view it once it's been approved by HQ!",
     )
 
+    client.chat_postMessage(
+        channel="C05ABUJ1BPF",
+        text=f"Club {club_name} has been created by <@{body['user']['id']}>, seeking approval!",
+    )
+
+
+@app.command("/approve")
+def approve_club(ack, respond, command, client, body):
+    ack()
+
+    if body["user_id"] not in [
+        "U0409FSKU82",
+        "U03M1H014CX",
+        "U041FQB8VK2",
+        "U04QH1TTMBP",
+        "U0C7B14Q3",
+    ]:
+        respond("You don't have permission to do this!")
+        return
+
+    clubs_waiting = fetch_waiting_clubs()
+
+    if len(clubs_waiting) == 0:
+        respond("There are no clubs waiting for approval!")
+        return
+
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "approve_club",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "section",
+                    "block_id": "checkboxes-waiting",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "These are the clubs awaiting approval.",
+                    },
+                    "accessory": {
+                        "type": "checkboxes",
+                        "options": [
+                            {
+                                "text": {
+                                    "type": "mrkdwn",
+                                    "text": f'*{club["fields"]["Club Name"]}*',
+                                },
+                                "description": {
+                                    "type": "mrkdwn",
+                                    "text": f'{club["fields"]["Description"] if "Description" in club["fields"] else "No Description"}',
+                                },
+                                "value": f'{club["fields"]["ID"]}',
+                            }
+                            for club in clubs_waiting
+                        ],
+                        "action_id": "checkboxes-action",
+                    },
+                }
+            ],
+        },
+    )
+
+
+@app.view("approve_club")
+def handle_approve_club(ack, body, client, logger):
+    ack()
+
+    clubs_to_approve = [
+        x["value"]
+        for x in body["view"]["state"]["values"]["checkboxes-waiting"][
+            "checkboxes-action"
+        ]["selected_options"]
+    ]
+
+    for club in clubs_to_approve:
+        approve_club_airtable(club)
+
+    client.chat_postMessage(
+        channel=body["user"]["id"],
+        text=f"Club(s) have been approved!",
+    )
+
+
+@app.action("checkboxes-action")
+def placeholder_to_prevent_error_sign(ack, body, logger):
+    ack()
+    pass
 
 
 # Start your app
