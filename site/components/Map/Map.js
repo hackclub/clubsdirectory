@@ -176,7 +176,7 @@ function Map({
         color={!legacyClubsVisible ? "muted" : null}
         onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
       >
-        {legacyClubsVisible ? "Hide" : "Show"} Legacy Clubs
+        {legacyClubsVisible ? "Hide" : "Show"} All Clubs
       </Badge>
     </div>
   );
