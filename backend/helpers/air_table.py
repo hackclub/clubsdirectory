@@ -292,3 +292,23 @@ def get_old_club_from_leader(leaders_slack):
         return None
     
     return old_club
+
+
+def fetch_waiting_clubs():
+    """
+    This function returns a list of all the clubs waiting for approval
+    """
+
+    formula = match({'Approved': False})
+    clubs_data = clubs_table.all(formula=formula)
+
+    return clubs_data
+
+def approve_club_airtable(club_id: str):
+    """
+    This function takes a club airtable id and approves it
+    """
+
+    club_data = clubs_table.first(formula=match({'ID': club_id}))
+
+    clubs_table.update(club_data["id"], {"Approved": True})
