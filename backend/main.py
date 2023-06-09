@@ -7,6 +7,10 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
                                get_club_by_name, get_old_clubs)
@@ -40,7 +44,8 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup():
-    redis = aioredis.from_url(f"redis://{os.environ.get('REDIS_IP')}/0")
+    logger.info("Connecting to Redis")
+    redis = aioredis.from_url(os.environ.get("REDIS_URL"))
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 
 # Define middleware function to add CORS headers
