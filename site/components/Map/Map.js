@@ -39,7 +39,7 @@ function Map({
     [37, -122], // San Francisco, CA (37.7749° N, 122.4194° W)
     [34, -118], // Los Angeles, CA (34.0522° N, 118.2437° W)
   ];
-  const [legacyClubsVisible, setLegacyClubsVisible] = useState(fullScreen ? (true) : (false))
+  const [legacyClubsVisible, setLegacyClubsVisible] = useState(true)
 
   const [oldClubs, setOldClubs] = useState([])
   useEffect(() => {
@@ -60,9 +60,9 @@ function Map({
                   anOldClub?.coordinates?.latitude &&
                 newClub?.geo_data?.coordinates?.longitude ==
                   anOldClub?.coordinates?.longitude
-            )            
             ) 
-        
+            ) 
+            console.log(dataFormatted)           
         setOldClubs(dataFormatted);
       })
       .catch((error) => console.error(error));
@@ -77,10 +77,13 @@ function Map({
   return (
     <div style={{ position: "relative" }}>
     <MapContainer
+    
       ref={mapRef}
       style={{ width: "100%", height: fullScreen ? ("100vh") : ("600px") }}
       center={[0, 0]}
       zoom={2}
+      minZoom={2} // Set the maximum zoom level
+
       boundsOptions={{ padding: [50, 50] }}
       whenCreated={(map) => {
         map.fitBounds([
@@ -88,6 +91,10 @@ function Map({
           [-90, 180], // Bottom-right corner
         ]);
       }}
+      maxBounds={[
+        [90, -180], // Top-left corner
+        [-90, 180], // Bottom-right corner
+      ]}
     >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -176,7 +183,7 @@ function Map({
         color={!legacyClubsVisible ? "muted" : null}
         onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
       >
-        {legacyClubsVisible ? "Hide" : "Show"} Legacy Clubs
+        {legacyClubsVisible ? "Hide Non-directory" : "Show All"} Clubs
       </Badge>
     </div>
   );
