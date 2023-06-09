@@ -10,7 +10,7 @@ const MapPage = () => {
   const [eventsShown, setEventsShown] = useState(true);
 
   useEffect(() => {
-    fetch("https://directory.hackersreboot.tech/clubs")
+    fetch("https://clubs-directory.herokuapp.com/clubs")
     .then((response) => response.json())
     .then((data) => {
       setClubs(data);

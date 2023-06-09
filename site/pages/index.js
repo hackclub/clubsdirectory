@@ -91,7 +91,7 @@ function NetworkPage() {
 
   useEffect(() => {
     //Gets the clubs from the ArpanAPI™
-    fetch("https://directory.hackersreboot.tech/clubs")
+    fetch("https://clubs-directory.herokuapp.com/clubs")
       .then((response) => response.json())
       .then((data) => {
         setClubs(data);

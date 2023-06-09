@@ -46,7 +46,7 @@ function Map({
     // Ensuring Leaflet's CSS is applied only on the client side.
     import("leaflet/dist/leaflet.css");
     //Gets the clubs from the ArpanAPI™
-    fetch("https://directory.hackersreboot.tech/clubs/old")
+    fetch("https://clubs-directory.herokuapp.com/clubs/old")
       .then((response) => response.json())
       .then((data) => {
         const dataFormatted = data.filter(
