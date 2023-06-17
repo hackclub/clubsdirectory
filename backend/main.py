@@ -86,6 +86,7 @@ def club_by_id(id: int) -> ClubElement:
 
 
 @app.get('/clubs/old')
-@cache(expire=1800)
 def old_clubs() -> List[OldClub]:
+    print("old clubs")
+    print(get_old_clubs())
     return get_old_clubs()

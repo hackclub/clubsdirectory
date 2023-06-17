@@ -68,3 +68,5 @@ class ClubElement(BaseModel):
 class OldClub(BaseModel):
     name: str
     coordinates: Optional[Coordinates]
+    country: Optional[str]
+    continent: Optional[str]
