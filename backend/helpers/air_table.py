@@ -159,15 +159,15 @@ def club_data_to_obj(club_data: dict):
         socials=Socials(
             github=club_data["fields"]["Github"]
             if "Github" in club_data["fields"]
-            and "Github" in club_data["fields"]["To Display"]
+            and "Github" in club_data["fields"]["Socials to Display"]
             else None,
             linkedin=club_data["fields"]["LinkedIn"]
             if "LinkedIn" in club_data["fields"]
-            and "LinkedIn" in club_data["fields"]["To Display"]
+            and "LinkedIn" in club_data["fields"]["Socials to Display"]
             else None,
             twitter=club_data["fields"]["Twitter"]
             if "Twitter" in club_data["fields"]
-            and "Twitter" in club_data["fields"]["To Display"]
+            and "Twitter" in club_data["fields"]["Socials To Display"]
             else None,
         ),
         leaders=[],
