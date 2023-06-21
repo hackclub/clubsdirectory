@@ -146,6 +146,62 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
             },
             {"type": "divider"},
             {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*LinkedIn:* {club.socials.linkedin if club.socials.linkedin else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_linkedin",
+                    "action_id": "edit_linkedin",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Twitter:* {club.socials.twitter if club.socials.twitter else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_twitter",
+                    "action_id": "edit_twitter",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Scrapbook:* {club.scrapbook if club.scrapbook else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_scrapbook",
+                    "action_id": "edit_scrapbook",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Club Website:* {club.website if club.website else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_website",
+                    "action_id": "edit_website",
+                },
+            },
+            {"type": "divider"},
+            {
                 "type": "actions",
                 "elements": [
                     {
@@ -1129,8 +1185,252 @@ def handle_edit_github(ack, body, client, logger):
         new_github = None
     else:
         new_github = new_github["value"]
-    
+
     club_leaders.update(club["id"], {"Github": new_github})
+
+
+@app.action("edit_linkedin")
+def handle_edit_linkedin(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_linkedin",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit LinkedIn",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New LinkedIn",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_linkedin")
+def handle_edit_linkedin(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_linkedin = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_linkedin:
+        new_linkedin = None
+    else:
+        new_linkedin = new_linkedin["value"]
+
+    club_leaders.update(club["id"], {"LinkedIn": new_linkedin})
+
+
+@app.action("edit_website")
+def handle_edit_website(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_website",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Website",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Website",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_website")
+def handle_edit_website(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_website = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_website:
+        new_website = None
+    else:
+        new_website = new_website["value"]
+
+    club_leaders.update(club["id"], {"Website": new_website})
+
+
+@app.action("edit_twitter")
+def handle_edit_twitter(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_twitter",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Twitter",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Twitter",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_twitter")
+def handle_edit_twitter(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_twitter = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_twitter:
+        new_twitter = None
+    else:
+        new_twitter = new_twitter["value"]
+
+    club_leaders.update(club["id"], {"Twitter": new_twitter})
+
+
+@app.action("edit_scrapbook")
+def handle_edit_scrapbook(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_scrapbook",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Scrapbook",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Scrapbook",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_scrapbook")
+def handle_edit_scrapbook(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_scrapbook = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_scrapbook:
+        new_scrapbook = None
+    else:
+        new_scrapbook = new_scrapbook["value"]
+
+    club_leaders.update(club["id"], {"Scrapbook": new_scrapbook})
 
 
 # Start your app
