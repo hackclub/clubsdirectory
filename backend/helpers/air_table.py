@@ -159,15 +159,15 @@ def club_data_to_obj(club_data: dict):
         socials=Socials(
             github=club_data["fields"]["Github"]
             if "Github" in club_data["fields"]
-            and "Github" in club_data["fields"]["To Display"]
+            and "Github" in club_data["fields"]["Socials to Display"]
             else None,
             linkedin=club_data["fields"]["LinkedIn"]
             if "LinkedIn" in club_data["fields"]
-            and "LinkedIn" in club_data["fields"]["To Display"]
+            and "LinkedIn" in club_data["fields"]["Socials to Display"]
             else None,
             twitter=club_data["fields"]["Twitter"]
             if "Twitter" in club_data["fields"]
-            and "Twitter" in club_data["fields"]["To Display"]
+            and "Twitter" in club_data["fields"]["Socials To Display"]
             else None,
         ),
         leaders=[],
@@ -402,3 +402,54 @@ def approve_club_airtable(club_id: str):
     club_data = clubs_table.first(formula=match({"ID": club_id}))
 
     clubs_table.update(club_data["id"], {"Approved": True})
+
+
+def search_clubs(query: str):
+    """
+    This function takes a search query and returns a list of clubs that are named similarly
+    """
+
+    formula = FIND(STR_VALUE(query), FIELD("Club Name"))
+    clubs_data = clubs_table.all(formula=formula)
+
+    return clubs_data
+
+
+def leader_data_to_obj(leader: dict):
+    """
+    A simple function to convert leader data to a Leader object
+    """
+
+    return Leader(
+        name=leader["fields"]["Name"],
+        pronouns=leader["fields"]["Pronouns"]
+        if "Pronouns" in leader["fields"]
+        else None,
+        is_primary=leader["fields"]["Is Primary"]
+        if "Is Primary" in leader["fields"]
+        else False,
+        email=leader["fields"]["Email"]
+        if "Email" in leader["fields"] and "Email" in leader["fields"]["To Display"]
+        else None,
+        slack_id=leader["fields"]["Slack ID"]
+        if "Slack ID" in leader["fields"]
+        else None,
+        website=leader["fields"]["Website"] if "Website" in leader["fields"] else None,
+        scrapbook=leader["fields"]["Scrapbook"]
+        if "Scrapbook" in leader["fields"]
+        else None,
+        socials=Socials(
+            github=leader["fields"]["Github"]
+            if "Github" in leader["fields"]
+            and "Github" in leader["fields"]["To Display"]
+            else None,
+            linkedin=leader["fields"]["LinkedIn"]
+            if "LinkedIn" in leader["fields"]
+            and "LinkedIn" in leader["fields"]["To Display"]
+            else None,
+            twitter=leader["fields"]["Twitter"]
+            if "Twitter" in leader["fields"]
+            and "Twitter" in leader["fields"]["To Display"]
+            else None,
+        ),
+    )

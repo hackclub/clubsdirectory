@@ -17,7 +17,13 @@ from helpers.air_table import (
 )
 from helpers.slack_minor import slack_lookup_user_display
 
-from helpers.air_table import club_leaders, clubs_table, get_old_club_from_leader
+from helpers.air_table import (
+    club_leaders,
+    clubs_table,
+    get_old_club_from_leader,
+    search_clubs,
+    club_data_to_obj,
+)
 
 
 load_dotenv()
@@ -27,6 +33,7 @@ app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 
 
 def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
+    club = club_data_to_obj(club)
     sec_leaders_str = (
         " ".join("<@" + x["fields"]["Slack ID"] + ">" for x in secondary_leaders)
         if len(secondary_leaders) > 0
@@ -67,7 +74,7 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f'*Club Name:* {club["fields"]["Club Name"]}',
+                    "text": f'*Club Name:* {club.name if club.name else "Not Provided"}',
                 },
                 "accessory": {
                     "type": "button",
@@ -81,7 +88,7 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": f'*Description:* {club["fields"]["Description"] if "Description" in club["fields"] else "No description yet!"}',
+                    "text": f'*Description:* {club.description if club.description else "Not Provided"}',
                 },
                 "accessory": {
                     "type": "button",
@@ -125,13 +132,83 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
             },
             {"type": "divider"},
             {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Github:* {club.socials.github if club.socials.github else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_github",
+                    "action_id": "edit_github",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*LinkedIn:* {club.socials.linkedin if club.socials.linkedin else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_linkedin",
+                    "action_id": "edit_linkedin",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Twitter:* {club.socials.twitter if club.socials.twitter else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_twitter",
+                    "action_id": "edit_twitter",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Scrapbook:* {club.scrapbook if club.scrapbook else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_scrapbook",
+                    "action_id": "edit_scrapbook",
+                },
+            },
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'*Club Website:* {club.website if club.website else "Not Provided"}',
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Edit", "emoji": True},
+                    "value": "edit_website",
+                    "action_id": "edit_website",
+                },
+            },
+            {"type": "divider"},
+            {
                 "type": "actions",
                 "elements": [
                     {
                         "type": "button",
                         "text": {
                             "type": "plain_text",
-                            "text": f'{"Hide" if "To Display" in club["fields"] else "Unhide"} My Club',
+                            "text": f'{"Hide" if club.to_display else "Unhide"} My Club',
                             "emoji": True,
                         },
                         "value": "hide_club",
@@ -977,6 +1054,383 @@ def handle_approve_club(ack, body, client, logger):
 def placeholder_to_prevent_error_sign(ack, body, logger):
     ack()
     pass
+
+
+@app.command("/lookup")
+def lookup_club(ack, respond, command, client, body):
+    ack()
+
+    club_name = command["text"]
+
+    club_search = search_clubs(club_name)
+
+    if len(club_search) == 0:
+        respond("No club found!")
+        return
+
+    clubs = []
+    for c in club_search:
+        club = club_data_to_obj(c)
+
+        if not club.to_display:
+            continue
+
+        primary_leader = None
+
+        for leader in club.leaders:
+            if leader.is_primary:
+                primary_leader = leader
+
+        if not primary_leader:
+            continue
+
+        clubs.append(
+            {
+                "type": "header",
+                "text": {"type": "plain_text", "text": club.name, "emoji": True},
+            },
+        )
+
+        clubs.append(
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'{club.description if club.description else "No Description"} \n *Venue:* {club.venue} \n *Primary Leader:* <@{primary_leader.slack_id}>',
+                },
+            }
+        )
+
+        clubs.append(
+            {
+                "type": "divider",
+            }
+        )
+
+    respond(
+        blocks=clubs,
+    )
+
+
+@app.view("lookup_club")
+def handle_lookup_club(ack):
+    ack()
+    pass
+
+
+@app.action("edit_github")
+def handle_edit_github(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_github",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Github",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Github",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+    client.views_update(
+        view_id=body["view"]["id"],
+        view=home_tab_view_signed(
+            get_club_by_leader(body["user"]["id"]),
+            get_primary_leader(get_club_by_leader(body["user"]["id"])["id"]),
+            get_secondary_leaders(get_club_by_leader(body["user"]["id"])["id"]),
+            get_club_by_leader(body["user"]["id"])["fields"]["Socials to Display"],
+        ),
+    )
+
+
+@app.view("edit_github")
+def handle_edit_github(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_github = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_github:
+        new_github = None
+    else:
+        new_github = new_github["value"]
+
+    club_leaders.update(club["id"], {"Github": new_github})
+
+
+@app.action("edit_linkedin")
+def handle_edit_linkedin(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_linkedin",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit LinkedIn",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New LinkedIn",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_linkedin")
+def handle_edit_linkedin(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_linkedin = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_linkedin:
+        new_linkedin = None
+    else:
+        new_linkedin = new_linkedin["value"]
+
+    club_leaders.update(club["id"], {"LinkedIn": new_linkedin})
+
+
+@app.action("edit_website")
+def handle_edit_website(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_website",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Website",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Website",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_website")
+def handle_edit_website(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_website = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_website:
+        new_website = None
+    else:
+        new_website = new_website["value"]
+
+    club_leaders.update(club["id"], {"Website": new_website})
+
+
+@app.action("edit_twitter")
+def handle_edit_twitter(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_twitter",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Twitter",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Twitter",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_twitter")
+def handle_edit_twitter(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_twitter = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_twitter:
+        new_twitter = None
+    else:
+        new_twitter = new_twitter["value"]
+
+    club_leaders.update(club["id"], {"Twitter": new_twitter})
+
+
+@app.action("edit_scrapbook")
+def handle_edit_scrapbook(ack, body, client, logger):
+    ack()
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={
+            "type": "modal",
+            "callback_id": "edit_scrapbook",
+            "title": {"type": "plain_text", "text": "Clubs Directory", "emoji": True},
+            "submit": {"type": "plain_text", "text": "Submit", "emoji": True},
+            "close": {"type": "plain_text", "text": "Cancel", "emoji": True},
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Edit Scrapbook",
+                        "emoji": True,
+                    },
+                },
+                {
+                    "type": "input",
+                    "block_id": "url_text_input-action",
+                    "optional": True,
+                    "element": {
+                        "type": "url_text_input",
+                        "action_id": "url_text_input-action",
+                    },
+                    "label": {
+                        "type": "plain_text",
+                        "text": "New Scrapbook",
+                        "emoji": True,
+                    },
+                },
+            ],
+        },
+    )
+
+
+@app.view("edit_scrapbook")
+def handle_edit_scrapbook(ack, body, client, logger):
+    ack()
+    req_user = body["user"]["id"]
+
+    if not check_if_leader(req_user):
+        return
+
+    club = get_club_by_leader(req_user)
+
+    new_scrapbook = body["view"]["state"]["values"]["url_text_input-action"][
+        "url_text_input-action"
+    ]
+
+    if "value" not in new_scrapbook:
+        new_scrapbook = None
+    else:
+        new_scrapbook = new_scrapbook["value"]
+
+    club_leaders.update(club["id"], {"Scrapbook": new_scrapbook})
 
 
 # Start your app
