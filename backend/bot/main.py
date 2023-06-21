@@ -17,7 +17,14 @@ from helpers.air_table import (
 )
 from helpers.slack_minor import slack_lookup_user_display
 
-from helpers.air_table import club_leaders, clubs_table, get_old_club_from_leader
+from helpers.air_table import (
+    club_leaders,
+    clubs_table,
+    get_old_club_from_leader,
+    search_clubs,
+    club_data_to_obj,
+    leader_data_to_obj,
+)
 
 
 load_dotenv()
@@ -975,6 +982,68 @@ def handle_approve_club(ack, body, client, logger):
 
 @app.action("checkboxes-action")
 def placeholder_to_prevent_error_sign(ack, body, logger):
+    ack()
+    pass
+
+
+@app.command("/lookup")
+def lookup_club(ack, respond, command, client, body):
+    ack()
+
+    club_name = command["text"]
+
+    club_search = search_clubs(club_name)
+
+    if len(club_search) == 0:
+        respond("No club found!")
+        return
+
+    clubs = []
+    for c in club_search:
+        club = club_data_to_obj(c)
+
+        if not club.to_display:
+            continue
+
+        primary_leader = None
+
+        for leader in club.leaders:
+            if leader.is_primary:
+                primary_leader = leader
+
+        if not primary_leader:
+            continue
+
+        clubs.append(
+            {
+                "type": "header",
+                "text": {"type": "plain_text", "text": club.name, "emoji": True},
+            },
+        )
+
+        clubs.append(
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f'{club.description if club.description else "No Description"} \n *Venue:* {club.venue} \n *Primary Leader:* <@{primary_leader.slack_id}>',
+                },
+            }
+        )
+
+        clubs.append(
+            {
+                "type": "divider",
+            }
+        )
+
+    respond(
+        blocks=clubs,
+    )
+
+
+@app.view("lookup_club")
+def handle_lookup_club(ack):
     ack()
     pass
 
