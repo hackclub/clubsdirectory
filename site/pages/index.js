@@ -40,6 +40,9 @@ function NetworkPage() {
   const breakpointIndex = useBreakpointIndex();
   const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
 
+
+  const [oldClubs, setOldClubs] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   function downloadCSV() {
@@ -100,7 +103,7 @@ function NetworkPage() {
       .catch((error) => console.error(error));
 
     toggleBodyScroll(clubOpened != null);
-  }, [clubOpened]);
+  }, []);
   //Sorting function that uses user location
   function sortByProximity(a, b) {
     if (userLatitude === null || userLongitude === null) {
@@ -163,6 +166,8 @@ function NetworkPage() {
     }
   }
 
+
+  
   function getClubEmailById(id) {
     const club = clubs.find((c) => c.id === id);
     return club ? club.leaders.map((leader) => leader.email).join(", ") : "";
@@ -273,7 +278,9 @@ function NetworkPage() {
       />
       {view == "List" ? (
         <ClubsTable
+          oldClubs={oldClubs}
           isMobile={isMobile}
+          searchContent={searchContent}
           isLoading={isLoading}
           setSelectedClubs={setSelectedClubs}
           selectedClubs={selectedClubs}
@@ -299,10 +306,11 @@ function NetworkPage() {
           >
             <Map
               fullScreen={false}
-
+              selectedContinent={selectedContinent}
               userLatitude={userLatitude}
               userLongitude={userLongitude}
               search={searchContent}
+              searchContent={searchContent}
               clubs={clubs
                 .filter((club) => filterResults(club))
                 .sort((a, b) => {
@@ -399,7 +407,6 @@ function NetworkPage() {
   }
 
   function filterResults(club) {
-    console.log(club);
     return (
       (selectedContinent == "" ||
         selectedContinent == club?.geo_data?.continent) &&
