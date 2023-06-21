@@ -18,7 +18,7 @@ export const SearchControls = ({
   continents,
   Badge,
 }) => (
-  <Container mb={4}>
+  <Container mb={0}>
     <Container as="form" variant="cards.sunken">
       <Grid
         columns={[null, "3fr 1fr 1fr"]} // 5 column grid
