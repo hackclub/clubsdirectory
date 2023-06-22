@@ -1,7 +1,12 @@
-import React from "react";
+import { useState, useEffect } from "react"; // Import useState from 'react'
+
+import { ClubPreviewOld } from "./ClubPreviewOld";
+
 import { ClubPreview } from "./ClubPreview";
 import { TableLabel } from "./TableLabel";
 import { Container } from "theme-ui";
+
+import { levenshtein } from "underscore.string";
 
 export const ClubsTable = ({
   clubs,
@@ -9,6 +14,7 @@ export const ClubsTable = ({
   isLoading,
   setSelectedClubs,
   selectedClubs,
+  searchContent,
   selectedContinent,
   filterResults,
   sortResults,
@@ -16,7 +22,71 @@ export const ClubsTable = ({
   setRecentlyCopied,
   navigator,
   recentlyCopied,
-}) => (
+}) => {
+  function filterOldResults(club) {
+    return (
+      (selectedContinent == "" ||
+        selectedContinent == club?.continent) &&
+      (club.name?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club.name
+          ?.toLowerCase()
+          .split(" ")
+          .some((word) =>
+            searchContent
+              .split(" ")
+              ?.some(
+                (searchTerm) =>
+                  levenshtein(word.toLowerCase(), searchTerm.toLowerCase()) < 2
+              )
+          ) ||
+        club?.country
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.country_code
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.state
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.venue?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club?.location?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club?.postcode
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.leaders?.some((leader) =>
+          leader.name?.toLowerCase().includes(searchContent.toLowerCase())
+        ))
+    );
+  }
+  const [oldClubs, setOldClubs] = useState(["Test"]); // Initialize state using useState hook
+  useEffect(() => {
+    // Ensuring Leaflet's CSS is applied only on the client side.
+    import("leaflet/dist/leaflet.css");
+    //Gets the clubs from the ArpanAPI™
+    fetch("https://clubs-directory.herokuapp.com/clubs/old")
+      .then((response) => response.json())
+      .then((data) => {
+       
+        const dataFormatted = data.filter(
+          (anOldClub) =>
+            anOldClub?.coordinates?.latitude !== undefined &&
+            anOldClub?.coordinates?.longitude !== undefined &&
+            anOldClub?.name !== null &&
+            !clubs.some(
+              (newClub) =>
+                newClub?.geo_data?.coordinates?.latitude ==
+                  anOldClub?.coordinates?.latitude &&
+                newClub?.geo_data?.coordinates?.longitude ==
+                  anOldClub?.coordinates?.longitude
+            ) 
+            ) 
+        setOldClubs(dataFormatted);
+        console.log(dataFormatted)
+      })
+      .catch((error) => console.error(error));
+
+  }, []);
+  return (
   <Container>
     {!isMobile ? (
       <TableLabel
@@ -57,5 +127,19 @@ export const ClubsTable = ({
           recentlyCopied={recentlyCopied}
         />
       ))}
+      
+      {oldClubs.filter((club) => filterOldResults(club, selectedContinent)).map((oldClub) =>  
+
+              (<ClubPreviewOld
+              isMobile={isMobile}
+              setSelectedClubs={setSelectedClubs}
+              selectedClubs={selectedClubs}
+              club={oldClub}
+              setClubOpened={setClubOpened}
+              setRecentlyCopied={setRecentlyCopied}
+              navigator={navigator}
+              recentlyCopied={recentlyCopied}
+            />)
+      )}
   </Container>
-);
+)};

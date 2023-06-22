@@ -4,6 +4,7 @@ import { OldClubMarker } from "./OldClubMarker";
 import { Assemble } from "./Assemble";
 import { HQ } from "./HQ";
 import { Steve } from "./Steve";
+import { levenshtein } from "underscore.string";
 
 import { Epoch } from "./Epoch";
 import { ZephyrStop } from "./ZephyrStop";
@@ -21,7 +22,9 @@ function Map({
   userLongitude,
   userLatitude,
   search,
+  selectedContinent,
   fullScreen,
+  searchContent,
   setSelectedClubs,
   selectedClubs,
   recentlyCopied,
@@ -29,6 +32,41 @@ function Map({
   eventsShown,
   setEventsShown,
 }) {
+  function filterOldResults(club) {
+    return (
+      (selectedContinent == "" ||
+        selectedContinent == club?.continent) &&
+      (club.name?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club.name
+          ?.toLowerCase()
+          .split(" ")
+          .some((word) =>
+            searchContent
+              .split(" ")
+              ?.some(
+                (searchTerm) =>
+                  levenshtein(word.toLowerCase(), searchTerm.toLowerCase()) < 2
+              )
+          ) ||
+        club?.country
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.country_code
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.state
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.venue?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club?.location?.toLowerCase().includes(searchContent.toLowerCase()) ||
+        club?.postcode
+          ?.toLowerCase()
+          .includes(searchContent.toLowerCase()) ||
+        club?.leaders?.some((leader) =>
+          leader.name?.toLowerCase().includes(searchContent.toLowerCase())
+        ))
+    );
+  }
   const mapRef = useRef(null);
 
   const ZephyrPos = [
@@ -49,6 +87,7 @@ function Map({
     fetch("https://clubs-directory.herokuapp.com/clubs/old")
       .then((response) => response.json())
       .then((data) => {
+       
         const dataFormatted = data.filter(
           (anOldClub) =>
             anOldClub?.coordinates?.latitude !== undefined &&
@@ -62,17 +101,16 @@ function Map({
                   anOldClub?.coordinates?.longitude
             ) 
             ) 
-            console.log(dataFormatted)           
         setOldClubs(dataFormatted);
       })
       .catch((error) => console.error(error));
 
-  }, [clubs]);
+  }, []);
 
   useEffect(() => {
     const map = mapRef.current;
     flyToSearchOnChange(map);
-  }, [clubs]);
+  }, [clubs, oldClubs]);
 
   return (
     <div style={{ position: "relative" }}>
@@ -120,7 +158,7 @@ function Map({
             />
           ))}
         {Array.isArray(oldClubs) && legacyClubsVisible &&
-          oldClubs.map((oldClub) => ( 
+          oldClubs.filter((club) => filterOldResults(club, selectedContinent)).map((oldClub) => ( 
             <OldClubMarker
               oldClub={oldClub}
               leaflet={leaflet}
@@ -189,11 +227,16 @@ function Map({
   );
 
   function flyToSearchOnChange(map) {
+
+    
     if (map && clubs.length > 0 && search != "") {
       const { latitude, longitude } = clubs[0].geo_data.coordinates;
       map.flyTo([latitude, longitude], 10);
-    }
+    } 
   }
 }
 
+
 export default Map;
+
+
