@@ -990,6 +990,14 @@ def approve_club(ack, respond, command, client, body):
         respond("There are no clubs waiting for approval!")
         return
 
+    for club in clubs_waiting:
+        # Limit the description to 140 characters and add default
+        club["fields"]["Description"] = (
+            club["fields"]["Description"][:140] + "..."
+            if "Description" in club["fields"]
+            else "No Description"
+        )
+
     client.views_open(
         trigger_id=body["trigger_id"],
         view={

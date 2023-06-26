@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
                                get_club_by_name, get_old_clubs)
 from helpers.classes import ClubElement, Leader, OldClub
+from scripts.old_clubs_update import update_old_clubs
 
 load_dotenv()
 
@@ -89,3 +90,7 @@ def club_by_id(id: int) -> ClubElement:
 @cache(expire=1800)
 def old_clubs() -> List[OldClub]:
     return get_old_clubs()
+
+@app.get('/refresh_old_missing')
+def refresh_old_missing() -> bool:
+    return update_old_clubs() == True
