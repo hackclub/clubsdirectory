@@ -34,7 +34,8 @@ function Map({
 }) {
   function filterOldResults(club) {
     return (
-      (selectedContinent == "" ||
+      fullScreen ||
+      ((selectedContinent == "" ||
         selectedContinent == club?.continent) &&
       (club.name?.toLowerCase().includes(searchContent.toLowerCase()) ||
         club.name
@@ -65,7 +66,7 @@ function Map({
         club?.leaders?.some((leader) =>
           leader.name?.toLowerCase().includes(searchContent.toLowerCase())
         ))
-    );
+    ));
   }
   const mapRef = useRef(null);
 
