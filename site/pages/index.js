@@ -285,7 +285,7 @@ function NetworkPage() {
           }
         }} sx={{backgroundColor:"primary", color: "white", fontWeight: 700, borderRadius: 8, py: 1, alignItems: "center", textAlign: "center", justifyContent: "center", display: "flex"}}>
         <p style={{margin: "12px;"}}>View On {view == "List" ? ("Map 🗺️") : ("List 📙")}</p>
-        </Box>2
+        </Box>
       </Container>
       {view == "List" ? (
         <ClubsTable
