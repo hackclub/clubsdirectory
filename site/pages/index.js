@@ -257,7 +257,7 @@ function NetworkPage() {
       <Nav/>
       <DirectoryVideoSection/>
       <DirectoryHeading />
-      <Container sx={{mb: [3,4], fontSize: 32}}>
+      <Container sx={{mb: [3,4], fontSize: [16, 32]}}>
         <Text>Clubs Directory is opt-in only. To add your club to the Directory, please contact <Link href="https://hackclub.slack.com/team/U056C33BSNP">@Jolly</Link> (a Holly-like Slack Bot) on the Hack Club Slack. If you need assistance or are unsure about the process, you can follow <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">this video tutorial</Link> for guidance.</Text>
       </Container>
       <SearchControls
@@ -347,6 +347,8 @@ function NetworkPage() {
           justifyContent: "flex-start",
           maxWidth: "container",
         }}
+
+  
       >
         {selectedClubs.length > 0 ? (
           <Card
