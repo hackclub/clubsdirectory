@@ -50,6 +50,3 @@ def update_old_clubs():
             )
 
     return True
-
-
-update_old_clubs()
