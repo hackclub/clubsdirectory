@@ -128,7 +128,7 @@ function Map({
         ref={mapRef}
         style={{ width: "100%", height: fullScreen ? "100vh" : "600px" }}
         center={[0, 0]}
-        zoom={2}
+        zoom={embed ? 3 : 2}
         minZoom={2} // Set the maximum zoom level
         zoomControl={embed ? false : true}
         boundsOptions={{ padding: [50, 50] }}
