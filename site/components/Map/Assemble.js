@@ -24,7 +24,7 @@ export const Assemble = ({ leaflet }) => (
           that left everyone inspired.
         </Text>
         <Box style={{ display: "flex", flexDirection: "row" }}>
-          <Link href="https://github.com/hackclub/assemble">
+          <Link href="https://github.com/hackclub/assemble" target="_blank">
             <Button
               variant="primary"
               as="a"
@@ -34,7 +34,10 @@ export const Assemble = ({ leaflet }) => (
             </Button>
           </Link>
 
-          <Link href="https://www.youtube.com/watch?v=PnK4gzO6S3Q">
+          <Link
+            href="https://www.youtube.com/watch?v=PnK4gzO6S3Q"
+            target="_blank"
+          >
             <Button
               variant="primary"
               as="a"

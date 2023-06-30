@@ -29,7 +29,7 @@ export const Zephyr = ({ pos, leaflet }) => (
             that captured the spirit of the trip.
           </Text>
           <Box style={{ display: "flex", flexDirection: "row" }}>
-            <Link href="https://zephyr.hackclub.com/">
+            <Link href="https://zephyr.hackclub.com/" target="_blank">
               <Button
                 variant="primary"
                 as="a"
@@ -39,7 +39,10 @@ export const Zephyr = ({ pos, leaflet }) => (
               </Button>
             </Link>
 
-            <Link href="https://www.youtube.com/watch?v=2BID8_pGuqA">
+            <Link
+              href="https://www.youtube.com/watch?v=2BID8_pGuqA"
+              target="_blank"
+            >
               <Button
                 variant="primary"
                 as="a"
@@ -82,7 +85,7 @@ export const Zephyr = ({ pos, leaflet }) => (
             that captured the spirit of the trip.
           </Text>
           <Box style={{ display: "flex", flexDirection: "row" }}>
-            <Link href="https://zephyr.hackclub.com/">
+            <Link href="https://zephyr.hackclub.com/" target="_blank">
               <Button
                 variant="primary"
                 as="a"
@@ -92,7 +95,10 @@ export const Zephyr = ({ pos, leaflet }) => (
               </Button>
             </Link>
 
-            <Link href="https://www.youtube.com/watch?v=2BID8_pGuqA">
+            <Link
+              href="https://www.youtube.com/watch?v=2BID8_pGuqA"
+              target="_blank"
+            >
               <Button
                 variant="primary"
                 as="a"

@@ -12,12 +12,20 @@ import { ZephyrStart } from "./ZephyrStart";
 import { UserLocationDot } from "./UserLocationDot";
 import ZephyrPath from "./ZephyrPath";
 import { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import { Badge } from "theme-ui";
 
 import { useRouter } from "next/router";
+
+function MapEvents() {
+  const map = useMapEvents({
+    dblclick() {
+      window.open("https://directory.hackclub.com/MapPage", "_blank");
+    },
+  });
+}
 
 function Map({
   clubs,
@@ -123,8 +131,6 @@ function Map({
         zoom={2}
         minZoom={2} // Set the maximum zoom level
         zoomControl={embed ? false : true}
-        scrollWheelZoom={embed ? false : true}
-        doubleClickZoom={embed ? false : true}
         boundsOptions={{ padding: [50, 50] }}
         whenCreated={(map) => {
           map.fitBounds([
@@ -141,7 +147,7 @@ function Map({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         />
-
+        {embed === true && <MapEvents />}
         {Array.isArray(clubs) &&
           clubs.map((club) => (
             <ClubMarker
