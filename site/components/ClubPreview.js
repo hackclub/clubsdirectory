@@ -25,12 +25,6 @@ export const ClubPreview = ({
   const [toggle, setToggle] = useState(false);
 
   let { description, socials, website } = club;
-  website = "https://jianminchen.com";
-  socials = {
-    github: "https://github.com/chss",
-    linkedin: "https://linkedin.com",
-    twitter: "https://twitter.com",
-  };
 
   if (!description || !socials || !website)
     return (
