@@ -227,7 +227,7 @@ function NetworkPage() {
   const [eventsShown, setEventsShown] = useState(true);
   const [searchContent, setSearchContent] = useState("");
   const [filter, setFilter] = useState("Relevancy");
-  const [view, setView] = useState("List");
+  const [view, setView] = useState("Map");
   const [recentlyCopied, setRecentlyCopied] = useState("");
 
   return (
