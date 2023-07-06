@@ -39,7 +39,7 @@ export const Epoch = ({ leaflet }) => (
           showcase their projects.
         </Text>
         <Box style={{ display: "flex", flexDirection: "row" }}>
-          <Link href="https://epoch.hackclub.com/">
+          <Link href="https://epoch.hackclub.com/" target="_blank">
             <Button
               variant="primary"
               as="a"
@@ -49,7 +49,10 @@ export const Epoch = ({ leaflet }) => (
             </Button>
           </Link>
 
-          <Link href="https://www.youtube.com/watch?v=KLx4NZZPzMc">
+          <Link
+            href="https://www.youtube.com/watch?v=KLx4NZZPzMc"
+            target="_blank"
+          >
             <Button
               variant="primary"
               as="a"

@@ -12,10 +12,20 @@ import { ZephyrStart } from "./ZephyrStart";
 import { UserLocationDot } from "./UserLocationDot";
 import ZephyrPath from "./ZephyrPath";
 import { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import { Badge } from "theme-ui";
+
+import { useRouter } from "next/router";
+
+function MapEvents() {
+  const map = useMapEvents({
+    dblclick() {
+      window.open("https://directory.hackclub.com/MapPage", "_blank");
+    },
+  });
+}
 
 function Map({
   clubs,
@@ -32,41 +42,42 @@ function Map({
   eventsShown,
   setEventsShown,
 }) {
+  const router = useRouter();
+  const [embed, setEmbed] = useState("embed" in router.query);
+
+  useEffect(() => {
+    setEmbed("embed" in router.query);
+  }, [router.query]);
+
   function filterOldResults(club) {
     return (
       fullScreen ||
-      ((selectedContinent == "" ||
-        selectedContinent == club?.continent) &&
-      (club.name?.toLowerCase().includes(searchContent.toLowerCase()) ||
-        club.name
-          ?.toLowerCase()
-          .split(" ")
-          .some((word) =>
-            searchContent
-              .split(" ")
-              ?.some(
-                (searchTerm) =>
-                  levenshtein(word.toLowerCase(), searchTerm.toLowerCase()) < 2
-              )
-          ) ||
-        club?.country
-          ?.toLowerCase()
-          .includes(searchContent.toLowerCase()) ||
-        club?.country_code
-          ?.toLowerCase()
-          .includes(searchContent.toLowerCase()) ||
-        club?.state
-          ?.toLowerCase()
-          .includes(searchContent.toLowerCase()) ||
-        club?.venue?.toLowerCase().includes(searchContent.toLowerCase()) ||
-        club?.location?.toLowerCase().includes(searchContent.toLowerCase()) ||
-        club?.postcode
-          ?.toLowerCase()
-          .includes(searchContent.toLowerCase()) ||
-        club?.leaders?.some((leader) =>
-          leader.name?.toLowerCase().includes(searchContent.toLowerCase())
-        ))
-    ));
+      ((selectedContinent == "" || selectedContinent == club?.continent) &&
+        (club.name?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club.name
+            ?.toLowerCase()
+            .split(" ")
+            .some((word) =>
+              searchContent
+                .split(" ")
+                ?.some(
+                  (searchTerm) =>
+                    levenshtein(word.toLowerCase(), searchTerm.toLowerCase()) <
+                    2
+                )
+            ) ||
+          club?.country?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club?.country_code
+            ?.toLowerCase()
+            .includes(searchContent.toLowerCase()) ||
+          club?.state?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club?.venue?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club?.location?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club?.postcode?.toLowerCase().includes(searchContent.toLowerCase()) ||
+          club?.leaders?.some((leader) =>
+            leader.name?.toLowerCase().includes(searchContent.toLowerCase())
+          )))
+    );
   }
   const mapRef = useRef(null);
 
@@ -78,9 +89,9 @@ function Map({
     [37, -122], // San Francisco, CA (37.7749° N, 122.4194° W)
     [34, -118], // Los Angeles, CA (34.0522° N, 118.2437° W)
   ];
-  const [legacyClubsVisible, setLegacyClubsVisible] = useState(true)
+  const [legacyClubsVisible, setLegacyClubsVisible] = useState(true);
 
-  const [oldClubs, setOldClubs] = useState([])
+  const [oldClubs, setOldClubs] = useState([]);
   useEffect(() => {
     // Ensuring Leaflet's CSS is applied only on the client side.
     import("leaflet/dist/leaflet.css");
@@ -88,7 +99,6 @@ function Map({
     fetch("https://clubs-directory.herokuapp.com/clubs/old")
       .then((response) => response.json())
       .then((data) => {
-       
         const dataFormatted = data.filter(
           (anOldClub) =>
             anOldClub?.coordinates?.latitude !== undefined &&
@@ -100,12 +110,11 @@ function Map({
                   anOldClub?.coordinates?.latitude &&
                 newClub?.geo_data?.coordinates?.longitude ==
                   anOldClub?.coordinates?.longitude
-            ) 
-            ) 
+            )
+        );
         setOldClubs(dataFormatted);
       })
       .catch((error) => console.error(error));
-
   }, []);
 
   useEffect(() => {
@@ -115,34 +124,30 @@ function Map({
 
   return (
     <div style={{ position: "relative" }}>
-    <MapContainer
-    
-      ref={mapRef}
-      style={{ width: "100%", height: fullScreen ? ("100vh") : ("600px") }}
-      center={[0, 0]}
-      zoom={2}
-      minZoom={2} // Set the maximum zoom level
-
-      boundsOptions={{ padding: [50, 50] }}
-      whenCreated={(map) => {
-        map.fitBounds([
+      <MapContainer
+        ref={mapRef}
+        style={{ width: "100%", height: fullScreen ? "100vh" : "600px" }}
+        center={[45, 0]}
+        zoom={3}
+        minZoom={2} // Set the maximum zoom level
+        zoomControl={embed ? false : true}
+        boundsOptions={{ padding: [50, 50] }}
+        whenCreated={(map) => {
+          map.fitBounds([
+            [90, -180], // Top-left corner
+            [-90, 180], // Bottom-right corner
+          ]);
+        }}
+        maxBounds={[
           [90, -180], // Top-left corner
           [-90, 180], // Bottom-right corner
-        ]);
-      }}
-      maxBounds={[
-        [90, -180], // Top-left corner
-        [-90, 180], // Bottom-right corner
-      ]}
-    >
+        ]}
+      >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         />
-
-        
-      
-
+        {embed === true && <MapEvents />}
         {Array.isArray(clubs) &&
           clubs.map((club) => (
             <ClubMarker
@@ -158,22 +163,24 @@ function Map({
               setSelectedClubs={setSelectedClubs}
             />
           ))}
-        {Array.isArray(oldClubs) && legacyClubsVisible &&
-          oldClubs.filter((club) => filterOldResults(club, selectedContinent)).map((oldClub) => ( 
-            <OldClubMarker
-              oldClub={oldClub}
-              leaflet={leaflet}
-              clubs={clubs}
-              encodeURIComponent={encodeURIComponent}
-              location={location}
-              navigator={navigator}
-              setRecentlyCopied={setRecentlyCopied}
-              recentlyCopied={recentlyCopied}
-              selectedClubs={selectedClubs}
-              setSelectedClubs={setSelectedClubs}
-            />
-          ))
-          }
+        {Array.isArray(oldClubs) &&
+          legacyClubsVisible &&
+          oldClubs
+            .filter((club) => filterOldResults(club, selectedContinent))
+            .map((oldClub) => (
+              <OldClubMarker
+                oldClub={oldClub}
+                leaflet={leaflet}
+                clubs={clubs}
+                encodeURIComponent={encodeURIComponent}
+                location={location}
+                navigator={navigator}
+                setRecentlyCopied={setRecentlyCopied}
+                recentlyCopied={recentlyCopied}
+                selectedClubs={selectedClubs}
+                setSelectedClubs={setSelectedClubs}
+              />
+            ))}
         {eventsShown ? (
           <>
             <Assemble leaflet={leaflet} />
@@ -194,50 +201,49 @@ function Map({
           />
         )}
       </MapContainer>
-      <Badge
-        variant={eventsShown ? "pill" : "outline"}
-        sx={{
-          position: "absolute",
-          bottom: 56,
-          left: 2,
-          zIndex: 701,
-          fontSize: "1.25rem",
-          cursor: "pointer"
-        }}
-        color={!eventsShown ? "muted" : null}
-        onClick={() => setEventsShown(!eventsShown)}
-      >
-        {eventsShown ? "Hide" : "Show"} Events
-      </Badge>
-      <Badge
-        variant={legacyClubsVisible ? "pill" : "outline"}
-        sx={{
-          position: "absolute",
-          bottom: 2,
-          left: 2,
-          zIndex: 701,
-          fontSize: "1.25rem",
-          cursor: "pointer"
-        }}
-        color={!legacyClubsVisible ? "muted" : null}
-        onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
-      >
-        {legacyClubsVisible ? "Hide Non-directory" : "Show All"} Clubs
-      </Badge>
+      {embed === false && (
+        <>
+          <Badge
+            variant={eventsShown ? "pill" : "outline"}
+            sx={{
+              position: "absolute",
+              bottom: 56,
+              left: 2,
+              zIndex: 701,
+              fontSize: "1.25rem",
+              cursor: "pointer",
+            }}
+            color={!eventsShown ? "muted" : null}
+            onClick={() => setEventsShown(!eventsShown)}
+          >
+            {eventsShown ? "Hide" : "Show"} Events
+          </Badge>
+          <Badge
+            variant={legacyClubsVisible ? "pill" : "outline"}
+            sx={{
+              position: "absolute",
+              bottom: 2,
+              left: 2,
+              zIndex: 701,
+              fontSize: "1.25rem",
+              cursor: "pointer",
+            }}
+            color={!legacyClubsVisible ? "muted" : null}
+            onClick={() => setLegacyClubsVisible(!legacyClubsVisible)}
+          >
+            {legacyClubsVisible ? "Hide Non-directory" : "Show All"} Clubs
+          </Badge>
+        </>
+      )}
     </div>
   );
 
   function flyToSearchOnChange(map) {
-
-    
     if (map && clubs.length > 0 && search != "") {
       const { latitude, longitude } = clubs[0].geo_data.coordinates;
       map.flyTo([latitude, longitude], 10);
-    } 
+    }
   }
 }
 
-
 export default Map;
-
-
