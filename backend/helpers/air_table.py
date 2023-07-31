@@ -6,6 +6,8 @@ from pyairtable.formulas import match, AND, FIND, STR_VALUE, FIELD
 
 from helpers.classes import *
 
+from rich import print
+
 
 load_dotenv()
 
@@ -172,7 +174,6 @@ def club_data_to_obj(club_data: dict):
         ),
         leaders=[],
     )
-
     for leader_id in club_data["fields"]["Leaders Directory Link"]:
         leader = club_leaders.get(leader_id)
 

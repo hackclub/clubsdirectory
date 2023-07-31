@@ -7,10 +7,6 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
 from redis import asyncio as aioredis
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 from helpers.air_table import (get_all_clubs, get_all_leaders, get_club_by_id,
                                get_club_by_name, get_old_clubs)
@@ -33,9 +29,9 @@ app = FastAPI(
     description="This API is used to get information about Hack Club's clubs and leaders",
     version="0.0.1",
     contact={
-        "name": "Holly",
+        "name": "Arpan Pandey",
         "url": "https://hackclub.com",
-        "email": "holly@hackclub.com"
+        "email": "arpan@hackclub.com"
     },
     license_info={
         "name": "MIT License",
@@ -45,7 +41,6 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup():
-    logger.info("Connecting to Redis")
     redis = aioredis.from_url(os.environ.get("REDIS_URL"))
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
 

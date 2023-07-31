@@ -294,7 +294,7 @@ def initial_home_tab(client, event, logger):
                 view=home_tab_view_non_signed(),
             )
     except Exception as e:
-        logger.error(f"Error publishing home tab: {e}")
+        pass
 
 
 @app.action("club_socials_to_display")
