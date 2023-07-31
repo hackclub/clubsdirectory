@@ -6,7 +6,6 @@ from pyairtable.formulas import match, AND, FIND, STR_VALUE, FIELD
 
 from helpers.classes import *
 
-from rich import print
 
 
 load_dotenv()
