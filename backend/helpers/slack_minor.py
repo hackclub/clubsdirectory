@@ -51,7 +51,8 @@ def slack_lookup_user_display(user_id):
 
         return data
 
-    except slack_sdk.errors.SlackApiError:
+    except slack_sdk.errors.SlackApiError as e:
+        print(e)
         return -1
 
 
