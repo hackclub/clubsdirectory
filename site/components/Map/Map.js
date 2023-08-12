@@ -2,6 +2,7 @@ import { ClubMarker } from "./ClubMarker";
 import { OldClubMarker } from "./OldClubMarker";
 
 import { Assemble } from "./Assemble";
+import { Outernet } from "./Outernet";
 import { HQ } from "./HQ";
 import { Steve } from "./Steve";
 import { levenshtein } from "underscore.string";
@@ -184,6 +185,7 @@ function Map({
         {eventsShown ? (
           <>
             <Assemble leaflet={leaflet} />
+            <Outernet leaflet={leaflet} />
             <Steve leaflet={leaflet} />
             <HQ leaflet={leaflet} />
 
