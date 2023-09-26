@@ -50,3 +50,7 @@ def update_old_clubs():
             )
 
     return True
+
+
+if __name__ == "__main__":
+    update_old_clubs()

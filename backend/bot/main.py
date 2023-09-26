@@ -663,7 +663,7 @@ def handle_view_submission_events(ack, body, logger):
                 for x in body["view"]["state"]["values"]["section"][
                     "multi_static_select-action"
                 ]["selected_options"]
-            ]
+            ].append("Placeholder")
         },
     )
 
