@@ -112,7 +112,6 @@ def club_data_to_obj(club_data: dict):
     """
     A simple function to convert club data to a ClubElement object
     """
-
     club = ClubElement(
         id=club_data["fields"]["ID"],
         name=club_data["fields"]["Club Name"],
