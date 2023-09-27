@@ -122,7 +122,7 @@ def home_tab_view_signed(club, primary_leader, secondary_leaders, socials):
             {"type": "divider"},
             {
                 "type": "section",
-                "text": {"type": "mrkdwn", "text": f'*Socials:* {", ".join(socials)}'},
+                "text": {"type": "mrkdwn", "text": f'*Socials:* {", ".join([f":{x}:" for x in socials]) if socials else "Placeholder"}'},
                 "accessory": {
                     "type": "button",
                     "text": {"type": "plain_text", "text": "Edit", "emoji": True},
@@ -653,6 +653,15 @@ def handle_view_submission_events(ack, body, logger):
 
     if not check_if_leader(req_user):
         return
+
+    print(
+        [
+            x["value"]
+            for x in body["view"]["state"]["values"]["section"][
+                "multi_static_select-action"
+            ]["selected_options"]
+        ].append("Placeholder")
+    )
 
     club = get_club_by_leader(req_user)
     clubs_table.update(
