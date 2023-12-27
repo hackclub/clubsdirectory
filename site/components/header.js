@@ -5,7 +5,7 @@ export const DirectoryVideoSection = () => (
   <Box
     as="section"
     id="network"
-    sx={{ overflow: "hidden", pt: [5, 6], pb: [4, 5], position: "relative" }}
+    sx={{ overflow: "hidden", pt: [5, 6], pb: [7, 6], position: "relative" }}
   >
     <Box
       as="video"
@@ -41,7 +41,7 @@ export const DirectoryVideoSection = () => (
         type="video/quicktime"
       />
     </Box>
-    <Container sx={{ textAlign: "center", color: "white" }}>
+    <Container sx={{ textAlign: "center", color: "white", pb: 4 }}>
       <Heading
         as="h1"
         variant="title"

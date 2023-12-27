@@ -6,10 +6,9 @@ import { InitializeColorMode, ThemeProvider } from "theme-ui";
 import { ClubsTable } from "../components/table/ClubsTable";
 import Map from "@/components/map-components";
 import { SearchControls } from "../components/SearchControls";
-import { DirectoryVideoSection, DirectoryHeading } from "@/components/heading";
+import { DirectoryVideoSection, DirectoryHeading } from "@/components/header";
 import { Container, Card, Badge, Link, Box, Text, Button } from "theme-ui";
-import Nav from "@/components/nav";
-import ForceTheme from "@/components/force-theme";
+import Navbar from "@/components/nav";
 import Footer from "@/components/footer";
 import { useState, useEffect } from "react";
 import { levenshtein } from "underscore.string";
@@ -140,7 +139,7 @@ function MainPage() {
   const [recentlyCopied, setRecentlyCopied] = useState("");
 
   return (
-    <>
+    <div>
       <ThemeProvider theme={theme}>
         <InitializeColorMode />
         <Global
@@ -152,12 +151,11 @@ function MainPage() {
             },
           }}
         />
-        <ForceTheme theme="light" />
 
         <Box />
         {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
 
-        <Nav />
+        <Navbar />
         <DirectoryVideoSection />
         <DirectoryHeading />
         <Container sx={{ mb: [3, 4], fontSize: [16, 32] }}>
@@ -325,7 +323,7 @@ function MainPage() {
         </Container>
         <Footer />
       </ThemeProvider>
-    </>
+    </div>
   );
 
   function sortResults(a, b) {

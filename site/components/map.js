@@ -44,7 +44,7 @@ function Map({
   eventsShown,
   setEventsShown,
 }) {
-  const query = useSearchParams()
+  const query = useSearchParams();
   const [embed, setEmbed] = useState("embed" in query);
 
   useEffect(() => {
@@ -151,25 +151,28 @@ function Map({
         />
         {embed === true && <MapEvents />}
         {Array.isArray(clubs) &&
-          clubs.map((club) => (
-            <ClubMarker
-              club={club}
-              leaflet={leaflet}
-              clubs={clubs}
-              encodeURIComponent={encodeURIComponent}
-              location={location}
-              navigator={navigator}
-              setRecentlyCopied={setRecentlyCopied}
-              recentlyCopied={recentlyCopied}
-              selectedClubs={selectedClubs}
-              setSelectedClubs={setSelectedClubs}
-            />
+          clubs.map((club, index) => (
+            <span key={JSON.stringify(club) + index}>
+              <ClubMarker
+                club={club}
+                leaflet={leaflet}
+                clubs={clubs}
+                encodeURIComponent={encodeURIComponent}
+                location={location}
+                navigator={navigator}
+                setRecentlyCopied={setRecentlyCopied}
+                recentlyCopied={recentlyCopied}
+                selectedClubs={selectedClubs}
+                setSelectedClubs={setSelectedClubs}
+              />
+            </span>
           ))}
         {Array.isArray(oldClubs) &&
           legacyClubsVisible &&
           oldClubs
             .filter((club) => filterOldResults(club, selectedContinent))
-            .map((oldClub) => (
+            .map((oldClub, index) => (
+              <span key={JSON.stringify(oldClub, index)}>
               <OldClubMarker
                 oldClub={oldClub}
                 leaflet={leaflet}
@@ -182,6 +185,7 @@ function Map({
                 selectedClubs={selectedClubs}
                 setSelectedClubs={setSelectedClubs}
               />
+              </span>
             ))}
         {eventsShown ? (
           <>
