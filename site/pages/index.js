@@ -40,7 +40,6 @@ function NetworkPage() {
   const breakpointIndex = useBreakpointIndex();
   const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
 
-
   const [oldClubs, setOldClubs] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -166,8 +165,6 @@ function NetworkPage() {
     }
   }
 
-
-  
   function getClubEmailById(id) {
     const club = clubs.find((c) => c.id === id);
     return club ? club.leaders.map((leader) => leader.email).join(", ") : "";
@@ -254,11 +251,21 @@ function NetworkPage() {
       <Box></Box>
       {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
 
-      <Nav/>
-      <DirectoryVideoSection/>
+      <Nav />
+      <DirectoryVideoSection />
       <DirectoryHeading />
-      <Container sx={{mb: [3,4], fontSize: [16, 32]}}>
-        <Text>Clubs Directory is opt-in only. To add your club to the Directory, please contact <Link href="https://hackclub.slack.com/team/U056C33BSNP">@Jolly</Link> (a Holly-like Slack Bot) on the Hack Club Slack. If you need assistance or are unsure about the process, you can follow <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">this video tutorial</Link> for guidance.</Text>
+      <Container sx={{ mb: [3, 4], fontSize: [16, 32] }}>
+        <Text>
+          Clubs Directory is opt-in only. To add your club to the Directory,
+          please contact{" "}
+          <Link href="https://hackclub.slack.com/team/U056C33BSNP">@Jolly</Link>{" "}
+          (a Holly-like Slack Bot) on the Hack Club Slack. If you need
+          assistance or are unsure about the process, you can follow{" "}
+          <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">
+            this video tutorial
+          </Link>{" "}
+          for guidance.
+        </Text>
       </Container>
       <SearchControls
         setUserLatitude={setUserLatitude}
@@ -276,15 +283,30 @@ function NetworkPage() {
         continents={continents}
         Badge={Badge}
       />
-      <Container sx={{my: [2,3], cursor: "pointer"}}>
-        <Box onClick={() => {
-          if(view == "List") {
-            setView("Map")
-          } else {
-            setView("List")
-          }
-        }} sx={{backgroundColor:"primary", color: "white", fontWeight: 700, borderRadius: 8, py: 1, alignItems: "center", textAlign: "center", justifyContent: "center", display: "flex"}}>
-        <p style={{margin: "12px;"}}>View On {view == "List" ? ("Map 🗺️") : ("List 📙")}</p>
+      <Container sx={{ my: [2, 3], cursor: "pointer" }}>
+        <Box
+          onClick={() => {
+            if (view == "List") {
+              setView("Map");
+            } else {
+              setView("List");
+            }
+          }}
+          sx={{
+            backgroundColor: "primary",
+            color: "white",
+            fontWeight: 700,
+            borderRadius: 8,
+            py: 1,
+            alignItems: "center",
+            textAlign: "center",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <p style={{ margin: "12px;" }}>
+            View On {view == "List" ? "Map 🗺️" : "List 📙"}
+          </p>
         </Box>
       </Container>
       {view == "List" ? (
@@ -347,8 +369,6 @@ function NetworkPage() {
           justifyContent: "flex-start",
           maxWidth: "container",
         }}
-
-  
       >
         {selectedClubs.length > 0 ? (
           <Card
@@ -420,7 +440,6 @@ function NetworkPage() {
   }
 
   function filterResults(club) {
-    console.log(club.geo_data.postcode)
     return (
       (selectedContinent == "" ||
         selectedContinent == club?.geo_data?.continent) &&

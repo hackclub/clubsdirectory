@@ -25,7 +25,6 @@ export const TableLabel = ({
         columns={[null, "0.15fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr"]}
         gap={3}
         sx={{ pl: [1, 3], pr: [1, 3], alignItems: "center" }}
-        onClick={() => console.log(clubsInView, selectedClubs)}
       >
         <Label>
           <Checkbox

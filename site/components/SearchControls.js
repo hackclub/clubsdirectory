@@ -42,7 +42,6 @@ export const SearchControls = ({
               value={searchContent}
               onChange={(event) => {
                 setSearchContent(event.target.value);
-                console.log(levenshtein(event.target.value, "sitting"));
               }}
               placeholder="Leader, School, City, State, Zip Code, or Country"
             />

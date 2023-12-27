@@ -29,7 +29,6 @@ export const ClubPreview = ({
   if (!description || !socials || !website)
     return (
       <Card
-        onClick={() => console.log(club)}
         as={"div"}
         variant="primary"
         sx={{
