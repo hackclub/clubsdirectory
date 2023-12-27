@@ -18,7 +18,8 @@ export const SearchControls = ({
   continents,
   Badge,
 }) => (
-  <Container mb={0}>
+  // id is assigned here for scrolling directly to the map
+  <Container mb={0} id="map">
     <Container as="form" variant="cards.sunken">
       <Grid
         columns={[null, "3fr 1fr 1fr"]} // 5 column grid

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Head from "next/head";
-import Map from "../components/Map";
+import Map from "@/components/map-components";
 
 const MapPage = () => {
   const mapContainerRef = useRef(null);

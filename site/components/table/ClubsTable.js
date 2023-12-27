@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"; // Import useState from 'react'
 
-import { ClubPreviewOld } from "./ClubPreviewOld";
+import { ClubPreviewOld } from "../old/ClubPreviewOld";
 
 import { ClubPreview } from "./ClubPreview";
 import { TableLabel } from "./TableLabel";

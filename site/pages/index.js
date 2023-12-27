@@ -1,19 +1,18 @@
-import { ClubsTable } from "../components/ClubsTable";
-import Map from "../components/Map";
+import { ClubsTable } from "../components/table/ClubsTable";
+import Map from "@/components/map-components";
 import { SearchControls } from "../components/SearchControls";
-import { DirectoryHeading } from "../components/DirectoryHeading";
-import { DirectoryVideoSection } from "../components/DirectoryVideoSection";
+import { DirectoryVideoSection, DirectoryHeading } from "@/components/heading";
 import { Container, Card, Badge, Link, Box, Text, Button } from "theme-ui";
-import Head from "next/head";
 import Meta from "@hackclub/meta";
-import Nav from "../components/nav";
-import ForceTheme from "../components/force-theme";
-import Footer from "../components/footer";
+import Nav from "@/components/nav";
+import ForceTheme from "@/components/force-theme";
+import Footer from "@/components/footer";
 import { useState, useEffect } from "react";
 import { levenshtein } from "underscore.string";
 import { Global } from "@emotion/react";
 import { parse } from "json2csv";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import { continents } from "@/lib/data";
 
 //Considering toast for success messages
 function toggleBodyScroll(disable) {
@@ -25,16 +24,6 @@ function toggleBodyScroll(disable) {
     }
   }
 }
-
-const continents = [
-  "Asia",
-  "North America",
-  "Europe",
-  "South America",
-  "Africa",
-  "Australia/Oceania",
-  "Antarctica",
-];
 
 function NetworkPage() {
   const breakpointIndex = useBreakpointIndex();
@@ -230,11 +219,9 @@ function NetworkPage() {
   return (
     <>
       <Meta
-        as={Head}
         title="Hack Clubs Directory"
         description="The Clubs Directory unlocks the power of cross-club collaboration, allowing clubs to transcend boundaries and create together."
-        //Need to add an image here
-        image="https://cloud-dq1e294hq-hack-club-bot.vercel.app/0screenshot_2023-04-29_at_3.17.40_pm.png"
+        image="https://assets.hackclub.com/flag-standalone.svg"
       />
 
       <Global
@@ -248,7 +235,7 @@ function NetworkPage() {
       />
       <ForceTheme theme="light" />
 
-      <Box></Box>
+      <Box />
       {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
 
       <Nav />
@@ -384,16 +371,6 @@ function NetworkPage() {
               {selectedClubs.length} Club{selectedClubs.length > 1 ? "s" : null}{" "}
               Selected
             </Text>
-
-            {/* {selectedClubs.map((id) => getClubNameById(id)).slice(0, 3).map(club => 
-      <li>
-        {club}
-      </li>)
-      }
-    {selectedClubs.length > 3 ? (
-      <Text sx={{p: 0, m: 0}}>... & {selectedClubs.length - 3} others</Text>
-    )
-     : (null)} */}
 
             <Box>
               <Button

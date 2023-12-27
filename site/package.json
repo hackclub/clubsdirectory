@@ -19,6 +19,7 @@
     "csv": "^6.2.12",
     "json2csv": "^6.0.0-alpha.2",
     "leaflet": "^1.9.3",
+    "million": "^2.6.4",
     "next": "^14.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -30,6 +31,9 @@
     "underscore.string": "^3.3.6"
   },
   "devDependencies": {
-    "prettier": "^2.8.8"
+    "@types/node": "20.10.5",
+    "@types/react": "18.2.45",
+    "prettier": "^2.8.8",
+    "typescript": "5.3.3"
   }
 }
