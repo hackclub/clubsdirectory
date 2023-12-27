@@ -23,7 +23,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
-    "react-leaflet-curve": "^2.0.1",
     "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.10",
     "theme-ui": "0.15.4",
