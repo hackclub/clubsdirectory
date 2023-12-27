@@ -420,6 +420,7 @@ function NetworkPage() {
   }
 
   function filterResults(club) {
+    console.log(club.geo_data.postcode)
     return (
       (selectedContinent == "" ||
         selectedContinent == club?.geo_data?.continent) &&
@@ -447,7 +448,7 @@ function NetworkPage() {
         club.venue.toLowerCase().includes(searchContent.toLowerCase()) ||
         club.location.toLowerCase().includes(searchContent.toLowerCase()) ||
         club.geo_data.postcode
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(searchContent.toLowerCase()) ||
         club.leaders.some((leader) =>
           leader.name.toLowerCase().includes(searchContent.toLowerCase())

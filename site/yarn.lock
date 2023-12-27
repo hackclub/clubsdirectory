@@ -329,15 +329,10 @@
   dependencies:
     source-map "^0.7.0"
 
-"@next/swc-linux-x64-gnu@13.1.1":
+"@next/swc-win32-x64-msvc@13.1.1":
   version "13.1.1"
-  resolved "https://registry.npmjs.org/@next/swc-linux-x64-gnu/-/swc-linux-x64-gnu-13.1.1.tgz"
-  integrity sha512-nnjuBrbzvqaOJaV+XgT8/+lmXrSCOt1YYZn/irbDb2fR2QprL6Q7WJNgwsZNxiLSfLdv+2RJGGegBx9sLBEzGA==
-
-"@next/swc-linux-x64-musl@13.1.1":
-  version "13.1.1"
-  resolved "https://registry.npmjs.org/@next/swc-linux-x64-musl/-/swc-linux-x64-musl-13.1.1.tgz"
-  integrity sha512-CM9xnAQNIZ8zf/igbIT/i3xWbQZYaF397H+JroF5VMOCUleElaMdQLL5riJml8wUfPoN3dtfn2s4peSr3azz/g==
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-13.1.1.tgz"
+  integrity sha512-mVF0/3/5QAc5EGVnb8ll31nNvf3BWpPY4pBb84tk+BfQglWLqc5AC9q1Ht/YMWiEgs8ALNKEQ3GQnbY0bJF2Gg==
 
 "@npmcli/arborist@^6.2.9":
   version "6.2.9"
@@ -2067,23 +2062,10 @@ acorn-jsx@^5.0.0:
   resolved "https://registry.npmjs.org/acorn-jsx/-/acorn-jsx-5.3.2.tgz"
   integrity sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==
 
-<<<<<<< Updated upstream
 "acorn@^6.0.0 || ^7.0.0 || ^8.0.0", acorn@^8, acorn@^8.0.0, acorn@^8.7.1, acorn@^8.8.2:
   version "8.9.0"
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.9.0.tgz"
   integrity sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==
-=======
-acorn@^8.0.0:
-<<<<<<< Updated upstream
-  version "8.8.1"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-8.8.1.tgz"
-  integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
-=======
-  version "8.9.0"
-  resolved "https://registry.npmjs.org/acorn/-/acorn-8.9.0.tgz"
-  integrity sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 agent-base@^6.0.2, agent-base@6:
   version "6.0.2"
@@ -2286,23 +2268,10 @@ callsites@^3.0.0:
   resolved "https://registry.npmjs.org/callsites/-/callsites-3.1.0.tgz"
   integrity sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
 
-<<<<<<< Updated upstream
 caniuse-lite@^1.0.30001406, caniuse-lite@^1.0.30001503:
   version "1.0.30001509"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001509.tgz"
   integrity sha512-2uDDk+TRiTX5hMcUYT/7CSyzMZxjfGu0vAUjS2g0LSD8UoXOv0LtpH4LxGMemsiPq6LCVIUjNwVM0erkOkGCDA==
-=======
-caniuse-lite@^1.0.30001406:
-<<<<<<< Updated upstream
-  version "1.0.30001486"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001486.tgz"
-  integrity sha512-uv7/gXuHi10Whlj0pp5q/tsK/32J2QSqVRKQhs2j8VsDCjgyruAh/eEXHF822VqO9yT6iZKw3nRwZRSPBE9OQg==
-=======
-  version "1.0.30001509"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001509.tgz"
-  integrity sha512-2uDDk+TRiTX5hMcUYT/7CSyzMZxjfGu0vAUjS2g0LSD8UoXOv0LtpH4LxGMemsiPq6LCVIUjNwVM0erkOkGCDA==
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 ccount@^2.0.0:
   version "2.0.1"
