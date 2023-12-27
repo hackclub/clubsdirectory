@@ -1,31 +1,28 @@
+"use client";
+
+import theme from "@hackclub/theme";
+import { InitializeColorMode, ThemeProvider } from "theme-ui";
+
 import { ClubsTable } from "../components/table/ClubsTable";
 import Map from "@/components/map-components";
 import { SearchControls } from "../components/SearchControls";
 import { DirectoryVideoSection, DirectoryHeading } from "@/components/heading";
 import { Container, Card, Badge, Link, Box, Text, Button } from "theme-ui";
-import Meta from "@hackclub/meta";
 import Nav from "@/components/nav";
 import ForceTheme from "@/components/force-theme";
 import Footer from "@/components/footer";
 import { useState, useEffect } from "react";
 import { levenshtein } from "underscore.string";
 import { Global } from "@emotion/react";
-import { parse } from "json2csv";
 import { useBreakpointIndex } from "@theme-ui/match-media";
 import { continents } from "@/lib/data";
+import {
+  toggleBodyScroll,
+  downloadCSV,
+  calculateDistance,
+} from "@/lib/functions";
 
-//Considering toast for success messages
-function toggleBodyScroll(disable) {
-  if (typeof window !== "undefined") {
-    if (disable) {
-      document.body.classList.add("modal-open");
-    } else {
-      document.body.classList.remove("modal-open");
-    }
-  }
-}
-
-function NetworkPage() {
+function MainPage() {
   const breakpointIndex = useBreakpointIndex();
   const isMobile = breakpointIndex < 2; // Check if the current breakpoint is smaller than the third breakpoint
 
@@ -33,41 +30,6 @@ function NetworkPage() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  function downloadCSV() {
-    const fields = [
-      "Name",
-      "Leader Names",
-      "Venue",
-      "Location",
-      "Leader Emails",
-    ];
-    const data = selectedClubs.map((id) => {
-      const club = clubs.find((c) => c.id === id);
-      return {
-        Name: club.name,
-        "Leader Names": club.leaders.map((leader) => leader.name).join(", "),
-        Venue: club.venue,
-        Location: club.location,
-        "Leader Emails": club.leaders.map((leader) => leader.email).join(", "),
-      };
-    });
-
-    const csv = parse(data, { fields });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", "selected-clubs.csv");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
-  function getClubById(id) {
-    const club = clubs.find((c) => c.id === id);
-    return club;
-  }
   const [userLatitude, setUserLatitude] = useState(null);
   const [userLongitude, setUserLongitude] = useState(null);
 
@@ -92,6 +54,7 @@ function NetworkPage() {
 
     toggleBodyScroll(clubOpened != null);
   }, []);
+
   //Sorting function that uses user location
   function sortByProximity(a, b) {
     if (userLatitude === null || userLongitude === null) {
@@ -102,46 +65,6 @@ function NetworkPage() {
     const distanceB = calculateDistance(b.geo_data.coordinates);
 
     return distanceA - distanceB;
-  }
-
-  function calculateDistance(coordinates) {
-    const latA = userLatitude;
-    const lonA = userLongitude;
-    let latB, lonB;
-
-    if (Array.isArray(coordinates)) {
-      [latB, lonB] = coordinates;
-    } else if (coordinates && typeof coordinates === "object") {
-      latB = coordinates.latitude;
-      lonB = coordinates.longitude;
-    } else {
-      return 0; // Invalid coordinates, return 0 distance
-    }
-
-    const earthRadius = 6371; // Radius of the Earth in kilometers
-    const dLat = degToRad(latB - latA); // Difference in latitude, converted to radians
-    const dLon = degToRad(lonB - lonA); // Difference in longitude, converted to radians
-
-    // Haversine formula to calculate the great-circle distance between two points
-    const haversine =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(degToRad(latA)) *
-        Math.cos(degToRad(latB)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-
-    // Central angle between the two points
-    const centralAngle =
-      2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
-
-    // Distance between the two points on the surface of a sphere using the central angle and Earth's radius
-    const distance = earthRadius * centralAngle;
-
-    return distance;
-  }
-
-  function degToRad(degrees) {
-    return degrees * (Math.PI / 180); // Conversion from degrees to radians
   }
 
   function sortByAlphabetic(a, b) {
@@ -218,191 +141,190 @@ function NetworkPage() {
 
   return (
     <>
-      <Meta
-        title="Hack Clubs Directory"
-        description="The Clubs Directory unlocks the power of cross-club collaboration, allowing clubs to transcend boundaries and create together."
-        image="https://assets.hackclub.com/flag-standalone.svg"
-      />
-
-      <Global
-        styles={{
-          body: {
-            overflow: clubOpened ? "hidden" : "visible",
-            width: clubOpened ? "100%" : "auto",
-            lineHeight: 1.25,
-          },
-        }}
-      />
-      <ForceTheme theme="light" />
-
-      <Box />
-      {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
-
-      <Nav />
-      <DirectoryVideoSection />
-      <DirectoryHeading />
-      <Container sx={{ mb: [3, 4], fontSize: [16, 32] }}>
-        <Text>
-          Clubs Directory is opt-in only. To add your club to the Directory,
-          please contact{" "}
-          <Link href="https://hackclub.slack.com/team/U056C33BSNP">@Jolly</Link>{" "}
-          (a Holly-like Slack Bot) on the Hack Club Slack. If you need
-          assistance or are unsure about the process, you can follow{" "}
-          <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">
-            this video tutorial
-          </Link>{" "}
-          for guidance.
-        </Text>
-      </Container>
-      <SearchControls
-        setUserLatitude={setUserLatitude}
-        setUserLongitude={setUserLongitude}
-        searchContent={searchContent}
-        setSearchContent={setSearchContent}
-        console={console}
-        levenshtein={levenshtein}
-        filter={filter}
-        setFilter={setFilter}
-        view={view}
-        setView={setView}
-        selectedContinent={selectedContinent}
-        setSelectedContinent={setSelectedContinent}
-        continents={continents}
-        Badge={Badge}
-      />
-      <Container sx={{ my: [2, 3], cursor: "pointer" }}>
-        <Box
-          onClick={() => {
-            if (view == "List") {
-              setView("Map");
-            } else {
-              setView("List");
-            }
+      <ThemeProvider theme={theme}>
+        <InitializeColorMode />
+        <Global
+          styles={{
+            body: {
+              overflow: clubOpened ? "hidden" : "visible",
+              width: clubOpened ? "100%" : "auto",
+              lineHeight: 1.25,
+            },
           }}
-          sx={{
-            backgroundColor: "primary",
-            color: "white",
-            fontWeight: 700,
-            borderRadius: 8,
-            py: 1,
-            alignItems: "center",
-            textAlign: "center",
-            justifyContent: "center",
-            display: "flex",
-          }}
-        >
-          <p style={{ margin: "12px;" }}>
-            View On {view == "List" ? "Map 🗺️" : "List 📙"}
-          </p>
-        </Box>
-      </Container>
-      {view == "List" ? (
-        <ClubsTable
-          oldClubs={oldClubs}
-          isMobile={isMobile}
-          searchContent={searchContent}
-          isLoading={isLoading}
-          setSelectedClubs={setSelectedClubs}
-          selectedClubs={selectedClubs}
-          clubs={clubs}
-          filterResults={filterResults}
-          sortResults={sortResults}
-          setClubOpened={setClubOpened}
-          setRecentlyCopied={setRecentlyCopied}
-          navigator={navigator}
-          selectedContinent={selectedContinent}
-          recentlyCopied={recentlyCopied}
         />
-      ) : null}
-      {view == "Map" ? (
-        <Container>
+        <ForceTheme theme="light" />
+
+        <Box />
+        {/* <DetailViewModal clubOpened={clubOpened} setClubOpened={setClubOpened} navigator={navigator} urlFriendlyName={urlFriendlyName}  /> */}
+
+        <Nav />
+        <DirectoryVideoSection />
+        <DirectoryHeading />
+        <Container sx={{ mb: [3, 4], fontSize: [16, 32] }}>
+          <Text>
+            Clubs Directory is opt-in only. To add your club to the Directory,
+            please contact{" "}
+            <Link href="https://hackclub.slack.com/team/U056C33BSNP">
+              @Jolly
+            </Link>{" "}
+            (a Holly-like Slack Bot) on the Hack Club Slack. If you need
+            assistance or are unsure about the process, you can follow{" "}
+            <Link href="https://cloud-117m2wdag-hack-club-bot.vercel.app/0screen_recording_2023-05-31_at_9.39.09_am.mp4">
+              this video tutorial
+            </Link>{" "}
+            for guidance.
+          </Text>
+        </Container>
+        <SearchControls
+          setUserLatitude={setUserLatitude}
+          setUserLongitude={setUserLongitude}
+          searchContent={searchContent}
+          setSearchContent={setSearchContent}
+          console={console}
+          levenshtein={levenshtein}
+          filter={filter}
+          setFilter={setFilter}
+          view={view}
+          setView={setView}
+          selectedContinent={selectedContinent}
+          setSelectedContinent={setSelectedContinent}
+          continents={continents}
+          Badge={Badge}
+        />
+        <Container sx={{ my: [2, 3], cursor: "pointer" }}>
           <Box
-            style={{
-              zIndex: 0,
-              position: "relative",
-              borderRadius: 16,
-              overflow: "hidden",
+            onClick={() => {
+              if (view == "List") {
+                setView("Map");
+              } else {
+                setView("List");
+              }
+            }}
+            sx={{
+              backgroundColor: "primary",
+              color: "white",
+              fontWeight: 700,
+              borderRadius: 8,
+              py: 1,
+              alignItems: "center",
+              textAlign: "center",
+              justifyContent: "center",
+              display: "flex",
             }}
           >
-            <Map
-              fullScreen={false}
-              selectedContinent={selectedContinent}
-              userLatitude={userLatitude}
-              userLongitude={userLongitude}
-              search={searchContent}
-              searchContent={searchContent}
-              clubs={clubs
-                .filter((club) => filterResults(club))
-                .sort((a, b) => {
-                  return sortResults(a, b);
-                })}
-              recentlyCopied={recentlyCopied}
-              setRecentlyCopied={setRecentlyCopied}
-              setSelectedClubs={setSelectedClubs}
-              selectedClubs={selectedClubs}
-              eventsShown={eventsShown}
-              setEventsShown={setEventsShown}
-            />
+            <p style={{ margin: "12px;" }}>
+              View On {view == "List" ? "Map 🗺️" : "List 📙"}
+            </p>
           </Box>
         </Container>
-      ) : null}
-
-      <Container
-        sx={{
-          position: "fixed",
-          bottom: 16,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          maxWidth: "container",
-        }}
-      >
-        {selectedClubs.length > 0 ? (
-          <Card
-            sx={{
-              display: "flex",
-              position: "relative",
-              zIndex: 1000,
-              flexDirection: "column",
-              backgroundColor: "sunken",
-            }}
-          >
-            <Text sx={{ p: 0, mx: 0, my: 0 }}>
-              {selectedClubs.length} Club{selectedClubs.length > 1 ? "s" : null}{" "}
-              Selected
-            </Text>
-
-            <Box>
-              <Button
-                variant="primary"
-                sx={{ mt: 2, mb: 0, mr: 2 }}
-                onClick={() => {
-                  const clubNames = selectedClubs
-                    .map((id) => getClubEmailById(id))
-                    .join(", ");
-                  setRecentlyCopied(clubNames);
-                  navigator.clipboard.writeText(clubNames);
-                }}
-              >
-                {recentlyCopied ===
-                selectedClubs.map((id) => getClubEmailById(id)).join(", ")
-                  ? "Copied!"
-                  : "Copy Emails"}
-              </Button>
-              <Button
-                variant="primary"
-                sx={{ mt: 2, mb: 0 }}
-                onClick={() => {
-                  downloadCSV();
-                }}
-              >
-                Download CSV
-              </Button>
-            </Box>
-          </Card>
+        {view == "List" ? (
+          <ClubsTable
+            oldClubs={oldClubs}
+            isMobile={isMobile}
+            searchContent={searchContent}
+            isLoading={isLoading}
+            setSelectedClubs={setSelectedClubs}
+            selectedClubs={selectedClubs}
+            clubs={clubs}
+            filterResults={filterResults}
+            sortResults={sortResults}
+            setClubOpened={setClubOpened}
+            setRecentlyCopied={setRecentlyCopied}
+            navigator={navigator}
+            selectedContinent={selectedContinent}
+            recentlyCopied={recentlyCopied}
+          />
         ) : null}
-      </Container>
-      <Footer />
+        {view == "Map" ? (
+          <Container>
+            <Box
+              style={{
+                zIndex: 0,
+                position: "relative",
+                borderRadius: 16,
+                overflow: "hidden",
+              }}
+            >
+              <Map
+                fullScreen={false}
+                selectedContinent={selectedContinent}
+                userLatitude={userLatitude}
+                userLongitude={userLongitude}
+                search={searchContent}
+                searchContent={searchContent}
+                clubs={clubs
+                  .filter((club) => filterResults(club))
+                  .sort((a, b) => {
+                    return sortResults(a, b);
+                  })}
+                recentlyCopied={recentlyCopied}
+                setRecentlyCopied={setRecentlyCopied}
+                setSelectedClubs={setSelectedClubs}
+                selectedClubs={selectedClubs}
+                eventsShown={eventsShown}
+                setEventsShown={setEventsShown}
+              />
+            </Box>
+          </Container>
+        ) : null}
+
+        <Container
+          sx={{
+            position: "fixed",
+            bottom: 16,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            maxWidth: "container",
+          }}
+        >
+          {selectedClubs.length > 0 ? (
+            <Card
+              sx={{
+                display: "flex",
+                position: "relative",
+                zIndex: 1000,
+                flexDirection: "column",
+                backgroundColor: "sunken",
+              }}
+            >
+              <Text sx={{ p: 0, mx: 0, my: 0 }}>
+                {selectedClubs.length} Club
+                {selectedClubs.length > 1 ? "s" : null} Selected
+              </Text>
+
+              <Box>
+                <Button
+                  variant="primary"
+                  sx={{ mt: 2, mb: 0, mr: 2 }}
+                  onClick={() => {
+                    const clubNames = selectedClubs
+                      .map((id) => getClubEmailById(id))
+                      .join(", ");
+                    setRecentlyCopied(clubNames);
+                    navigator.clipboard.writeText(clubNames);
+                  }}
+                >
+                  {recentlyCopied ===
+                  selectedClubs.map((id) => getClubEmailById(id)).join(", ")
+                    ? "Copied!"
+                    : "Copy Emails"}
+                </Button>
+                <Button
+                  variant="primary"
+                  sx={{ mt: 2, mb: 0 }}
+                  onClick={() => {
+                    downloadCSV(selectedClubs, clubs);
+                  }}
+                >
+                  Download CSV
+                </Button>
+              </Box>
+            </Card>
+          ) : null}
+        </Container>
+        <Footer />
+      </ThemeProvider>
     </>
   );
 
@@ -453,7 +375,7 @@ function NetworkPage() {
   }
 }
 
-export default NetworkPage;
+export default MainPage;
 
 // const clubs = [
 //   {

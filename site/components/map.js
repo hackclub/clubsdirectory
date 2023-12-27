@@ -18,7 +18,7 @@ import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import { Badge } from "theme-ui";
 
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 function MapEvents() {
@@ -44,12 +44,12 @@ function Map({
   eventsShown,
   setEventsShown,
 }) {
-  const router = useRouter();
-  const [embed, setEmbed] = useState("embed" in router.query);
+  const query = useSearchParams()
+  const [embed, setEmbed] = useState("embed" in query);
 
   useEffect(() => {
-    setEmbed("embed" in router.query);
-  }, [router.query]);
+    setEmbed("embed" in query);
+  }, [query]);
 
   function filterOldResults(club) {
     return (

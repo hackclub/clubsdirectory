@@ -1,8 +1,12 @@
+"use client";
+
 import { useEffect, useState, useRef } from "react";
-import Head from "next/head";
 import Map from "@/components/map-components";
 
-const MapPage = () => {
+import { InitializeColorMode, ThemeProvider } from "theme-ui";
+import theme from "@hackclub/theme";
+
+export function MapPage() {
   const mapContainerRef = useRef(null);
   const [clubs, setClubs] = useState([]);
   const [recentlyCopied, setRecentlyCopied] = useState("");
@@ -18,10 +22,8 @@ const MapPage = () => {
   }, []);
 
   return (
-    <>
-      <Head>
-        <title>Map</title>
-      </Head>
+    <ThemeProvider theme={theme}>
+      <InitializeColorMode />
       <div ref={mapContainerRef} style={{ width: "100vw", height: "100vh" }}>
         <Map
           fullScreen={true}
@@ -38,8 +40,6 @@ const MapPage = () => {
           setEventsShown={setEventsShown}
         />
       </div>
-    </>
+    </ThemeProvider>
   );
-};
-
-export default MapPage;
+}
