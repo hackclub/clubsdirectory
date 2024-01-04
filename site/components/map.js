@@ -1,24 +1,25 @@
-import { ClubMarker } from "./ClubMarker";
-import { OldClubMarker } from "./OldClubMarker";
+import { ClubMarker } from "./map-components/ClubMarker";
+import { OldClubMarker } from "./map-components/OldClubMarker";
 
-import { Assemble } from "./Assemble";
-import { Outernet } from "./Outernet";
-import { HQ } from "./HQ";
-import { Steve } from "./Steve";
+import { Assemble } from "./map-components/Assemble";
+import { Outernet } from "./map-components/Outernet";
+import { HQ } from "./map-components/HQ";
+import { Steve } from "./map-components/Steve";
 import { levenshtein } from "underscore.string";
 
-import { Epoch } from "./Epoch";
-import { ZephyrStop } from "./ZephyrStop";
-import { ZephyrStart } from "./ZephyrStart";
-import { UserLocationDot } from "./UserLocationDot";
-import ZephyrPath from "./ZephyrPath";
+import { Epoch } from "./map-components/Epoch";
+import { ZephyrStop } from "./map-components/ZephyrStop";
+import { ZephyrStart } from "./map-components/ZephyrStart";
+import { UserLocationDot } from "./map-components/UserLocationDot";
+import ZephyrPath from "./map-components/ZephyrPath";
 import { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 import { Badge } from "theme-ui";
 
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function MapEvents() {
   const map = useMapEvents({
@@ -43,12 +44,12 @@ function Map({
   eventsShown,
   setEventsShown,
 }) {
-  const router = useRouter();
-  const [embed, setEmbed] = useState("embed" in router.query);
+  const query = useSearchParams();
+  const [embed, setEmbed] = useState("embed" in query);
 
   useEffect(() => {
-    setEmbed("embed" in router.query);
-  }, [router.query]);
+    setEmbed("embed" in query);
+  }, [query]);
 
   function filterOldResults(club) {
     return (
@@ -150,25 +151,28 @@ function Map({
         />
         {embed === true && <MapEvents />}
         {Array.isArray(clubs) &&
-          clubs.map((club) => (
-            <ClubMarker
-              club={club}
-              leaflet={leaflet}
-              clubs={clubs}
-              encodeURIComponent={encodeURIComponent}
-              location={location}
-              navigator={navigator}
-              setRecentlyCopied={setRecentlyCopied}
-              recentlyCopied={recentlyCopied}
-              selectedClubs={selectedClubs}
-              setSelectedClubs={setSelectedClubs}
-            />
+          clubs.map((club, index) => (
+            <span key={JSON.stringify(club) + index}>
+              <ClubMarker
+                club={club}
+                leaflet={leaflet}
+                clubs={clubs}
+                encodeURIComponent={encodeURIComponent}
+                location={location}
+                navigator={navigator}
+                setRecentlyCopied={setRecentlyCopied}
+                recentlyCopied={recentlyCopied}
+                selectedClubs={selectedClubs}
+                setSelectedClubs={setSelectedClubs}
+              />
+            </span>
           ))}
         {Array.isArray(oldClubs) &&
           legacyClubsVisible &&
           oldClubs
             .filter((club) => filterOldResults(club, selectedContinent))
-            .map((oldClub) => (
+            .map((oldClub, index) => (
+              <span key={JSON.stringify(oldClub, index)}>
               <OldClubMarker
                 oldClub={oldClub}
                 leaflet={leaflet}
@@ -181,6 +185,7 @@ function Map({
                 selectedClubs={selectedClubs}
                 setSelectedClubs={setSelectedClubs}
               />
+              </span>
             ))}
         {eventsShown ? (
           <>
@@ -209,7 +214,7 @@ function Map({
             variant={eventsShown ? "pill" : "outline"}
             sx={{
               position: "absolute",
-              bottom: 56,
+              bottom: 108,
               left: 2,
               zIndex: 701,
               fontSize: "1.25rem",
@@ -224,7 +229,7 @@ function Map({
             variant={legacyClubsVisible ? "pill" : "outline"}
             sx={{
               position: "absolute",
-              bottom: 2,
+              bottom: 56,
               left: 2,
               zIndex: 701,
               fontSize: "1.25rem",
@@ -235,6 +240,22 @@ function Map({
           >
             {legacyClubsVisible ? "Hide Non-directory" : "Show All"} Clubs
           </Badge>
+          <Link href={fullScreen ? "/#map" : "/map"}>
+            <Badge
+              variant="pill"
+              sx={{
+                position: "absolute",
+                bottom: 2,
+                left: 2,
+                zIndex: 701,
+                fontSize: "1.25rem",
+                cursor: "pointer",
+              }}
+              color={!eventsShown ? "muted" : null}
+            >
+              {fullScreen ? "Close" : "Open"} full screen
+            </Badge>
+          </Link>
         </>
       )}
     </div>

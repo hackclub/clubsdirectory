@@ -12,7 +12,6 @@ export const ClubPreviewOld = ({
   recentlyCopied,
 }) => (
   <Card
-    onClick={() => console.log(club)}
     as={"div"}
     variant="primary"
     sx={{
@@ -28,16 +27,12 @@ export const ClubPreviewOld = ({
         sx={{ pl: [1, 3], pr: [1, 3], alignItems: "center" }}
       >
         <Label>
-          <Box>
-          🔒
-          </Box>
-
+          <Box>🔒</Box>
         </Label>
         <p
-          // onClick={() =>
-          //   setClubOpened(club)
-          //   }
-       
+        // onClick={() =>
+        //   setClubOpened(club)
+        //   }
         >
           {club.name}
         </p>
@@ -48,7 +43,6 @@ export const ClubPreviewOld = ({
             textDecoration: "underline",
           }}
           onClick={() => {
-            console.log(club.coordinates)
             if (
               /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
                 navigator.userAgent
@@ -69,21 +63,33 @@ export const ClubPreviewOld = ({
         //   // setClubOpened(club)
         //   }
         >
-                          <div style={{ position: 'relative', display: 'inline-block', borderBottom: '1px dotted black' }}>
-        <strong>Redacted</strong>
-      </div>
-
+          <div
+            style={{
+              position: "relative",
+              display: "inline-block",
+              borderBottom: "1px dotted black",
+            }}
+          >
+            <strong>Redacted</strong>
+          </div>
         </p>
 
         <p
-        onClick={() =>
-          console.log(club)
-          // setClubOpened(club)
+          onClick={() =>
+            // setClubOpened(club)
+            null
           }
         >
-                          <div style={{ position: 'relative', display: 'inline-block', borderBottom: '1px dotted black' }}>
-        <strong>Redacted</strong>
-      </div>        </p>
+          <div
+            style={{
+              position: "relative",
+              display: "inline-block",
+              borderBottom: "1px dotted black",
+            }}
+          >
+            <strong>Redacted</strong>
+          </div>{" "}
+        </p>
         <Box
           style={{
             display: "flex",
@@ -110,13 +116,19 @@ export const ClubPreviewOld = ({
       <Box sx={{ flexDirection: "column", display: "flex", color: "darkless" }}>
         <Text sx={{ fontSize: 3, fontWeight: 600 }}>{club.name}</Text>
         <Text sx={{ color: "slate" }}>
-    Led by{' '}
-    <strong>
-      <div style={{ position: 'relative', display: 'inline-block', borderBottom: '1px dotted black' }}>
-        Redacted
-      </div>
-    </strong>
-  </Text>
+          Led by{" "}
+          <strong>
+            <div
+              style={{
+                position: "relative",
+                display: "inline-block",
+                borderBottom: "1px dotted black",
+              }}
+            >
+              Redacted
+            </div>
+          </strong>
+        </Text>
         <Link
           sx={{
             color: "accent",

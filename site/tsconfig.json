@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+      "jsx": "preserve",
+      "baseUrl": ".", // This must be specified if "paths" is.
+      "paths": {
+        "@/*": [
+          "./*"
+        ]
+      },
+      "lib": [
+        "dom",
+        "dom.iterable",
+        "esnext"
+      ],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": false,
+      "noEmit": true,
+      "incremental": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "plugins": [
+        {
+          "name": "next"
+        }
+      ]
+    },
+    "include": [
+      "next-env.d.ts",
+      ".next/types/**/*.ts",
+      "**/*.ts",
+      "**/*.tsx"
+  , "components/discord/embed.jsx", "components/discord/button-action-row.jsx", "components/discord/user.jsx"  ],
+    "exclude": [
+      "node_modules"
+    ]
+  }
+  

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Tooltip, Marker, Popup, useMapEvents } from "react-leaflet";
-import { Text, Link, Button, Box } from "theme-ui";
-import { useRouter } from 'next/router';
+import { Text } from "theme-ui";
+import { useRouter } from 'next/navigation';
 
 export const OldClubMarker = ({
   oldClub,
@@ -17,7 +17,7 @@ export const OldClubMarker = ({
   setSelectedClubs,
 }) => {
   const [popupOpen, setPopupOpen] = useState(false);
-  const markerRef = React.useRef(null);
+  const markerRef = useRef(null);
 
   useMapEvents({
     click: () => {

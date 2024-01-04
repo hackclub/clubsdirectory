@@ -5,7 +5,7 @@ export const DirectoryVideoSection = () => (
   <Box
     as="section"
     id="network"
-    sx={{ overflow: "hidden", pt: [5, 6], pb: [4, 5], position: "relative" }}
+    sx={{ overflow: "hidden", pt: [5, 6], pb: [7, 6], position: "relative" }}
   >
     <Box
       as="video"
@@ -41,7 +41,7 @@ export const DirectoryVideoSection = () => (
         type="video/quicktime"
       />
     </Box>
-    <Container sx={{ textAlign: "center", color: "white" }}>
+    <Container sx={{ textAlign: "center", color: "white", pb: 4 }}>
       <Heading
         as="h1"
         variant="title"
@@ -57,8 +57,31 @@ export const DirectoryVideoSection = () => (
         Clubs Directory
       </Heading>
       <Text variant="lead">
-        Hack Together, Club Together because We're Better Together
+        Hack Together, Club Together because <strong>We're Better Together</strong>
       </Text>
     </Container>
   </Box>
 );
+
+export const DirectoryHeading = () => (
+  <Container>
+    <Heading
+      as="h2"
+      variant="title"
+      sx={{
+        color: "red",
+        pt: [3, 4],
+        pb: [3, 4],
+        span: {
+          WebkitTextStroke: "currentColor",
+          WebkitTextStrokeWidth: ["1.5px", "2.5px"],
+          WebkitTextFillColor: "transparent",
+        },
+      }}
+    >
+      Clubs Directory unlocks the power of <span>cross-club collaboration</span>
+      , empowering clubs to transcend boundaries and hack together.
+    </Heading>
+  </Container>
+);
+
